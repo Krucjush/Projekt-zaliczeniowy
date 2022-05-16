@@ -8,14 +8,14 @@
             <AccessText Text="_UserName:"/>
         </StackPanel>
         <TextBlock Name="txtName">
-            <TextBox Width="200"/>
+            <TextBox Width="200" Text="{Binding UserName}"/>
         </TextBlock>
         <Label Target="{Binding ElementName=txtPassword}"/>
         <StackPanel Orientation="Horizontal">
             <AccessText Text="_Password:"/>
         </StackPanel>
         <TextBlock Name="txtPassword">
-            <TextBox Width="200"/>
+            <TextBox Width="200" Text="{Binding Password}"/>
         </TextBlock>
         <Button Width="70" Content="Login" Margin="10" Click="Button_Click"/>
     </StackPanel>

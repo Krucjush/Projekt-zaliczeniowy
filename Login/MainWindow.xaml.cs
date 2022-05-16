@@ -14,19 +14,45 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.EntityFrameworkCore.SqlServer;
 
 namespace Login
 {
     public partial class MainWindow : Window
     {
+        public string UserName { get; set; }
+        public string Password { get; set; }
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var connectionString = @"Data Source=localhost;Initial Catalog=Internet Store;Integrated Security=True";
+            string connectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=Internet Store;Integrated Security=True";
+            using (UsersContext db = new UsersContext(connectionString))
+            {
+                
+                List<string> userNames = db.UserLogins
+                    .Select(q => q.UserNames)
+                    .ToList();
+                bool userNameExists = userNames.Contains(UserName);
+                List<string> passwords = db.UserLogins
+                    .Select(q => q.Passwords)
+                    .ToList();
+                bool passwordExists = passwords.Contains(Password);
+                if (userNameExists && passwordExists)
+                {
+                    MessageBox.Show("Successfully loged in.");
+                    WelcomePage settingsForm = new WelcomePage();
+                    settingsForm.Show();
+                }
+                else
+                {
+                    MessageBox.Show("Please enter correct Username and Password.");
+                }
+            }
         }
     }
 }
