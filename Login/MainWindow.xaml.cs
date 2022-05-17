@@ -28,18 +28,17 @@ namespace Login
             DataContext = this;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click_Login(object sender, RoutedEventArgs e)
         {
-            string connectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=Internet Store;Integrated Security=True";
+            string connectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=InternetStore;Integrated Security=True";
             using (UsersContext db = new UsersContext(connectionString))
             {
-                
                 List<string> userNames = db.UserLogins
-                    .Select(q => q.UserNames)
+                    .Select(q => q.UserName)
                     .ToList();
                 bool userNameExists = userNames.Contains(UserName);
                 List<string> passwords = db.UserLogins
-                    .Select(q => q.Passwords)
+                    .Select(q => q.Password)
                     .ToList();
                 bool passwordExists = passwords.Contains(Password);
                 if (userNameExists && passwordExists)
@@ -50,9 +49,14 @@ namespace Login
                 }
                 else
                 {
-                    MessageBox.Show("Please enter correct Username and Password.");
+                    MessageBox.Show("Please enter correct Username and Password.\nIf you dont have account press register to create one.");
                 }
             }
+        }
+        private void Button_Click_Register(object sender, RoutedEventArgs eventArgs)
+        {
+            var registration = new Registration();
+            registration.Show();
         }
     }
 }
