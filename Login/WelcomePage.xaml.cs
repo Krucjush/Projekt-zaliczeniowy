@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.EntityFrameworkCore.SqlServer;
 
 namespace Login
 {
@@ -25,9 +26,9 @@ namespace Login
             InitializeComponent();
         }
 
-        internal void Show()
+        private void ListBoxItem_Selected(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("Showing content:");
+
         }
     }
 }

@@ -10,6 +10,18 @@
             <TextBox Name="UserNametxt" Width="150" Margin="100, -15, 10, 10" Text="{Binding UserName}"/>
         </TextBlock>
         <StackPanel Orientation="Horizontal">
+            <AccessText Text="_Enter Email:"/>
+        </StackPanel>
+        <TextBlock>
+            <TextBox Name="Emailtxt" Width="150" Margin="100, -15, 10, 10" Text="{Binding Email}"/>
+        </TextBlock>
+        <StackPanel Orientation="Horizontal">
+            <AccessText Text="_Confirm Email:"/>
+        </StackPanel>
+        <TextBlock>
+            <TextBox Name="ConfirmEmailtxt" Width="150" Margin="100, -15, 10, 10" Text="{Binding ConfirmEmail}"/>
+        </TextBlock>
+        <StackPanel Orientation="Horizontal">
             <AccessText Text="_Enter Password:"/>
         </StackPanel>
         <TextBlock>

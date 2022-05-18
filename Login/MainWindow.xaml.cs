@@ -37,15 +37,14 @@ namespace Login
                     .Select(q => q.UserName)
                     .ToList();
                 bool userNameExists = userNames.Contains(UserName);
-                List<string> passwords = db.UserLogins
+                string correctPassword = db.UserLogins
+                    .Where(q => q.UserName == UserName)
                     .Select(q => q.Password)
-                    .ToList();
-                bool passwordExists = passwords.Contains(Password);
-                if (userNameExists && passwordExists)
+                    .Last();
+                bool passwordCheck = correctPassword == Password;
+                if (userNameExists && passwordCheck)
                 {
                     MessageBox.Show("Successfully loged in.");
-                    WelcomePage settingsForm = new WelcomePage();
-                    settingsForm.Show();
                 }
                 else
                 {

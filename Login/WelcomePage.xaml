@@ -9,6 +9,10 @@
       Title="WelcomePage">
 
     <Grid>
-        
+        <ListBox>
+            <ListBoxItem Selected="ListBoxItem_Selected">ListBox Item #1</ListBoxItem>
+            <ListBoxItem>ListBox Item #2</ListBoxItem>
+            <ListBoxItem>ListBox Item #3</ListBoxItem>
+        </ListBox>
     </Grid>
 </Page>
