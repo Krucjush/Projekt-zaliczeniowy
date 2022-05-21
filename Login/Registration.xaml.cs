@@ -12,8 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.SqlServer;
+using System.Data.Entity;
 
 namespace Login
 {
@@ -22,7 +21,6 @@ namespace Login
     /// </summary>
     public partial class Registration : Window
     {
-        public long Id { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
         public string ConfirmPassword { get; set; }
@@ -35,13 +33,12 @@ namespace Login
         }
         private void Button_Click_Register(object sender, RoutedEventArgs eventArgs)
         {
-            string connectionString = @"Data Source=localhost\SQLEXPRESS;Initial Catalog=InternetStore;Integrated Security=True";
-            using (UsersContext db = new UsersContext(connectionString))
+            using (var db = new UsersContext())
             {
-                List<string> userNames = db.UserLogins
-                        .Select(q => q.UserName)
-                        .ToList();
-                List<string> emails = db.UserLogins
+                var userNames = db.UserLogins
+                    .Select(q => q.UserName)
+                    .ToList();
+                var emails = db.UserLogins
                     .Select(q => q.Email)
                     .ToList();
                 if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
@@ -85,7 +82,7 @@ namespace Login
                 }
                 else
                 {
-                    db.Add(new UserLogin { UserName = UserName, Password = Password, Email = Email, AccountType = "Customer"});
+                    db.UserLogins.Add(new UserLogin { UserName = UserName, Password = Password, Email = Email, AccountType = "Customer" });
                     db.SaveChanges();
                     MessageBox.Show("Successfully registered.\nYou can login now.");
                     Close();

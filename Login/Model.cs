@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Data.Entity;
 
 namespace Login
 {
@@ -8,15 +8,15 @@ namespace Login
     public class UsersContext : DbContext
     {
         public DbSet<UserLogin> UserLogins { get; set; }
-        public string ConnectionString { get; }
-        public UsersContext(string connectionString)
-        {
-            ConnectionString = connectionString;
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-        {
-            options.UseSqlServer(ConnectionString);
-        }
+        //public string ConnectionString { get; }
+        //public UsersContext(string connectionString)
+        //{
+        //    ConnectionString = connectionString;
+        //}
+        //protected override void OnConfiguring(DbContextOptionsBuilder options)
+        //{
+        //    options.UseSqlServer(ConnectionString);
+        //}
     }
     public class UserLogin
     {
