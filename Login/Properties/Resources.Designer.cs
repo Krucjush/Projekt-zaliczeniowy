@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 
-namespace Login.Properties
+namespace Program.Properties
 {
     /// <summary>
     ///   Silnie typizowana klasa zasobów do wyszukiwania zlokalizowanych ciągów itd.

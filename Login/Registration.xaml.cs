@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data.Entity;
 
-namespace Login
+namespace Program
 {
     /// <summary>
     /// Logika interakcji dla klasy Registration.xaml

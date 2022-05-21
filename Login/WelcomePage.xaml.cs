@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.EntityFrameworkCore.SqlServer;
 
-namespace Login
+namespace Program
 {
     /// <summary>
     /// Logika interakcji dla klasy WelcomePage.xaml

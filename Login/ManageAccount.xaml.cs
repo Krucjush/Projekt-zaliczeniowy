@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Login
+namespace Program
 {
     /// <summary>
     /// Logika interakcji dla klasy ManageAccount.xaml
@@ -30,7 +30,8 @@ namespace Login
         public ManageAccount()
         {
             InitializeComponent();
-            UserNametxt.Text = MainWindow.UserName;
+            UserNametxt.Text = LoginWindow.UserName;
+            Passwordtxt.Text = LoginWindow.Password;
         }
     }
 }
