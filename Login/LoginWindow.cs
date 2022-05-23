@@ -29,13 +29,13 @@ namespace Program
         }
         private void Button_Click_Login(object sender, RoutedEventArgs e)
         {
-            using (UsersContext db = new UsersContext())
+            using (var db = new UsersContext())
             {
                 var userNames = db.UserLogins
                     .Select(q => q.UserName)
                     .ToList();
-                bool userNameExists = userNames.Contains(UserName);
-                string correctPassword = "";
+                var userNameExists = userNames.Contains(UserName);
+                var correctPassword = "";
                 if (userNameExists)
                 {
                     correctPassword = db.UserLogins
@@ -44,16 +44,16 @@ namespace Program
                        .ToList()
                        .Last();
                 }
-                bool passwordCheck = correctPassword == Password;
+                var passwordCheck = correctPassword == Password;
                 if (userNameExists && passwordCheck)
                 {
-                    MessageBox.Show("Successfully loged in.");
+                    MessageBox.Show("Successfully logged in.");
                     var welcomePage = new WelcomePage();
                     welcomePage.Show();
                 }
                 else
                 {
-                    MessageBox.Show("Please enter correct Username and Password.\nIf you dont have account press register to create one.");
+                    MessageBox.Show("Please enter correct Username and Password.\nIf you don't have account press register to create one.");
                 }
             }
         }

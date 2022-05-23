@@ -24,14 +24,28 @@ namespace Program
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public int Age { get; set; }
         public int PhoneNumber { get; set; }
         public string ZipCode { get; set; }
 
         public ManageAccount()
         {
             InitializeComponent();
-            UserNametxt.Text = LoginWindow.UserName;
-            Passwordtxt.Text = LoginWindow.Password;
+            using (var db = new UsersContext())
+            {
+                var userData = db.UserLogins
+                    .Where(q => q.UserName == LoginWindow.UserName)
+                    .ToList()
+                    .Last();
+                TextBlockUserName.Text = userData.UserName;
+                TextBlockPassword.Text = userData.Password;
+                TextBlockEmail.Text = userData.Email;
+                TextBlockFirstName.Text = userData?.FirstName ?? "Not provided";
+                TextBlockLastName.Text = userData?.LastName ?? "Not provided";
+                TextBlockAge.Text = userData.Age != 0 ? userData?.Age.ToString() : "Not provided";
+                TextBlockPhoneNumber.Text = userData.PhoneNumber != 0 ? userData?.Age.ToString() : "Not provided";
+                TextBlockZipCode.Text = userData?.ZipCode ?? "Not provided";
+            }
         }
     }
 }

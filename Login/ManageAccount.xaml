@@ -3,16 +3,40 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Manage Account" Height="450" Width="800">
     <StackPanel Margin="10">
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Margin="10, 0, 0, 30">
             <AccessText Text="Your account details:"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <AccessText Text="UserName: "/>
-            <TextBlock Name="UserNametxt"/>
+            <AccessText Text="User Name:   "/>
+            <TextBlock TextAlignment="Left" Name="TextBlockUserName"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
-            <AccessText Text="Password: "/>
-            <TextBlock Name="Passwordtxt"/>
+            <AccessText Text="Password:   "/>
+            <TextBlock TextAlignment="Left" Name="TextBlockPassword"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <AccessText Text="Email:   "/>
+            <TextBlock TextAlignment="Left" Name="TextBlockEmail"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <AccessText Text="First Name:   "/>
+            <TextBlock TextAlignment="Left" Name="TextBlockFirstName"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <AccessText Text="Last Name:   "/>
+            <TextBlock TextAlignment="Left" Name="TextBlockLastName"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <AccessText Text="Age:   "/>
+            <TextBlock TextAlignment="Left" Name="TextBlockAge"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <AccessText Text="Phone number:   "/>
+            <TextBlock TextAlignment="Left" Name="TextBlockPhoneNumber"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <AccessText Text="Zip Code:   "/>
+            <TextBlock TextAlignment="Left" Name="TextBlockZipCode"/>
         </StackPanel>
     </StackPanel>
 </Window>
