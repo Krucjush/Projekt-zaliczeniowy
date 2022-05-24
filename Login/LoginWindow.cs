@@ -29,32 +29,40 @@ namespace Program
         }
         private void Button_Click_Login(object sender, RoutedEventArgs e)
         {
-            using (var db = new UsersContext())
+            try
             {
-                var userNames = db.UserLogins
-                    .Select(q => q.UserName)
-                    .ToList();
-                var userNameExists = userNames.Contains(UserName);
-                var correctPassword = "";
-                if (userNameExists)
+                using (var db = new UsersContext())
                 {
-                    correctPassword = db.UserLogins
-                       .Where(q => q.UserName == UserName)
-                       .Select(q => q.Password)
-                       .ToList()
-                       .Last();
+                    var userNames = db.UserLogins
+                        .Select(q => q.UserName)
+                        .ToList();
+                    var userNameExists = userNames.Contains(UserName);
+                    var correctPassword = "";
+                    if (userNameExists)
+                    {
+                        correctPassword = db.UserLogins
+                            .Where(q => q.UserName == UserName)
+                            .Select(q => q.Password)
+                            .ToList()
+                            .Last();
+                    }
+                    var passwordCheck = correctPassword == Password;
+                    if (userNameExists && passwordCheck)
+                    {
+                        MessageBox.Show("Successfully logged in.");
+                        var welcomePage = new WelcomePage();
+                        welcomePage.Show();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Please enter correct Username and Password.\nIf you don't have account press register to create one.");
+                    }
                 }
-                var passwordCheck = correctPassword == Password;
-                if (userNameExists && passwordCheck)
-                {
-                    MessageBox.Show("Successfully logged in.");
-                    var welcomePage = new WelcomePage();
-                    welcomePage.Show();
-                }
-                else
-                {
-                    MessageBox.Show("Please enter correct Username and Password.\nIf you don't have account press register to create one.");
-                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show("Something went wrong" + nameof(exception));
+                Close();
             }
         }
         private void Button_Click_Register(object sender, RoutedEventArgs eventArgs)

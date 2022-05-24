@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Login;
 
 namespace Program
 {
@@ -19,33 +20,62 @@ namespace Program
     /// </summary>
     public partial class ManageAccount : Window
     {
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public string Email { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public int Age { get; set; }
-        public int PhoneNumber { get; set; }
-        public string ZipCode { get; set; }
-
         public ManageAccount()
         {
             InitializeComponent();
             using (var db = new UsersContext())
             {
                 var userData = db.UserLogins
-                    .Where(q => q.UserName == LoginWindow.UserName)
-                    .ToList()
-                    .Last();
+                    .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
                 TextBlockUserName.Text = userData.UserName;
                 TextBlockPassword.Text = userData.Password;
                 TextBlockEmail.Text = userData.Email;
                 TextBlockFirstName.Text = userData?.FirstName ?? "Not provided";
                 TextBlockLastName.Text = userData?.LastName ?? "Not provided";
-                TextBlockAge.Text = userData.Age != 0 ? userData?.Age.ToString() : "Not provided";
-                TextBlockPhoneNumber.Text = userData.PhoneNumber != 0 ? userData?.Age.ToString() : "Not provided";
+                TextBlockAge.Text = userData?.Age != 0 ? userData?.Age.ToString() : "Not provided";
+                TextBlockPhoneNumber.Text = userData?.PhoneNumber != 0 ? userData?.Age.ToString() : "Not provided";
                 TextBlockZipCode.Text = userData?.ZipCode ?? "Not provided";
             }
+        }
+        private void Button_Click_Manage_User_Name(object sender, RoutedEventArgs e)
+        {
+            var manage = new ManageUserName();
+            manage.Show();
+        }
+        private void Button_Click_Manage_Password(object sender, RoutedEventArgs e)
+        {
+            var manage = new ManagePassword();
+            manage.Show();
+        }
+        private void Button_Click_Manage_Email(object sender, RoutedEventArgs e)
+        {
+            var manage = new ManageUserName();
+            manage.Show();
+        }
+        private void Button_Click_Manage_First_Name(object sender, RoutedEventArgs e)
+        {
+            var manage = new ManageUserName();
+            manage.Show();
+        }
+        private void Button_Click_Manage_Last_Name(object sender, RoutedEventArgs e)
+        {
+            var manage = new ManageUserName();
+            manage.Show();
+        }
+        private void Button_Click_Manage_Age(object sender, RoutedEventArgs e)
+        {
+            var manage = new ManageUserName();
+            manage.Show();
+        }
+        private void Button_Click_Manage_Phone_Number(object sender, RoutedEventArgs e)
+        {
+            var manage = new ManageUserName();
+            manage.Show();
+        }
+        private void Button_Click_Manage_Zip_Code(object sender, RoutedEventArgs e)
+        {
+            var manage = new ManageUserName();
+            manage.Show();
         }
     }
 }
