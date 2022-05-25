@@ -64,7 +64,7 @@ namespace Login
             }
             catch (Exception e)
             {
-                MessageBox.Show("Something went wrong." + nameof(e));
+                MessageBox.Show("Something went wrong. Error: " + nameof(e));
             }
         }
     }

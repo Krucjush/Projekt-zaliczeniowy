@@ -42,6 +42,11 @@
             <Button Width="50" Margin="10, 0, 0, 0" Content="Manage" Click="Button_Click_Manage_Phone_Number"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal">
+            <AccessText Text="Address:   "/>
+            <TextBlock Name="TextBlockAddress"/>
+            <Button Width="50" Margin="10, 0, 0, 0" Content="Manage" Click="Button_Click_Manage_Address"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
             <AccessText Text="Zip Code:   "/>
             <TextBlock Name="TextBlockZipCode"/>
             <Button Width="50" Margin="10, 0, 0, 0" Content="Manage" Click="Button_Click_Manage_Zip_Code"/>

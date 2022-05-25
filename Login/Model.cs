@@ -28,6 +28,7 @@ namespace Program
         public string LastName { get; set; }
         public int Age { get; set; }
         public int PhoneNumber { get; set; }
+        public string Address { get; set; }
         public string ZipCode { get; set; }
     }
     public class Order

@@ -33,7 +33,8 @@ namespace Program
                 TextBlockFirstName.Text = userData?.FirstName ?? "Not provided";
                 TextBlockLastName.Text = userData?.LastName ?? "Not provided";
                 TextBlockAge.Text = userData?.Age != 0 ? userData?.Age.ToString() : "Not provided";
-                TextBlockPhoneNumber.Text = userData?.PhoneNumber != 0 ? userData?.Age.ToString() : "Not provided";
+                TextBlockPhoneNumber.Text = userData?.PhoneNumber != 0 ? userData?.PhoneNumber.ToString() : "Not provided";
+                TextBlockAddress.Text = userData?.Address ?? "Not provided";
                 TextBlockZipCode.Text = userData?.ZipCode ?? "Not provided";
             }
         }
@@ -41,41 +42,55 @@ namespace Program
         {
             var manage = new ManageUserName();
             manage.Show();
+            Close();
         }
         private void Button_Click_Manage_Password(object sender, RoutedEventArgs e)
         {
             var manage = new ManagePassword();
             manage.Show();
+            Close();
         }
         private void Button_Click_Manage_Email(object sender, RoutedEventArgs e)
         {
-            var manage = new ManageUserName();
+            var manage = new ManageEmail();
             manage.Show();
+            Close();
         }
         private void Button_Click_Manage_First_Name(object sender, RoutedEventArgs e)
         {
-            var manage = new ManageUserName();
+            var manage = new ManageFirstName();
             manage.Show();
+            Close();
         }
         private void Button_Click_Manage_Last_Name(object sender, RoutedEventArgs e)
         {
-            var manage = new ManageUserName();
+            var manage = new ManageLastName();
             manage.Show();
+            Close();
         }
         private void Button_Click_Manage_Age(object sender, RoutedEventArgs e)
         {
-            var manage = new ManageUserName();
+            var manage = new ManageAge();
             manage.Show();
+            Close();
         }
         private void Button_Click_Manage_Phone_Number(object sender, RoutedEventArgs e)
         {
+            var manage = new ManagePhoneNumber();
+            manage.Show();
+            Close();
+        }
+        private void Button_Click_Manage_Address(object sender, RoutedEventArgs e)
+        {
             var manage = new ManageUserName();
             manage.Show();
+            Close();
         }
         private void Button_Click_Manage_Zip_Code(object sender, RoutedEventArgs e)
         {
             var manage = new ManageUserName();
             manage.Show();
+            Close();
         }
     }
 }
