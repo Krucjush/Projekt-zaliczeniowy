@@ -177,6 +177,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ManageAddress.xaml.cs">
+      <DependentUpon>ManageAddress.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ManageAge.xaml.cs">
       <DependentUpon>ManageAge.xaml</DependentUpon>
     </Compile>
@@ -201,6 +204,9 @@
     <Compile Include="ManageAccount.xaml.cs">
       <DependentUpon>ManageAccount.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ManageZipCode.xaml.cs">
+      <DependentUpon>ManageZipCode.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model.cs" />
     <Compile Include="Registration.xaml.cs">
       <DependentUpon>Registration.xaml</DependentUpon>
@@ -208,6 +214,10 @@
     <Compile Include="WelcomePage.xaml.cs">
       <DependentUpon>WelcomePage.xaml</DependentUpon>
     </Compile>
+    <Page Include="ManageAddress.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ManageAge.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -249,6 +259,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ManageAccount.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ManageZipCode.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

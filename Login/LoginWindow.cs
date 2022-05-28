@@ -24,6 +24,21 @@ namespace Program
         public static string Password { get; set; }
         public LoginWindow()
         {
+            using (var db = new UsersContext())
+            {
+                var userData = db.UserLogins
+                    .Select(q => q.Id)
+                    .FirstOrDefault();
+                if (userData == 0)
+                {
+                    db.UserLogins.Add(new UserLogin()
+                    {
+                        UserName = "Admin", Password = "Admin", Email = "example@gmail.com",
+                        AccountType = "Administrator"
+                    });
+                    db.SaveChanges();
+                }
+            }
             InitializeComponent();
             DataContext = this;
         }

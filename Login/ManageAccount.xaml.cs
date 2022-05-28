@@ -82,13 +82,13 @@ namespace Program
         }
         private void Button_Click_Manage_Address(object sender, RoutedEventArgs e)
         {
-            var manage = new ManageUserName();
+            var manage = new ManageAddress();
             manage.Show();
             Close();
         }
         private void Button_Click_Manage_Zip_Code(object sender, RoutedEventArgs e)
         {
-            var manage = new ManageUserName();
+            var manage = new ManageZipCode();
             manage.Show();
             Close();
         }

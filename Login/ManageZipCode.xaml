@@ -1,0 +1,21 @@
+﻿<Window x:Class="Login.ManageZipCode"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Login"
+        mc:Ignorable="d"
+        Title="ManageZipCode" Height="180" Width="250">
+    <StackPanel>
+        <StackPanel Margin="10">
+            <TextBlock Name="TextBlockZipCodeExists"/>
+            <TextBlock Name="TextBlockZipCode"/>
+            <AccessText Text="_Your Zip Code:"/>
+            <TextBox Width="200" Text="{Binding NewZipCode}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Button Width="100" Margin="10" Content="Remove" Click="Button_Click_Remove"/>
+            <Button Width="100" Margin="10"  Content="Change" Click="Button_Click_Change"/>
+        </StackPanel>
+    </StackPanel>
+</Window>
