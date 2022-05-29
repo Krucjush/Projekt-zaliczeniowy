@@ -8,8 +8,8 @@
         Title="AdminWelcomePageManageExpenses" WindowState="Maximized">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20">
-            </RowDefinition>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="20"/>
@@ -22,21 +22,27 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Manage Expenses"/>
-            <Button Grid.Column="1" Content="Manage Stocks" Click="Button_Click_Manage_Stocks"/>
-            <Button Grid.Column="2" Content="Manage Accounts" Click="Button_Click_Manage_Accounts"/>
+            <Button Grid.Column="0" Content="Manage Expenses" IsEnabled="False"/>
+            <Button Grid.Column="1" Content="Manage Stocks" Click="ButtonClick_ManageStocks"/>
+            <Button Grid.Column="2" Content="Manage Accounts" Click="ButtonClick_ManageAccounts"/>
         </Grid>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Name="TextBoxExpensesName" GotKeyboardFocus="TextBoxExpensesName_GotKeyboardFocus" LostKeyboardFocus="TextBoxExpensesName_LostKeyboardFocus"/>
-            <TextBox Grid.Column="1" Name="TextBoxDate" GotKeyboardFocus="TextBoxDate_GotKeyboardFocus" LostKeyboardFocus="TextBoxDate_LostKeyboardFocus"/>
-            <TextBox Grid.Column="2" Name="TextBoxAmount" GotKeyboardFocus="TextBoxAmount_GotKeyboardFocus" LostKeyboardFocus="TextBoxAmount_LostKeyboardFocus"/>
+            <AccessText Grid.Column="0" Text="Expenses Name:"/>
+            <AccessText Grid.Column="1" Text="Amount:"/>
         </Grid>
         <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0" Text="{Binding ExpensesName}"/>
+            <TextBox Grid.Column="1" Name="TextBoxAmount" Text="{Binding Amount}"/>
+        </Grid>
+        <Grid Grid.Row="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="*"/>
@@ -44,12 +50,12 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Add"/>
+            <Button Grid.Column="0" Content="Add" Click="ButtonClick_AddExpenses"/>
             <Button Grid.Column="2" Content="Remove"/>
             <Button Grid.Column="4" Content="Edit"/>
         </Grid>
-        <Grid Grid.Row="4">
-            <DataGrid Name ="Expenses" ColumnWidth="*"/>
+        <Grid Grid.Row="5">
+            <DataGrid Name ="Expenses" ColumnWidth="*" IsReadOnly="True"/>
         </Grid>
     </Grid>
 </Window>

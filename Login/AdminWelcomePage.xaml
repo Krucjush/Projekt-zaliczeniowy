@@ -34,9 +34,9 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Add"/>
-            <Button Grid.Column="2" Content="Remove"/>
-            <Button Grid.Column="4" Content="Edit"/>
+            <Button Grid.Column="0" Content="Add" IsEnabled="False"/>
+            <Button Grid.Column="2" Content="Remove" IsEnabled="False"/>
+            <Button Grid.Column="4" Content="Edit" IsEnabled="False"/>
         </Grid>
     </Grid>
 </Window>

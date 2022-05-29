@@ -1,11 +1,11 @@
-﻿<Window x:Class="Login.AdminWelcomePageManageStocks"
+﻿<Window x:Class="Login.AdminWelcomePageManageAccounts"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Login"
         mc:Ignorable="d"
-        Title="AdminWelcomePageManageStocks" WindowState="Maximized">
+        Title="AdminWelcomePageManageAccounts" WindowState="Maximized">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20">
@@ -23,8 +23,8 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Content="Manage Expenses" Click="Button_Click_Manage_Expenses"/>
-            <Button Grid.Column="1" Content="Manage Stocks" IsEnabled="False"/>
-            <Button Grid.Column="2" Content="Manage Accounts" Click="Button_Click_Manage_Accounts"/>
+            <Button Grid.Column="1" Content="Manage Stocks" Click="Button_Click_Manage_Stocks"/>
+            <Button Grid.Column="2" Content="Manage Accounts" IsEnabled="False"/>
         </Grid>
         <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
@@ -34,12 +34,9 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Add"/>
+            <Button Grid.Column="0" Content="Add" Click="ButtonClick_Add_Expenses"/>
             <Button Grid.Column="2" Content="Remove"/>
             <Button Grid.Column="4" Content="Edit"/>
-        </Grid>
-        <Grid Grid.Row="4">
-            <DataGrid Name ="Stocks" ColumnWidth="*" IsReadOnly="True"/>
         </Grid>
     </Grid>
 </Window>

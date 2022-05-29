@@ -15,27 +15,28 @@ using System.Windows.Shapes;
 namespace Login
 {
     /// <summary>
-    /// Logika interakcji dla klasy AdminWelcomePageManageStocks.xaml
+    /// Logika interakcji dla klasy AdminWelcomePageManageAccounts.xaml
     /// </summary>
-    public partial class AdminWelcomePageManageStocks : Window
+    public partial class AdminWelcomePageManageAccounts : Window
     {
-        public AdminWelcomePageManageStocks()
+        public AdminWelcomePageManageAccounts()
         {
             InitializeComponent();
         }
 
-        private void Button_Click_Manage_Expenses(object sender, RoutedEventArgs e)
+        private void Button_Click_Manage_Stocks(object sender, RoutedEventArgs e)
         {
-            var q = new AdminWelcomePageManageExpenses();
-            q.Show();
-            Close();
+            throw new NotImplementedException();
         }
 
-        private void Button_Click_Manage_Accounts(object sender, RoutedEventArgs e)
+        private void Button_Click_Manage_Expenses(object sender, RoutedEventArgs e)
         {
-            var q = new AdminWelcomePageManageAccounts();
-            q.Show();
-            Close();
+            throw new NotImplementedException();
+        }
+
+        private void ButtonClick_Add_Expenses(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }

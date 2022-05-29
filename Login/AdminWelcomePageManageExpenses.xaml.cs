@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Program;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Login
 {
@@ -20,12 +21,11 @@ namespace Login
     /// </summary>
     public partial class AdminWelcomePageManageExpenses : Window
     {
+        public string ExpensesName { get; set; }
+        public long Amount { get; set; }
         public AdminWelcomePageManageExpenses()
         {
             InitializeComponent();
-            TextBoxExpensesName.Text = "Expenses Name";
-            TextBoxDate.Text = "Date";
-            TextBoxAmount.Text = "Cost";
             using (var db = new UsersContext())
             {
                 var e = db.Expenses
@@ -33,62 +33,33 @@ namespace Login
                     .ToList();
                 Expenses.ItemsSource = e;
             }
-        }
 
-        private void TextBoxExpensesName_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            if (TextBoxExpensesName.Text == "Expenses Name")
-            {
-                TextBoxExpensesName.Text = "";
-            }
+            DataContext = this;
         }
-
-        private void TextBoxExpensesName_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            if (TextBoxExpensesName.Text == "")
-            {
-                TextBoxExpensesName.Text = "Expenses Name";
-            }
-        }
-        private void TextBoxDate_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            if (TextBoxDate.Text == "Date")
-            {
-                TextBoxDate.Text = "";
-            }
-        }
-        private void TextBoxDate_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            if (TextBoxDate.Text == "")
-            {
-                TextBoxDate.Text = "Date";
-            }
-        }
-        private void TextBoxAmount_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            if (TextBoxAmount.Text == "Cost")
-            {
-                TextBoxAmount.Text = "";
-            }
-        }
-        private void TextBoxAmount_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            if (TextBoxAmount.Text == "")
-            {
-                TextBoxAmount.Text = "Cost";
-            }
-        }
-        
-        private void Button_Click_Manage_Stocks(object sender, RoutedEventArgs e)
+        private void ButtonClick_ManageStocks(object sender, RoutedEventArgs e)
         {
             var q = new AdminWelcomePageManageExpenses();
             q.Show();
             Close();
         }
 
-        private void Button_Click_Manage_Accounts(object sender, RoutedEventArgs e)
+        private void ButtonClick_ManageAccounts(object sender, RoutedEventArgs e)
         {
+            var q = new AdminWelcomePageManageAccounts();
+            q.Show();
+            Close();
         }
-        
+
+        private void ButtonClick_AddExpenses(object sender, RoutedEventArgs e)
+        {
+            using (var db = new UsersContext())
+            {
+                db.Expenses.Add(new Expense { ExpensesName = ExpensesName, Date = DateTime.Now, Amount = Amount });
+                db.SaveChanges();
+            }
+            Close();
+            var q = new AdminWelcomePageManageExpenses();
+            q.Show();
+        }
     }
 }
