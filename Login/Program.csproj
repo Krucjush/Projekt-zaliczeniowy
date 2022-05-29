@@ -177,6 +177,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AdminWelcomePage.xaml.cs">
+      <DependentUpon>AdminWelcomePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdminWelcomePageManageExpenses.xaml.cs">
+      <DependentUpon>AdminWelcomePageManageExpenses.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AdminWelcomePageManageStocks.xaml.cs">
+      <DependentUpon>AdminWelcomePageManageStocks.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ManageAddress.xaml.cs">
       <DependentUpon>ManageAddress.xaml</DependentUpon>
     </Compile>
@@ -214,6 +223,18 @@
     <Compile Include="WelcomePage.xaml.cs">
       <DependentUpon>WelcomePage.xaml</DependentUpon>
     </Compile>
+    <Page Include="AdminWelcomePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdminWelcomePageManageExpenses.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdminWelcomePageManageStocks.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ManageAddress.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

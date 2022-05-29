@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Login;
 using Microsoft.EntityFrameworkCore.SqlServer;
 
 namespace Program
@@ -65,8 +66,20 @@ namespace Program
                     if (userNameExists && passwordCheck)
                     {
                         MessageBox.Show("Successfully logged in.");
-                        var welcomePage = new WelcomePage();
-                        welcomePage.Show();
+                        var administrators = db.UserLogins
+                            .Where(q => q.AccountType == "Administrator")
+                            .Select(q => q.UserName)
+                            .ToList();
+                        if (administrators.Contains(UserName))
+                        {
+                            var welcomePage = new AdminWelcomePage();
+                            welcomePage.Show();
+                        }
+                        else
+                        {
+                            var welcomePage = new WelcomePage();
+                            welcomePage.Show();
+                        }
                     }
                     else
                     {
