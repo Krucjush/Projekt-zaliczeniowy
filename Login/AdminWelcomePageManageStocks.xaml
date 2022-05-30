@@ -8,8 +8,8 @@
         Title="AdminWelcomePageManageStocks" WindowState="Maximized">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20">
-            </RowDefinition>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="20"/>
@@ -26,19 +26,32 @@
             <Button Grid.Column="1" Content="Manage Stocks" IsEnabled="False"/>
             <Button Grid.Column="2" Content="Manage Accounts" Click="Button_Click_Manage_Accounts"/>
         </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <AccessText Grid.Column="0" Text="Item Name:"/>
+            <AccessText Grid.Column="1" Text="Quantity:"/>
+        </Grid>
         <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Add"/>
-            <Button Grid.Column="2" Content="Remove"/>
-            <Button Grid.Column="4" Content="Edit"/>
+            <TextBox Grid.Column="0" Text="{Binding ItemName}"/>
+            <TextBox Grid.Column="1" Text="{Binding Quantity}"/>
         </Grid>
         <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="Add" Click="ButtonClick_AddStocks"/>
+            <Button Grid.Column="2" Content="Remove" Click="ButtonClick_RemoveStocks"/>
+        </Grid>
+        <Grid Grid.Row="5">
             <DataGrid Name ="Stocks" ColumnWidth="*" IsReadOnly="True"/>
         </Grid>
     </Grid>

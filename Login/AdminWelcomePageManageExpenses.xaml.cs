@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,7 +39,7 @@ namespace Login
         }
         private void ButtonClick_ManageStocks(object sender, RoutedEventArgs e)
         {
-            var q = new AdminWelcomePageManageExpenses();
+            var q = new AdminWelcomePageManageStocks();
             q.Show();
             Close();
         }
@@ -54,12 +55,57 @@ namespace Login
         {
             using (var db = new UsersContext())
             {
-                db.Expenses.Add(new Expense { ExpensesName = ExpensesName, Date = DateTime.Now, Amount = Amount });
-                db.SaveChanges();
+                switch (ExpensesName)
+                {
+                    case null when Amount == 0:
+                        MessageBox.Show("You cannot add an empty field.");
+                        break;
+                    case null:
+                        MessageBox.Show("Expenses require name.");
+                        break;
+                    default:
+                    {
+                        if (Amount == 0)
+                        {
+                            MessageBox.Show("Amount is required");
+                        }
+                        else
+                        {
+                            db.Expenses.Add(new Expense { ExpensesName = ExpensesName, Date = DateTime.Now, Amount = Amount });
+                            db.SaveChanges();
+                            Close();
+                            var q = new AdminWelcomePageManageExpenses();
+                            q.Show();
+                        }
+
+                        break;
+                    }
+                }
             }
-            Close();
-            var q = new AdminWelcomePageManageExpenses();
-            q.Show();
+        }
+
+        private void ButtonClick_RemoveExpenses(object sender, RoutedEventArgs e)
+        {
+            using (var db = new UsersContext())
+            {
+                var row = (Expense)Expenses.SelectedItem;
+                if (row == null)
+                {
+                    MessageBox.Show("Item not selected.");
+                }
+                else
+                {
+                    var selectedExpense = db.Expenses
+                        .Where(t => t.ExpenseId == row.ExpenseId)
+                        .ToList()
+                        .LastOrDefault();
+                    db.Expenses.Remove(selectedExpense);
+                    db.SaveChanges();
+                    var q = new AdminWelcomePageManageExpenses();
+                    Close();
+                    q.Show();
+                }
+            }
         }
     }
 }

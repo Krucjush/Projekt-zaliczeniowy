@@ -14,17 +14,18 @@ namespace Program
         public DbSet<UserLogin> UserLogins { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Expense> Expenses { get; set; }
+        public DbSet<Stock> Stocks { get; set; }
 
     }
     public class UserLogin
     {
         [Key]
         public long Id { get; set; }
-        [Required()]
+        [Required]
         public string UserName { get; set; }
-        [Required()]
+        [Required]
         public string Password { get; set; }
-        [Required()]
+        [Required]
         public string Email { get; set; }
         public string AccountType { get; set; }
         public string FirstName { get; set; }
@@ -47,8 +48,20 @@ namespace Program
     {
         [Key]
         public long ExpenseId { get; set; }
+        [Required]
         public string ExpensesName { get; set; }
         public DateTime Date { get; set; }
+        [Required]
         public long Amount { get; set; }
+    }
+
+    public class Stock
+    {
+        [Key]
+        public long StockId { get; set; }
+        [Required]
+        public string ItemName { get; set; }
+        [Required]
+        public long Quantity { get; set; }
     }
 }

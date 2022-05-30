@@ -44,15 +44,12 @@
         </Grid>
         <Grid Grid.Row="4">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="200"/>
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Content="Add" Click="ButtonClick_AddExpenses"/>
-            <Button Grid.Column="2" Content="Remove"/>
-            <Button Grid.Column="4" Content="Edit"/>
+            <Button Grid.Column="2" Content="Remove" Click="ButtonClick_RemoveExpenses"/>
         </Grid>
         <Grid Grid.Row="5">
             <DataGrid Name ="Expenses" ColumnWidth="*" IsReadOnly="True"/>
