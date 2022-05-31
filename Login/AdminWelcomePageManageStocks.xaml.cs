@@ -70,10 +70,10 @@ namespace Login
                         }
                         else
                         {
-                            db.Expenses.Add(new Expense { ExpensesName = ItemName, Date = DateTime.Now, Amount = Quantity });
+                            db.Stocks.Add(new Stock { ItemName = ItemName, DateCreated = DateTime.Now, Quantity = Quantity });
                             db.SaveChanges();
                             Close();
-                            var q = new AdminWelcomePageManageExpenses();
+                            var q = new AdminWelcomePageManageStocks();
                             q.Show();
                         }
 
@@ -103,6 +103,47 @@ namespace Login
                     var q = new AdminWelcomePageManageStocks();
                     Close();
                     q.Show();
+                }
+            }
+        }
+
+        private void ButtonClick_EditStocks(object sender, RoutedEventArgs e)
+        {
+            using (var db = new UsersContext())
+            {
+                var row = (Stock)Stocks.SelectedItem;
+                if (row == null)
+                {
+                    MessageBox.Show("Item not selected");
+                }
+                else
+                {
+                    var selectedStock = db.Stocks
+                        .Where(t => t.StockId == row.StockId)
+                        .ToList()
+                        .LastOrDefault();
+                    if (ItemName == null && Quantity == 0)
+                    {
+                        MessageBox.Show("Item Name and Quantity not provided");
+                    }
+                    else if (ItemName == null)
+                    {
+                        MessageBox.Show("Item Name not provided");
+                    }
+                    else if (Quantity == 0)
+                    {
+                        MessageBox.Show("Quantity not provided");
+                    }
+                    else
+                    {
+                        selectedStock.ItemName = ItemName;
+                        selectedStock.Quantity = Quantity;
+                        selectedStock.DateModified = DateTime.Now;
+                        db.SaveChanges();
+                        Close();
+                        var q = new AdminWelcomePageManageStocks();
+                        q.Show();
+                    }
                 }
             }
         }

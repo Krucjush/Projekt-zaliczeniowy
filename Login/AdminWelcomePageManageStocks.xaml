@@ -45,11 +45,14 @@
         <Grid Grid.Row="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Content="Add" Click="ButtonClick_AddStocks"/>
-            <Button Grid.Column="2" Content="Remove" Click="ButtonClick_RemoveStocks"/>
+            <Button Grid.Column="2" Content="Edit" Click="ButtonClick_EditStocks"/>
+            <Button Grid.Column="4" Content="Remove" Click="ButtonClick_RemoveStocks"/>
         </Grid>
         <Grid Grid.Row="5">
             <DataGrid Name ="Stocks" ColumnWidth="*" IsReadOnly="True"/>

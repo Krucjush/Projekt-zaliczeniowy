@@ -63,5 +63,8 @@ namespace Program
         public string ItemName { get; set; }
         [Required]
         public long Quantity { get; set; }
+        [Required]
+        public DateTime DateCreated { get; set; }
+        public DateTime? DateModified { get; set; }
     }
 }

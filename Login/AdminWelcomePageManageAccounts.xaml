@@ -8,8 +8,8 @@
         Title="AdminWelcomePageManageAccounts" WindowState="Maximized">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20">
-            </RowDefinition>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="20"/>
@@ -22,21 +22,48 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Manage Expenses" Click="Button_Click_Manage_Expenses"/>
-            <Button Grid.Column="1" Content="Manage Stocks" Click="Button_Click_Manage_Stocks"/>
+            <Button Grid.Column="0" Content="Manage Expenses" Click="ButtonClick_ManageExpenses"/>
+            <Button Grid.Column="1" Content="Manage Stocks" Click="ButtonClick_ManageStocks"/>
             <Button Grid.Column="2" Content="Manage Accounts" IsEnabled="False"/>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <AccessText Grid.Column="0" Text="User Name:"/>
+            <AccessText Grid.Column="1" Text="Password:"/>
+            <AccessText Grid.Column="2" Text="Email:"/>
+            <AccessText Grid.Column="3" Text="Account Type:"/>
         </Grid>
         <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Add" Click="ButtonClick_Add_Expenses"/>
-            <Button Grid.Column="2" Content="Remove"/>
-            <Button Grid.Column="4" Content="Edit"/>
+            <TextBox Grid.Column="0" Text="{Binding UserName}"/>
+            <TextBox Grid.Column="1" Text="{Binding Password}"/>
+            <TextBox Grid.Column="2" Text="{Binding Email}"/>
+            <TextBox Grid.Column="3" Text="{Binding AccountType}"/>
+        </Grid>
+        <Grid Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="Add" Click="ButtonClick_AddAccount"/>
+            <Button Grid.Column="2" Content="Edit" Click="ButtonClick_EditAccount"/>
+            <Button Grid.Column="4" Content="Remove" Click="ButtonClick_RemoveAccount"/>
+        </Grid>
+        <Grid Grid.Row="5">
+            <DataGrid Name="Accounts" ColumnWidth="*" IsReadOnly="True"/>
         </Grid>
     </Grid>
 </Window>
