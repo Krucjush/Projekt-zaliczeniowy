@@ -11,15 +11,16 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Login;
+using Program;
 
-namespace Program
+namespace Login
 {
     /// <summary>
-    /// Logika interakcji dla klasy ManageAccount.xaml
+    /// Logika interakcji dla klasy ManageAccountAdmin.xaml
     /// </summary>
-    public partial class ManageAccount : Window
+    public partial class ManageAccountAdmin : Window
     {
+        public UserLogin SelectedAccount { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
@@ -29,52 +30,48 @@ namespace Program
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
         public string ZipCode { get; set; }
-        public ManageAccount()
+        public string AccountType { get; set; }
+        public bool IsSelected { get; set; }
+        public ManageAccountAdmin(UserLogin selectedAccount)
         {
             InitializeComponent();
             DataContext = this;
-            using (var db = new UsersContext())
-            {
-                var userData = db.UserLogins
-                    .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
-                TextBoxUserName.Text = userData.UserName;
-                TextBoxPassword.Text = userData.Password;
-                TextBoxEmail.Text = userData.Email;
-                TextBoxFirstName.Text = userData?.FirstName ?? "Not provided";
-                TextBoxLastName.Text = userData?.LastName ?? "Not provided";
-                TextBoxAge.Text = userData?.Age != 0 ? userData.Age.ToString() : "Not provided";
-                TextBoxPhoneNumber.Text = userData?.PhoneNumber ?? "Not provided";
-                TextBoxAddress.Text = userData?.Address ?? "Not provided";
-                TextBoxZipCode.Text = userData?.ZipCode ?? "Not provided";
-            }
+            SelectedAccount = selectedAccount;
+            TextBoxUserName.Text = SelectedAccount.UserName;
+            TextBoxPassword.Text = SelectedAccount.Password;
+            TextBoxEmail.Text = SelectedAccount.Email;
+            TextBoxFirstName.Text = SelectedAccount?.FirstName ?? "Not provided";
+            TextBoxLastName.Text = SelectedAccount?.LastName ?? "Not provided";
+            TextBoxAge.Text = SelectedAccount?.Age != 0 ? selectedAccount.Age.ToString() : "Not provided";
+            TextBoxPhoneNumber.Text = SelectedAccount?.PhoneNumber ?? "Not provided";
+            TextBoxAddress.Text = SelectedAccount?.Address ?? "Not provided";
+            TextBoxZipCode.Text = SelectedAccount?.ZipCode ?? "Not provided";
+            TextBoxAccountType.Text = SelectedAccount.AccountType;
         }
-
         private void ButtonClick_SetUserName(object sender, RoutedEventArgs e)
         {
+            using (var db = new UsersContext())
             {
-                using (var db = new UsersContext())
+                var userNames = db.UserLogins
+                    .Select(q => q.UserName)
+                    .ToList();
+                if (string.IsNullOrEmpty(UserName))
                 {
-                    var userNames = db.UserLogins
-                        .Select(q => q.UserName)
-                        .ToList();
-                    if (string.IsNullOrEmpty(UserName))
-                    {
-                        MessageBox.Show("User Name cannot be empty.");
-                    }
-                    else if (userNames.Contains(UserName))
-                    {
-                        MessageBox.Show("This User Name is taken.");
-                    }
-                    else
-                    {
-                        var userData = db.UserLogins
-                            .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
-                        userData.UserName = UserName;
-                        MessageBox.Show("User Name successfully set.");
-                        Close();
-                        var _ = new ManageAccount();
-                        _.Show();
-                    }
+                    MessageBox.Show("User Name cannot be empty.");
+                }
+                else if (userNames.Contains(UserName))
+                {
+                    MessageBox.Show("This User Name is taken.");
+                }
+                else
+                {
+                    var userData = db.UserLogins
+                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
+                    userData.UserName = UserName;
+                    SelectedAccount.UserName = UserName;
+                    Close();
+                    var _ = new ManageAccountAdmin(SelectedAccount);
+                    _.Show();
                 }
             }
         }
@@ -90,11 +87,12 @@ namespace Program
                 else
                 {
                     var userData = db.UserLogins
-                        .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
+                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
                     userData.Password = Password;
+                    SelectedAccount.Password = Password;
                     db.SaveChanges();
                     Close();
-                    var _ = new ManageAccount();
+                    var _ = new ManageAccountAdmin(SelectedAccount);
                     _.Show();
                 }
             }
@@ -115,11 +113,12 @@ namespace Program
                 else
                 {
                     var userData = db.UserLogins
-                        .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
+                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
                     userData.Email = Email;
+                    SelectedAccount.Email = Email;
                     db.SaveChanges();
                     Close();
-                    var _ = new ManageAccount();
+                    var _ = new ManageAccountAdmin(SelectedAccount);
                     _.Show();
                 }
             }
@@ -136,11 +135,12 @@ namespace Program
                 using (var db = new UsersContext())
                 {
                     var userData = db.UserLogins
-                        .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
+                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
                     userData.FirstName = FirstName;
+                    SelectedAccount.FirstName = FirstName;
                     db.SaveChanges();
                     Close();
-                    var _ = new ManageAccount();
+                    var _ = new ManageAccountAdmin(SelectedAccount);
                     _.Show();
                 }
             }
@@ -151,7 +151,7 @@ namespace Program
             using (var db = new UsersContext())
             {
                 var userData = db.UserLogins
-                    .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
+                    .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
                 if (userData?.FirstName == null)
                 {
                     MessageBox.Show("First Name is already empty");
@@ -159,9 +159,10 @@ namespace Program
                 else
                 {
                     userData.FirstName = null;
+                    SelectedAccount.FirstName = null;
                     db.SaveChanges();
                     Close();
-                    var _ = new ManageAccount();
+                    var _ = new ManageAccountAdmin(SelectedAccount);
                     _.Show();
                 }
             }
@@ -178,11 +179,12 @@ namespace Program
                 using (var db = new UsersContext())
                 {
                     var userData = db.UserLogins
-                        .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
+                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
                     userData.LastName = LastName;
+                    SelectedAccount.LastName = LastName;
                     db.SaveChanges();
                     Close();
-                    var _ = new ManageAccount();
+                    var _ = new ManageAccountAdmin(SelectedAccount);
                     _.Show();
                 }
             }
@@ -193,7 +195,7 @@ namespace Program
             using (var db = new UsersContext())
             {
                 var userData = db.UserLogins
-                    .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
+                    .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
                 if (userData?.LastName == null)
                 {
                     MessageBox.Show("Last Name is already empty");
@@ -201,9 +203,10 @@ namespace Program
                 else
                 {
                     userData.LastName = null;
+                    SelectedAccount.LastName = null;
                     db.SaveChanges();
                     Close();
-                    var _ = new ManageAccount();
+                    var _ = new ManageAccountAdmin(SelectedAccount);
                     _.Show();
                 }
             }
@@ -220,11 +223,12 @@ namespace Program
                 else
                 {
                     var userData = db.UserLogins
-                        .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
+                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
                     userData.Age = Age;
+                    SelectedAccount.Age = Age;
                     db.SaveChanges();
                     Close();
-                    var _ = new ManageAccount();
+                    var _ = new ManageAccountAdmin(SelectedAccount);
                     _.Show();
                 }
             }
@@ -235,7 +239,7 @@ namespace Program
             using (var db = new UsersContext())
             {
                 var userData = db.UserLogins
-                    .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
+                    .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
                 if (userData?.Age == 0)
                 {
                     MessageBox.Show("Age is already empty");
@@ -243,9 +247,10 @@ namespace Program
                 else
                 {
                     userData.Age = 0;
+                    SelectedAccount.Age = 0;
                     db.SaveChanges();
                     Close();
-                    var _ = new ManageAccount();
+                    var _ = new ManageAccountAdmin(SelectedAccount);
                     _.Show();
                 }
             }
@@ -255,22 +260,23 @@ namespace Program
         {
             using (var db = new UsersContext())
             {
-                if (PhoneNumber.Length == 0)
+                if (PhoneNumber.ToString().Length == 0)
                 {
                     MessageBox.Show("You can't set empty Phone Number, if you want to remove Phone Number, press \"Remove\" button.");
                 }
-                else if(PhoneNumber.Length != 9)
+                else if (PhoneNumber.ToString().Length != 9)
                 {
                     MessageBox.Show("Wrong Phone Number.");
                 }
                 else
                 {
                     var userData = db.UserLogins
-                        .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
+                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
                     userData.PhoneNumber = PhoneNumber;
+                    SelectedAccount.PhoneNumber = PhoneNumber;
                     db.SaveChanges();
                     Close();
-                    var _ = new ManageAccount();
+                    var _ = new ManageAccountAdmin(SelectedAccount);
                     _.Show();
                 }
             }
@@ -281,7 +287,7 @@ namespace Program
             using (var db = new UsersContext())
             {
                 var userData = db.UserLogins
-                    .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
+                    .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
                 if (userData?.PhoneNumber == null)
                 {
                     MessageBox.Show("Phone Number is already empty");
@@ -289,9 +295,10 @@ namespace Program
                 else
                 {
                     userData.PhoneNumber = null;
+                    SelectedAccount.PhoneNumber = null;
                     db.SaveChanges();
                     Close();
-                    var _ = new ManageAccount();
+                    var _ = new ManageAccountAdmin(SelectedAccount);
                     _.Show();
                 }
             }
@@ -308,11 +315,12 @@ namespace Program
                 else
                 {
                     var userData = db.UserLogins
-                        .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
+                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
                     userData.Address = Address;
+                    SelectedAccount.Address = Address;
                     db.SaveChanges();
                     Close();
-                    var _ = new ManageAccount();
+                    var _ = new ManageAccountAdmin(SelectedAccount);
                     _.Show();
                 }
             }
@@ -323,7 +331,7 @@ namespace Program
             using (var db = new UsersContext())
             {
                 var userData = db.UserLogins
-                    .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
+                    .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
                 if (userData?.Address == null)
                 {
                     MessageBox.Show("Address is already empty");
@@ -331,9 +339,10 @@ namespace Program
                 else
                 {
                     userData.Address = null;
+                    SelectedAccount.Address = null;
                     db.SaveChanges();
                     Close();
-                    var _ = new ManageAccount();
+                    var _ = new ManageAccountAdmin(SelectedAccount);
                     _.Show();
                 }
             }
@@ -354,11 +363,12 @@ namespace Program
                 else
                 {
                     var userData = db.UserLogins
-                        .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
+                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
                     userData.ZipCode = ZipCode;
+                    SelectedAccount.ZipCode = ZipCode;
                     db.SaveChanges();
                     Close();
-                    var _ = new ManageAccount();
+                    var _ = new ManageAccountAdmin(SelectedAccount);
                     _.Show();
                 }
             }
@@ -369,7 +379,7 @@ namespace Program
             using (var db = new UsersContext())
             {
                 var userData = db.UserLogins
-                    .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
+                    .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
                 if (userData?.ZipCode == null)
                 {
                     MessageBox.Show("Zip Code is already empty");
@@ -377,10 +387,59 @@ namespace Program
                 else
                 {
                     userData.ZipCode = null;
+                    SelectedAccount.ZipCode = null;
                     db.SaveChanges();
                     Close();
-                    var _ = new ManageAccount();
+                    var _ = new ManageAccountAdmin(SelectedAccount);
                     _.Show();
+                }
+            }
+        }
+
+        private void ComboBoxAdministrator_Selected(object sender, RoutedEventArgs e)
+        {
+            AccountType = "Administrator";
+            IsSelected = true;
+        }
+
+        private void ComboBoxCustomer_Selected(object sender, RoutedEventArgs e)
+        {
+            AccountType = "Customer";
+            IsSelected = true;
+        }
+
+        private void ButtonClick_SetAccountType(object sender, RoutedEventArgs e)
+        {
+            using (var db = new UsersContext())
+            {
+                var userData = db.UserLogins
+                    .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
+                if (!IsSelected)
+                {
+                    MessageBox.Show("Nothing was selected.");
+                }
+                else if (TextBoxAccountType.Text == AccountType)
+                {
+                    MessageBox.Show("No change was made");
+                }
+                else
+                {
+                    var users = db.UserLogins
+                        .Where(q => q.AccountType == "Administrator")
+                        .ToList();
+                    if (users.Count <= 1)
+                    {
+                        MessageBox.Show("You can't remove last Administrator Account");
+                    }
+                    else
+                    {
+                        userData.AccountType = AccountType;
+                        SelectedAccount.AccountType = AccountType;
+                        db.SaveChanges();
+                        Close();
+                        var _ = new ManageAccountAdmin(SelectedAccount);
+                        _.Show();
+                    }
                 }
             }
         }

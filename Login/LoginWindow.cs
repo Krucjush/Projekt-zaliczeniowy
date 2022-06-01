@@ -28,9 +28,9 @@ namespace Program
             using (var db = new UsersContext())
             {
                 var userData = db.UserLogins
-                    .Select(q => q.Id)
-                    .FirstOrDefault();
-                if (userData == 0)
+                    .Where(q => q.AccountType == "Administrator")
+                    .ToList();
+                if (userData.Count == 0)
                 {
                     db.UserLogins.Add(new UserLogin()
                     {

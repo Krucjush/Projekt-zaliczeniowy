@@ -122,27 +122,35 @@ namespace Login
                         .Where(t => t.StockId == row.StockId)
                         .ToList()
                         .LastOrDefault();
-                    if (ItemName == null && Quantity == 0)
+                    switch (ItemName)
                     {
-                        MessageBox.Show("Item Name and Quantity not provided");
-                    }
-                    else if (ItemName == null)
-                    {
-                        MessageBox.Show("Item Name not provided");
-                    }
-                    else if (Quantity == 0)
-                    {
-                        MessageBox.Show("Quantity not provided");
-                    }
-                    else
-                    {
-                        selectedStock.ItemName = ItemName;
-                        selectedStock.Quantity = Quantity;
-                        selectedStock.DateModified = DateTime.Now;
-                        db.SaveChanges();
-                        Close();
-                        var q = new AdminWelcomePageManageStocks();
-                        q.Show();
+                        case null when Quantity == 0:
+                            MessageBox.Show("No changes were made");
+                            break;
+                        case null:
+                        {
+                            selectedStock.Quantity = Quantity;
+                            selectedStock.DateModified = DateTime.Now;
+                            db.SaveChanges();
+                            Close();
+                            var _ = new AdminWelcomePageManageStocks();
+                            _.Show();
+                            break;
+                        }
+                        default:
+                        {
+                            if (Quantity == 0)
+                            {
+                                selectedStock.ItemName = ItemName;
+                                selectedStock.DateModified = DateTime.Now;
+                                db.SaveChanges();
+                                Close();
+                                var _ = new AdminWelcomePageManageStocks();
+                                _.Show();
+                            }
+
+                            break;
+                        }
                     }
                 }
             }

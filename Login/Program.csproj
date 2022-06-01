@@ -189,35 +189,11 @@
     <Compile Include="AdminWelcomePageManageStocks.xaml.cs">
       <DependentUpon>AdminWelcomePageManageStocks.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ManageAddress.xaml.cs">
-      <DependentUpon>ManageAddress.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ManageAge.xaml.cs">
-      <DependentUpon>ManageAge.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ManageEmail.xaml.cs">
-      <DependentUpon>ManageEmail.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ManageFirstName.xaml.cs">
-      <DependentUpon>ManageFirstName.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ManageLastName.xaml.cs">
-      <DependentUpon>ManageLastName.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ManagePassword.xaml.cs">
-      <DependentUpon>ManagePassword.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ManagePhoneNumber.xaml.cs">
-      <DependentUpon>ManagePhoneNumber.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ManageUserName.xaml.cs">
-      <DependentUpon>ManageUserName.xaml</DependentUpon>
+    <Compile Include="ManageAccountAdmin.xaml.cs">
+      <DependentUpon>ManageAccountAdmin.xaml</DependentUpon>
     </Compile>
     <Compile Include="ManageAccount.xaml.cs">
       <DependentUpon>ManageAccount.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ManageZipCode.xaml.cs">
-      <DependentUpon>ManageZipCode.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model.cs" />
     <Compile Include="Registration.xaml.cs">
@@ -242,35 +218,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ManageAddress.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ManageAge.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ManageEmail.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ManageFirstName.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ManageLastName.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ManagePassword.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ManagePhoneNumber.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ManageUserName.xaml">
+    <Page Include="ManageAccountAdmin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -287,10 +235,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ManageAccount.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ManageZipCode.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

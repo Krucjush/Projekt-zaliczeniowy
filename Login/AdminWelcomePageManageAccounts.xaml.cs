@@ -110,6 +110,7 @@ namespace Login
 
         private void ButtonClick_EditAccount(object sender, RoutedEventArgs e)
         {
+            var selectedAccount = new UserLogin();
             using (var db = new UsersContext())
             {
                 var row = (UserLogin)Accounts.SelectedItem;
@@ -119,51 +120,14 @@ namespace Login
                 }
                 else
                 {
-                    var selectedAccount = db.UserLogins
+                    selectedAccount = db.UserLogins
                         .Where(t => t.Id == row.Id)
                         .ToList()
                         .LastOrDefault();
-                    if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(AccountType))
-                    {
-                        List<string> emptyFields = new List<string>();
-                        if (string.IsNullOrEmpty(UserName))
-                        {
-                            emptyFields.Add("User Name");
-                        }
-                        if (string.IsNullOrEmpty(Email))
-                        {
-                            emptyFields.Add("Email");
-                        }
-                        if (string.IsNullOrEmpty(Password))
-                        {
-                            emptyFields.Add("Password");
-                        }
-
-                        if (string.IsNullOrEmpty(AccountType))
-                        {
-                            emptyFields.Add("Account Type");
-                        }
-                        string emptyFieldsString = string.Join(" ", emptyFields);
-                        if (emptyFields.Count == 1)
-                        {
-                            MessageBox.Show(emptyFieldsString + " cannot be empty");
-                        }
-                        else
-                            MessageBox.Show("this fields cannot be empty: " + emptyFieldsString);
-                    }
-                    else
-                    {
-                        selectedAccount.UserName = UserName;
-                        selectedAccount.Password = Password;
-                        selectedAccount.Email = Email;
-                        selectedAccount.AccountType = AccountType;
-                        db.SaveChanges();
-                        Close();
-                        var _ = new AdminWelcomePageManageAccounts();
-                        _.Show();
-                    }
                 }
             }
+            var _ = new ManageAccountAdmin(selectedAccount);
+            _.Show();
         }
 
         private void ButtonClick_RemoveAccount(object sender, RoutedEventArgs e)
