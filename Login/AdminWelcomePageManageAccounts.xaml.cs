@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -61,9 +62,9 @@ namespace Login
                 var emails = db.UserLogins
                     .Select(q => q.Email)
                     .ToList();
-                if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(AccountType))
+                if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
                 {
-                    List<string> emptyFields = new List<string>();
+                    var emptyFields = new List<string>();
                     if (string.IsNullOrEmpty(UserName))
                     {
                         emptyFields.Add("User Name");
@@ -75,11 +76,6 @@ namespace Login
                     if (string.IsNullOrEmpty(Password))
                     {
                         emptyFields.Add("Password");
-                    }
-
-                    if (string.IsNullOrEmpty(AccountType))
-                    {
-                        emptyFields.Add("Account Type");
                     }
                     string emptyFieldsString = string.Join(" ", emptyFields);
                     if (emptyFields.Count == 1)
@@ -99,13 +95,11 @@ namespace Login
                 }
                 else
                 {
-                    db.UserLogins.Add(new UserLogin { UserName = UserName, Password = Password, Email = Email, AccountType = AccountType });
+                    db.UserLogins.Add(new UserLogin { UserName = UserName, Password = Password, Email = Email, AccountType = AccountType ?? "Customer" });
                     db.SaveChanges();
-                    Close();
-                    var _ = new AdminWelcomePageManageAccounts();
-                    _.Show();
                 }
             }
+            Update();
         }
 
         private void ButtonClick_EditAccount(object sender, RoutedEventArgs e)
@@ -124,10 +118,11 @@ namespace Login
                         .Where(t => t.Id == row.Id)
                         .ToList()
                         .LastOrDefault();
+                    var _ = new ManageAccountAdmin(selectedAccount);
+                    _.Show();
+                    Close();
                 }
             }
-            var _ = new ManageAccountAdmin(selectedAccount);
-            _.Show();
         }
 
         private void ButtonClick_RemoveAccount(object sender, RoutedEventArgs e)
@@ -135,9 +130,16 @@ namespace Login
             using (var db = new UsersContext())
             {
                 var row = (UserLogin)Accounts.SelectedItem;
+                var users = db.UserLogins
+                    .Where(q => q.AccountType == "Administrator")
+                    .ToList();
                 if (row == null)
                 {
                     MessageBox.Show("Item not selected");
+                }
+                else if (users.Count <= 1 && row.AccountType == "Administrator")
+                {
+                    MessageBox.Show("You can't remove last Administrator Account");
                 }
                 else
                 {
@@ -147,11 +149,15 @@ namespace Login
                         .LastOrDefault();
                     db.UserLogins.Remove(selectedAccount);
                     db.SaveChanges();
-                    Close();
-                    var _ = new AdminWelcomePageManageAccounts();
-                    _.Show();
                 }
             }
+            Update();
+        }
+        public void Update()
+        {
+            this.Close();
+            var _ = new AdminWelcomePageManageAccounts();
+            _.Show();
         }
     }
 }

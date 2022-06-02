@@ -25,7 +25,7 @@ namespace Program
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public uint Age { get; set; }
+        public string Age { get; set; }
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
         public string ZipCode { get; set; }
@@ -42,7 +42,7 @@ namespace Program
                 TextBoxEmail.Text = userData.Email;
                 TextBoxFirstName.Text = userData?.FirstName ?? "Not provided";
                 TextBoxLastName.Text = userData?.LastName ?? "Not provided";
-                TextBoxAge.Text = userData?.Age != 0 ? userData.Age.ToString() : "Not provided";
+                TextBoxAge.Text = userData?.Age ?? "Not provided";
                 TextBoxPhoneNumber.Text = userData?.PhoneNumber ?? "Not provided";
                 TextBoxAddress.Text = userData?.Address ?? "Not provided";
                 TextBoxZipCode.Text = userData?.ZipCode ?? "Not provided";
@@ -213,7 +213,7 @@ namespace Program
         {
             using (var db = new UsersContext())
             {
-                if (Age == 0)
+                if (string.IsNullOrEmpty(Age))
                 {
                     MessageBox.Show("You can't set empty Age, if you want to remove Age, press \"Remove\" button");
                 }
@@ -236,13 +236,13 @@ namespace Program
             {
                 var userData = db.UserLogins
                     .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
-                if (userData?.Age == 0)
+                if (userData?.Age == null)
                 {
                     MessageBox.Show("Age is already empty");
                 }
                 else
                 {
-                    userData.Age = 0;
+                    userData.Age = null;
                     db.SaveChanges();
                     Close();
                     var _ = new ManageAccount();

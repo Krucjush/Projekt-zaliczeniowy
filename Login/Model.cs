@@ -30,7 +30,7 @@ namespace Program
         public string AccountType { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public uint Age { get; set; }
+        public string Age { get; set; }
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
         public string ZipCode { get; set; }
