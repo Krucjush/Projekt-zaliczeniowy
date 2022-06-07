@@ -9,12 +9,17 @@ namespace Program
     /// <summary>
     /// Logika interakcji dla klasy MainWindow.xaml
     /// </summary>
+    
     public class UsersContext : DbContext
     {
         public DbSet<UserLogin> UserLogins { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<Stock> Stocks { get; set; }
+
+        public UsersContext() : base("InternetStore")
+        {
+        }
 
     }
     public class UserLogin
@@ -66,5 +71,11 @@ namespace Program
         [Required]
         public DateTime DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
+        public long OrderId { get; set; }
+        [ForeignKey("OrderId")]
+        public Order Order { get; set; }
+        public long ExpenseId { get; set; }
+        [ForeignKey("ExpenseId")]
+        public Expense Expense { get; set; }
     }
 }

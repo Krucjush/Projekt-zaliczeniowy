@@ -38,6 +38,8 @@ namespace Program
                         AccountType = "Administrator"
                     });
                     db.SaveChanges();
+                    MessageBox.Show(
+                        "Created Administrator account with\nUserName: Admin\nPassword Admin\nRemember to change User Name and Password!");
                 }
             }
             InitializeComponent();

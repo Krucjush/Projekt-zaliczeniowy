@@ -45,7 +45,7 @@ namespace Program
                         .ToList();
                     if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
                     {
-                        List<string> emptyFields = new List<string>();
+                        var emptyFields = new List<string>();
                         if (string.IsNullOrEmpty(UserName))
                         {
                             emptyFields.Add("UserName");
@@ -58,21 +58,21 @@ namespace Program
                         {
                             emptyFields.Add("Password");
                         }
-                        string emptyFieldsString = string.Join(" ", emptyFields);
+                        var emptyFieldsString = string.Join(" ", emptyFields);
                         if (emptyFields.Count == 1)
                         {
-                            MessageBox.Show(emptyFieldsString + " cannot be empty");
+                            MessageBox.Show(emptyFieldsString + " cannot be empty.");
                         }
                         else
-                            MessageBox.Show("this fields cannot be empty: " + emptyFieldsString);
+                            MessageBox.Show("this fields cannot be empty: " + emptyFieldsString + ".");
                     }
                     else if (userNames.Contains(UserName))
                     {
-                        MessageBox.Show("User name is taken");
+                        MessageBox.Show("User name is taken.");
                     }
                     else if (emails.Contains(Email))
                     {
-                        MessageBox.Show("Email is taken");
+                        MessageBox.Show("Email address is taken.");
                     }
                     else if (Email != ConfirmEmail)
                     {
@@ -81,6 +81,10 @@ namespace Program
                     else if (Password != ConfirmPassword)
                     {
                         MessageBox.Show("Passwords are not the same.");
+                    }
+                    else if (Password.Contains(UserName))
+                    {
+                        MessageBox.Show("Password is too similar to User Name.");
                     }
                     else
                     {
