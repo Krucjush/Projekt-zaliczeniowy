@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Data.Entity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Security.RightsManagement;
+using System.Data.Entity;
 
-namespace Program
+namespace Login
 {
     /// <summary>
     /// Logika interakcji dla klasy MainWindow.xaml
@@ -16,9 +15,11 @@ namespace Program
         public DbSet<Order> Orders { get; set; }
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<Stock> Stocks { get; set; }
+        public string ConnectionString { get; set; }
 
         public UsersContext() : base("InternetStore")
         {
+            ConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog = InternetStore;Integrated Security = True";
         }
 
     }
