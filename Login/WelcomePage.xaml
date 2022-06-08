@@ -2,7 +2,57 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Welcome Page" WindowState="Maximized">
-    <StackPanel Margin="10">
-        <Button Width="150" HorizontalAlignment="Right" Content="Manage Account" Margin="0,10,0,0" Click="Button_Click_Manage_Account"/>
-    </StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.5*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Button Content="Manage Account" Click="ButtonClick_ManageAccount"/>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Button Content="Shopping cart" Click="ButtonClick_ShoppingCart"/>
+            </Grid>
+            <Grid Grid.Column="2">
+                <Button Content="Log out" Click="ButtonClick_LogOut"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <AccessText Text="Amount:" HorizontalAlignment="Center"/>
+                </Grid>
+                <Grid Grid.Row="1">
+                    <TextBox Text="{Binding Amount}"/>
+                </Grid>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Button Content="Add" Click="ButtonClick_Add"/>
+            </Grid>
+            <Grid Grid.Column="2">
+                <Button Content="Remove" Click="ButtonClick_Remove"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="4">
+            <DataGrid Name="Store" IsReadOnly="True"/>
+        </Grid>
+    </Grid>
 </Window>

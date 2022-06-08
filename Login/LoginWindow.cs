@@ -62,11 +62,13 @@ namespace Login
                         {
                             var welcomePage = new AdminWelcomePage();
                             welcomePage.Show();
+                            Close();
                         }
                         else
                         {
                             var welcomePage = new WelcomePage();
                             welcomePage.Show();
+                            Close();
                         }
                     }
                     else

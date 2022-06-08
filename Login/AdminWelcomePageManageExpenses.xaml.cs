@@ -73,9 +73,7 @@ namespace Login
                         {
                             db.Expenses.Add(new Expense { ExpensesName = ExpensesName, Date = DateTime.Now, Amount = Amount });
                             db.SaveChanges();
-                            Close();
-                            var q = new AdminWelcomePageManageExpenses();
-                            q.Show();
+                            Update();
                         }
 
                         break;
@@ -101,11 +99,15 @@ namespace Login
                         .LastOrDefault();
                     db.Expenses.Remove(selectedExpense);
                     db.SaveChanges();
-                    var q = new AdminWelcomePageManageExpenses();
-                    Close();
-                    q.Show();
+                    Update();
                 }
             }
+        }
+        private void Update()
+        {
+            var _ = new AdminWelcomePageManageExpenses();
+            _.Show();
+            Close();
         }
     }
 }

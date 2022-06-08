@@ -47,6 +47,9 @@ namespace Login
         public long Id { get; set; }
         [ForeignKey("Id")]
         public UserLogin UserLogin { get; set; }
+        public long StockId { get; set; }
+        [ForeignKey("StockId")]
+        public Stock Stock { get; set; }
     }
 
     public class Expense
@@ -71,11 +74,19 @@ namespace Login
         [Required]
         public DateTime DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
-        public long OrderId { get; set; }
-        [ForeignKey("OrderId")]
-        public Order Order { get; set; }
         public long ExpenseId { get; set; }
         [ForeignKey("ExpenseId")]
         public Expense Expense { get; set; }
+    }
+    public class Product
+    {
+        public int Amount { get; set; }
+        public string ProductName { get; set; }
+    }
+    public class ProductInStore
+    {
+        public int Amount { get; set; }
+        public string ProductName { get; set; }
+        public int? AmountInCart { get; set; }
     }
 }

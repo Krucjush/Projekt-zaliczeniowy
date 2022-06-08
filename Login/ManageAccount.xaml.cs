@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 
 namespace Login
@@ -17,6 +18,7 @@ namespace Login
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
         public string ZipCode { get; set; }
+        public bool DoClose { get; set; } = true;
         public ManageAccount()
         {
             InitializeComponent();
@@ -59,9 +61,8 @@ namespace Login
                             .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
                         userData.UserName = UserName;
                         MessageBox.Show("User Name successfully set.");
-                        Close();
-                        var _ = new ManageAccount();
-                        _.Show();
+                        DoClose = false;
+                        Update();
                     }
                 }
             }
@@ -81,9 +82,8 @@ namespace Login
                         .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
                     userData.Password = Password;
                     db.SaveChanges();
-                    Close();
-                    var _ = new ManageAccount();
-                    _.Show();
+                    DoClose = false;
+                    Update();
                 }
             }
         }
@@ -106,9 +106,8 @@ namespace Login
                         .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
                     userData.Email = Email;
                     db.SaveChanges();
-                    Close();
-                    var _ = new ManageAccount();
-                    _.Show();
+                    DoClose = false;
+                    Update();
                 }
             }
         }
@@ -127,9 +126,8 @@ namespace Login
                         .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
                     userData.FirstName = FirstName;
                     db.SaveChanges();
-                    Close();
-                    var _ = new ManageAccount();
-                    _.Show();
+                    DoClose = false;
+                    Update();
                 }
             }
         }
@@ -148,9 +146,8 @@ namespace Login
                 {
                     userData.FirstName = null;
                     db.SaveChanges();
-                    Close();
-                    var _ = new ManageAccount();
-                    _.Show();
+                    DoClose = false;
+                    Update();
                 }
             }
         }
@@ -169,9 +166,8 @@ namespace Login
                         .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
                     userData.LastName = LastName;
                     db.SaveChanges();
-                    Close();
-                    var _ = new ManageAccount();
-                    _.Show();
+                    DoClose = false;
+                    Update();
                 }
             }
         }
@@ -190,9 +186,8 @@ namespace Login
                 {
                     userData.LastName = null;
                     db.SaveChanges();
-                    Close();
-                    var _ = new ManageAccount();
-                    _.Show();
+                    DoClose = false;
+                    Update();
                 }
             }
         }
@@ -211,9 +206,8 @@ namespace Login
                         .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
                     userData.Age = Age;
                     db.SaveChanges();
-                    Close();
-                    var _ = new ManageAccount();
-                    _.Show();
+                    DoClose = false;
+                    Update();
                 }
             }
         }
@@ -232,9 +226,8 @@ namespace Login
                 {
                     userData.Age = null;
                     db.SaveChanges();
-                    Close();
-                    var _ = new ManageAccount();
-                    _.Show();
+                    DoClose = false;
+                    Update();
                 }
             }
         }
@@ -257,9 +250,8 @@ namespace Login
                         .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
                     userData.PhoneNumber = PhoneNumber;
                     db.SaveChanges();
-                    Close();
-                    var _ = new ManageAccount();
-                    _.Show();
+                    DoClose = false;
+                    Update();
                 }
             }
         }
@@ -278,9 +270,8 @@ namespace Login
                 {
                     userData.PhoneNumber = null;
                     db.SaveChanges();
-                    Close();
-                    var _ = new ManageAccount();
-                    _.Show();
+                    DoClose = false;
+                    Update();
                 }
             }
         }
@@ -299,9 +290,8 @@ namespace Login
                         .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
                     userData.Address = Address;
                     db.SaveChanges();
-                    Close();
-                    var _ = new ManageAccount();
-                    _.Show();
+                    DoClose = false;
+                    Update();
                 }
             }
         }
@@ -320,9 +310,8 @@ namespace Login
                 {
                     userData.Address = null;
                     db.SaveChanges();
-                    Close();
-                    var _ = new ManageAccount();
-                    _.Show();
+                    DoClose = false;
+                    Update();
                 }
             }
         }
@@ -345,9 +334,8 @@ namespace Login
                         .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
                     userData.ZipCode = ZipCode;
                     db.SaveChanges();
-                    Close();
-                    var _ = new ManageAccount();
-                    _.Show();
+                    DoClose = false;
+                    Update();
                 }
             }
         }
@@ -366,11 +354,23 @@ namespace Login
                 {
                     userData.ZipCode = null;
                     db.SaveChanges();
-                    Close();
-                    var _ = new ManageAccount();
-                    _.Show();
+                    DoClose = false;
+                    Update();
                 }
             }
+
+        }
+        private void Update()
+        {
+            Close();
+            var _ = new ManageAccount();
+            _.Show();
+        }
+        private void ManageAccount_Closing(object sender, CancelEventArgs e)
+        {
+            if (!DoClose) return;
+            var _ = new WelcomePage();
+            _.Show();
         }
     }
 }

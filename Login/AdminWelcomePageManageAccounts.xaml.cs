@@ -40,16 +40,16 @@ namespace Login
 
         private void ButtonClick_ManageStocks(object sender, RoutedEventArgs e)
         {
-            Close();
             var _ = new AdminWelcomePageManageStocks();
             _.Show();
+            Close();
         }
 
         private void ButtonClick_ManageExpenses(object sender, RoutedEventArgs e)
         {
-            Close();
             var _ = new AdminWelcomePageManageExpenses();
             _.Show();
+            Close();
         }
 
         private void ButtonClick_AddAccount(object sender, RoutedEventArgs e)
