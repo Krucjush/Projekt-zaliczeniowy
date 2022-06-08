@@ -15,11 +15,10 @@ namespace Login
         public DbSet<Order> Orders { get; set; }
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<Stock> Stocks { get; set; }
-        public string ConnectionString { get; set; }
 
         public UsersContext() : base("InternetStore")
         {
-            ConnectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog = InternetStore;Integrated Security = True";
+
         }
 
     }
