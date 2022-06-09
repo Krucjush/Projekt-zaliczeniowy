@@ -35,46 +35,44 @@ namespace Login
         {
             try
             {
-                using (var db = new UsersContext())
+                using var db = new UsersContext();
+                var userNames = db.UserLogins
+                    .Select(q => q.UserName)
+                    .ToList();
+                var userNameExists = userNames.Contains(UserName);
+                var correctPassword = "";
+                if (userNameExists)
                 {
-                    var userNames = db.UserLogins
+                    correctPassword = db.UserLogins
+                        .Where(q => q.UserName == UserName)
+                        .Select(q => q.Password)
+                        .ToList()
+                        .Last();
+                }
+                var passwordCheck = correctPassword == Password;
+                if (userNameExists && passwordCheck)
+                {
+                    MessageBox.Show("Successfully logged in.");
+                    var administrators = db.UserLogins
+                        .Where(q => q.AccountType == "Administrator")
                         .Select(q => q.UserName)
                         .ToList();
-                    var userNameExists = userNames.Contains(UserName);
-                    var correctPassword = "";
-                    if (userNameExists)
+                    if (administrators.Contains(UserName))
                     {
-                        correctPassword = db.UserLogins
-                            .Where(q => q.UserName == UserName)
-                            .Select(q => q.Password)
-                            .ToList()
-                            .Last();
-                    }
-                    var passwordCheck = correctPassword == Password;
-                    if (userNameExists && passwordCheck)
-                    {
-                        MessageBox.Show("Successfully logged in.");
-                        var administrators = db.UserLogins
-                            .Where(q => q.AccountType == "Administrator")
-                            .Select(q => q.UserName)
-                            .ToList();
-                        if (administrators.Contains(UserName))
-                        {
-                            var welcomePage = new AdminWelcomePage();
-                            welcomePage.Show();
-                            Close();
-                        }
-                        else
-                        {
-                            var welcomePage = new WelcomePage();
-                            welcomePage.Show();
-                            Close();
-                        }
+                        var welcomePage = new AdminWelcomePage();
+                        welcomePage.Show();
+                        Close();
                     }
                     else
                     {
-                        MessageBox.Show("Please enter correct Username and Password.\nIf you don't have account press register to create one.");
+                        var welcomePage = new WelcomePage();
+                        welcomePage.Show();
+                        Close();
                     }
+                }
+                else
+                {
+                    MessageBox.Show("Please enter correct Username and Password.\nIf you don't have account press register to create one.");
                 }
             }
             catch (Exception exception)

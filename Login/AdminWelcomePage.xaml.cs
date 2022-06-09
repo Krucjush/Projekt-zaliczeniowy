@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using Program;
 
 namespace Login
@@ -40,6 +41,20 @@ namespace Login
         {
             var q = new AdminWelcomePageManageAccounts();
             q.Show();
+            Close();
+        }
+
+        private void ButtonClick_Orders(object sender, RoutedEventArgs e)
+        {
+            var _ = new AdminWelcomePageOrders();
+            _.Show();
+            Close();
+        }
+
+        private void ButtonClick_LogOut(object sender, RoutedEventArgs e)
+        {
+            var _ = new LoginWindow();
+            _.Show();
             Close();
         }
     }

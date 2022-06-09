@@ -28,11 +28,10 @@ namespace Login
             using (var db = new UsersContext())
             {
                 var s = db.Stocks
-                    .Select(q => q)
+                    .Select(q => new StockTable {StockId = q.StockId, Quantity = q.Quantity, DateCreated = q.DateCreated, DateModified = q.DateModified})
                     .ToList();
                 Stocks.ItemsSource = s;
             }
-
             DataContext = this;
         }
 
@@ -52,108 +51,107 @@ namespace Login
 
         private void ButtonClick_AddStocks(object sender, RoutedEventArgs e)
         {
-            using (var db = new UsersContext())
+            using var db = new UsersContext();
+            switch (ItemName)
             {
-                switch (ItemName)
+                case null when Quantity == 0:
+                    MessageBox.Show("You cannot add an empty field.");
+                    break;
+                case null:
+                    MessageBox.Show("Expenses require name.");
+                    break;
+                default:
                 {
-                    case null when Quantity == 0:
-                        MessageBox.Show("You cannot add an empty field.");
-                        break;
-                    case null:
-                        MessageBox.Show("Expenses require name.");
-                        break;
-                    default:
+                    if (Quantity == 0)
                     {
-                        if (Quantity == 0)
-                        {
-                            MessageBox.Show("Amount is required");
-                        }
-                        else
-                        {
-                            db.Stocks.Add(new Stock { ItemName = ItemName, DateCreated = DateTime.Now, Quantity = Quantity });
-                            db.SaveChanges();
-                            Close();
-                            var q = new AdminWelcomePageManageStocks();
-                            q.Show();
-                        }
-
-                        break;
+                        MessageBox.Show("Amount is required");
                     }
+                    else
+                    {
+                        db.Stocks.Add(new Stock { DateCreated = DateTime.Now, Quantity = Quantity });
+                        db.SaveChanges();
+                        Update();
+                    }
+                    break;
                 }
             }
         }
 
         private void ButtonClick_RemoveStocks(object sender, RoutedEventArgs e)
         {
-            using (var db = new UsersContext())
+            using var db = new UsersContext();
+            var row = (StockTable)Stocks.SelectedItem;
+            if (row == null)
             {
-                var row = (Stock)Stocks.SelectedItem;
-                if (row == null)
-                {
-                    MessageBox.Show("Item not selected");
-                }
-                else
-                {
-                    var selectedStock = db.Stocks
-                        .Where(t => t.StockId == row.StockId)
-                        .ToList()
-                        .LastOrDefault();
-                    db.Stocks.Remove(selectedStock);
-                    db.SaveChanges();
-                    var q = new AdminWelcomePageManageStocks();
-                    Close();
-                    q.Show();
-                }
+                MessageBox.Show("Item not selected");
+            }
+            else
+            {
+                var selectedStock = db.Stocks
+                    .Where(t => t.StockId == row.StockId)
+                    .ToList()
+                    .LastOrDefault();
+                db.Stocks.Remove(selectedStock);
+                db.SaveChanges();
+                Update();
             }
         }
 
         private void ButtonClick_EditStocks(object sender, RoutedEventArgs e)
         {
-            using (var db = new UsersContext())
+            using var db = new UsersContext();
+            var row = (StockTable)Stocks.SelectedItem;
+            if (row == null)
             {
-                var row = (Stock)Stocks.SelectedItem;
-                if (row == null)
+                MessageBox.Show("Item not selected");
+            }
+            else
+            {
+                var selectedStock = db.Stocks
+                    .Where(t => t.StockId == row.StockId)
+                    .ToList()
+                    .LastOrDefault();
+                switch (ItemName)
                 {
-                    MessageBox.Show("Item not selected");
-                }
-                else
-                {
-                    var selectedStock = db.Stocks
-                        .Where(t => t.StockId == row.StockId)
-                        .ToList()
-                        .LastOrDefault();
-                    switch (ItemName)
+                    case null when Quantity == 0:
+                        MessageBox.Show("No changes were made");
+                        break;
+                    case null:
                     {
-                        case null when Quantity == 0:
-                            MessageBox.Show("No changes were made");
+                        selectedStock.Quantity = Quantity;
+                        selectedStock.DateModified = DateTime.Now;
+                        db.SaveChanges();
+                        Update();
                             break;
-                        case null:
+                    }
+                    default:
+                    {
+                        if (Quantity == 0)
                         {
+                            selectedStock.ItemName = ItemName;
+                            selectedStock.DateModified = DateTime.Now;
+                            db.SaveChanges();
+                            Update();
+                        }
+                        else
+                        {
+                            selectedStock.ItemName = ItemName;
                             selectedStock.Quantity = Quantity;
                             selectedStock.DateModified = DateTime.Now;
                             db.SaveChanges();
-                            Close();
-                            var _ = new AdminWelcomePageManageStocks();
-                            _.Show();
-                            break;
+                            Update();
                         }
-                        default:
-                        {
-                            if (Quantity == 0)
-                            {
-                                selectedStock.ItemName = ItemName;
-                                selectedStock.DateModified = DateTime.Now;
-                                db.SaveChanges();
-                                Close();
-                                var _ = new AdminWelcomePageManageStocks();
-                                _.Show();
-                            }
 
-                            break;
-                        }
+                        break;
                     }
                 }
             }
+        }
+        private void Update()
+        {
+            var _ = new AdminWelcomePageManageStocks();
+            _.Show();
+            Close();
         }
     }
 }

@@ -131,14 +131,12 @@ namespace Login
             }
             else
             {
-                using (var db = new UsersContext())
-                {
-                    var userData = db.UserLogins
-                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
-                    userData.FirstName = FirstName;
-                    SelectedAccount.FirstName = FirstName;
-                    db.SaveChanges();
-                }
+                using var db = new UsersContext();
+                var userData = db.UserLogins
+                    .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
+                userData.FirstName = FirstName;
+                SelectedAccount.FirstName = FirstName;
+                db.SaveChanges();
             }
             DoClose = false;
             Update();
@@ -173,14 +171,12 @@ namespace Login
             }
             else
             {
-                using (var db = new UsersContext())
-                {
-                    var userData = db.UserLogins
-                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
-                    userData.LastName = LastName;
-                    SelectedAccount.LastName = LastName;
-                    db.SaveChanges();
-                }
+                using var db = new UsersContext();
+                var userData = db.UserLogins
+                    .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
+                userData.LastName = LastName;
+                SelectedAccount.LastName = LastName;
+                db.SaveChanges();
             }
             DoClose = false;
             Update();

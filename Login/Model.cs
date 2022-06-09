@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Runtime.InteropServices;
+using System.Windows.Documents;
 
 namespace Login
 {
@@ -15,6 +18,9 @@ namespace Login
         public DbSet<Order> Orders { get; set; }
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<Stock> Stocks { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+
 
         public UsersContext() : base("InternetStore")
         {
@@ -39,17 +45,23 @@ namespace Login
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
         public string ZipCode { get; set; }
+
+        public List<Order> Orders { get; set; }
     }
     public class Order
     {
         [Key]
         public long OrderId { get; set; }
+
         public long Id { get; set; }
         [ForeignKey("Id")]
         public UserLogin UserLogin { get; set; }
+
         public long StockId { get; set; }
         [ForeignKey("StockId")]
         public Stock Stock { get; set; }
+
+        public List<OrderItem> OrderItems { get; set; }
     }
 
     public class Expense
@@ -61,6 +73,7 @@ namespace Login
         public DateTime Date { get; set; }
         [Required]
         public long Amount { get; set; }
+        public long Cost { get; set; }
     }
 
     public class Stock
@@ -68,25 +81,59 @@ namespace Login
         [Key]
         public long StockId { get; set; }
         [Required]
-        public string ItemName { get; set; }
-        [Required]
         public long Quantity { get; set; }
         [Required]
         public DateTime DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
-        public long ExpenseId { get; set; }
-        [ForeignKey("ExpenseId")]
-        public Expense Expense { get; set; }
+
+        public List<Product> Products { get; set; }
+        public List<Order> Orders { get; set; }
     }
     public class Product
     {
-        public int Amount { get; set; }
+        [Key]
+        public long ProductId { get; set; }
         public string ProductName { get; set; }
+        public long Price { get; set; }
+
+        public long StockId { get; set; }
+        [ForeignKey("StockId")]
+        public Stock Stock { get; set; }
+
+        public List<OrderItem> OrderItems { get; set; }
+    }
+
+    public class OrderItem
+    {
+        [Key]
+        public long OrderId { get; set; }
+        [Key]
+        public long ItemId { get; set; }
+        public long Quantity { get; set; }
+        public long Price { get; set; }
+
+        [ForeignKey("OrderId")]
+        public Order Orders { get; set; }
+
+        public long ProductId { get; set; }
+
+        [ForeignKey("ProductId")]
+        public Product Products { get; set; }
+
     }
     public class ProductInStore
     {
-        public int Amount { get; set; }
+        public long Amount { get; set; }
         public string ProductName { get; set; }
+        public long Price { get; set; }
         public int? AmountInCart { get; set; }
+    }
+    public class StockTable
+    {
+        public long StockId { get; set; }
+        public string ItemName { get; set; }
+        public long Quantity { get; set; }
+        public DateTime DateCreated { get; set; }
+        public DateTime? DateModified { get; set; }
     }
 }

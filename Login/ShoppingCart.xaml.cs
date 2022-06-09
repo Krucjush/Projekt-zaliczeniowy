@@ -21,8 +21,8 @@ namespace Login
     public partial class ShoppingCart : Window
     {
         public bool DoClose { get; set; } = true;
-        public List<Product> Cart { get; set; }
-        public ShoppingCart(List<Product> cart)
+        public List<ProductInStore> Cart { get; set; }
+        public ShoppingCart(List<ProductInStore> cart)
         {
             InitializeComponent();
             Cart = cart;
@@ -36,7 +36,7 @@ namespace Login
 
         private void ButtonClick_Remove(object sender, RoutedEventArgs e)
         {
-            var row = (Product)Products.SelectedItem;
+            var row = (ProductInStore)Products.SelectedItem;
             if (row == null)
             {
                 MessageBox.Show("Item not selected");

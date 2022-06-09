@@ -27,6 +27,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>9</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -36,6 +37,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>9</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -190,6 +192,9 @@
     <Compile Include="AdminWelcomePageManageStocks.xaml.cs">
       <DependentUpon>AdminWelcomePageManageStocks.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AdminWelcomePageOrders.xaml.cs">
+      <DependentUpon>AdminWelcomePageOrders.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ManageAccountAdmin.xaml.cs">
       <DependentUpon>ManageAccountAdmin.xaml</DependentUpon>
     </Compile>
@@ -219,6 +224,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AdminWelcomePageManageStocks.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdminWelcomePageOrders.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

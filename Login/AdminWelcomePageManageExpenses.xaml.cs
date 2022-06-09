@@ -30,7 +30,6 @@ namespace Login
             using (var db = new UsersContext())
             {
                 var e = db.Expenses
-                    .Select(q => q)
                     .ToList();
                 Expenses.ItemsSource = e;
             }
@@ -50,59 +49,77 @@ namespace Login
             q.Show();
             Close();
         }
-
         private void ButtonClick_AddExpenses(object sender, RoutedEventArgs e)
         {
-            using (var db = new UsersContext())
+            using var db = new UsersContext();
+            switch (ExpensesName)
             {
-                switch (ExpensesName)
+                case null when Amount == 0:
+                    MessageBox.Show("You cannot add an empty field.");
+                    break;
+                case null:
+                    MessageBox.Show("Expenses require name.");
+                    break;
+                default:
                 {
-                    case null when Amount == 0:
-                        MessageBox.Show("You cannot add an empty field.");
-                        break;
-                    case null:
-                        MessageBox.Show("Expenses require name.");
-                        break;
-                    default:
+                    if (Amount == 0)
                     {
-                        if (Amount == 0)
-                        {
-                            MessageBox.Show("Amount is required");
-                        }
-                        else
-                        {
-                            db.Expenses.Add(new Expense { ExpensesName = ExpensesName, Date = DateTime.Now, Amount = Amount });
-                            db.SaveChanges();
-                            Update();
-                        }
-
-                        break;
+                        MessageBox.Show("Amount is required");
                     }
+                    else
+                    {
+                        db.Expenses.Add(new Expense { ExpensesName = ExpensesName, Date = DateTime.Now, Amount = Amount });
+                        db.SaveChanges();
+                        Update();
+                    }
+
+                    break;
                 }
+            }
+        }
+        private void ButtonClick_AddToStocks(object sender, RoutedEventArgs e)
+        {
+            using var db = new UsersContext();
+            var row = (Expense)Expenses.SelectedItem;
+            if (row == null)
+            {
+                MessageBox.Show("Item not selected.");
+            }
+            else
+            {
+                var selectedExpense = db.Expenses
+                    .Where(t => t.ExpenseId == row.ExpenseId)
+                    .ToList()
+                    .LastOrDefault();
+                db.Stocks.Add(new Stock
+                {
+                    Quantity = selectedExpense.Amount, DateCreated = DateTime.Now
+                });
+                db.SaveChanges();
+                Update();
             }
         }
 
         private void ButtonClick_RemoveExpenses(object sender, RoutedEventArgs e)
         {
-            using (var db = new UsersContext())
+            using var db = new UsersContext();
+            var row = (Expense)Expenses.SelectedItem;
+            if (row == null)
             {
-                var row = (Expense)Expenses.SelectedItem;
-                if (row == null)
-                {
-                    MessageBox.Show("Item not selected.");
-                }
-                else
-                {
-                    var selectedExpense = db.Expenses
-                        .Where(t => t.ExpenseId == row.ExpenseId)
-                        .ToList()
-                        .LastOrDefault();
-                    db.Expenses.Remove(selectedExpense);
-                    db.SaveChanges();
-                    Update();
-                }
+                MessageBox.Show("Item not selected.");
+            }
+            else
+            {
+                var selectedExpense = db.Expenses
+                    .Where(t => t.ExpenseId == row.ExpenseId)
+                    .ToList()
+                    .LastOrDefault();
+                db.Expenses.Remove(selectedExpense);
+                db.SaveChanges();
+                Update();
             }
         }
+
         private void Update()
         {
             var _ = new AdminWelcomePageManageExpenses();

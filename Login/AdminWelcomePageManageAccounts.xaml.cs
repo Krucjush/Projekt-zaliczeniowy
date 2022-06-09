@@ -29,13 +29,11 @@ namespace Login
         {
             InitializeComponent();
             DataContext = this;
-            using (var db = new UsersContext())
-            {
-                var a = db.UserLogins
-                    .Select(q => q)
-                    .ToList();
-                Accounts.ItemsSource = a;
-            }
+            using var db = new UsersContext();
+            var a = db.UserLogins
+                .Select(q => q)
+                .ToList();
+            Accounts.ItemsSource = a;
         }
 
         private void ButtonClick_ManageStocks(object sender, RoutedEventArgs e)
@@ -105,23 +103,21 @@ namespace Login
         private void ButtonClick_EditAccount(object sender, RoutedEventArgs e)
         {
             var selectedAccount = new UserLogin();
-            using (var db = new UsersContext())
+            using var db = new UsersContext();
+            var row = (UserLogin)Accounts.SelectedItem;
+            if (row == null)
             {
-                var row = (UserLogin)Accounts.SelectedItem;
-                if (row == null)
-                {
-                    MessageBox.Show("Item not selected");
-                }
-                else
-                {
-                    selectedAccount = db.UserLogins
-                        .Where(t => t.Id == row.Id)
-                        .ToList()
-                        .LastOrDefault();
-                    var _ = new ManageAccountAdmin(selectedAccount);
-                    _.Show();
-                    Close();
-                }
+                MessageBox.Show("Item not selected");
+            }
+            else
+            {
+                selectedAccount = db.UserLogins
+                    .Where(t => t.Id == row.Id)
+                    .ToList()
+                    .LastOrDefault();
+                var _ = new ManageAccountAdmin(selectedAccount);
+                _.Show();
+                Close();
             }
         }
 
