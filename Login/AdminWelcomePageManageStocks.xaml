@@ -21,38 +21,29 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Manage Expenses" Click="Button_Click_Manage_Expenses"/>
+            <Button Grid.Column="0" Content="Manage Expenses" Click="ButtonClick_ManageExpenses"/>
             <Button Grid.Column="1" Content="Manage Stocks" IsEnabled="False"/>
-            <Button Grid.Column="2" Content="Manage Accounts" Click="Button_Click_Manage_Accounts"/>
+            <Button Grid.Column="2" Content="Manage Accounts" Click="ButtonClick_ManageAccounts"/>
+            <Button Grid.Column="3" Content="View orders" Click="ButtonClick_Orders"/>
+            <Button Grid.Column="4" Content="Log Out" Click="ButtonClick_LogOut"/>
         </Grid>
         <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <AccessText Grid.Column="0" Text="Item Name:"/>
-            <AccessText Grid.Column="1" Text="Quantity:"/>
+            <AccessText Text="Quantity" HorizontalAlignment="Center"/>
         </Grid>
         <Grid Grid.Row="3">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <TextBox Grid.Column="0" Text="{Binding ItemName}"/>
-            <TextBox Grid.Column="1" Text="{Binding Quantity}"/>
+            <TextBox Text="{Binding Quantity}"/>
         </Grid>
         <Grid Grid.Row="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Add" Click="ButtonClick_AddStocks"/>
-            <Button Grid.Column="2" Content="Edit" Click="ButtonClick_EditStocks"/>
-            <Button Grid.Column="4" Content="Remove" Click="ButtonClick_RemoveStocks"/>
+            <Button Grid.Column="0" Content="Edit" Click="ButtonClick_EditStocks"/>
+            <Button Grid.Column="2" Content="Remove" Click="ButtonClick_RemoveStocks"/>
         </Grid>
         <Grid Grid.Row="5">
             <DataGrid Name ="Stocks" ColumnWidth="*" IsReadOnly="True"/>

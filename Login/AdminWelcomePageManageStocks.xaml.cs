@@ -20,7 +20,6 @@ namespace Login
     /// </summary>
     public partial class AdminWelcomePageManageStocks : Window
     {
-        public string ItemName { get; set; }
         public long Quantity { get; set; }
         public AdminWelcomePageManageStocks()
         {
@@ -35,48 +34,31 @@ namespace Login
             DataContext = this;
         }
 
-        private void Button_Click_Manage_Expenses(object sender, RoutedEventArgs e)
+        private void ButtonClick_ManageExpenses(object sender, RoutedEventArgs e)
         {
             var q = new AdminWelcomePageManageExpenses();
             q.Show();
             Close();
         }
 
-        private void Button_Click_Manage_Accounts(object sender, RoutedEventArgs e)
+        private void ButtonClick_ManageAccounts(object sender, RoutedEventArgs e)
         {
             var q = new AdminWelcomePageManageAccounts();
             q.Show();
             Close();
         }
-
-        private void ButtonClick_AddStocks(object sender, RoutedEventArgs e)
+        private void ButtonClick_Orders(object sender, RoutedEventArgs e)
         {
-            using var db = new UsersContext();
-            switch (ItemName)
-            {
-                case null when Quantity == 0:
-                    MessageBox.Show("You cannot add an empty field.");
-                    break;
-                case null:
-                    MessageBox.Show("Expenses require name.");
-                    break;
-                default:
-                {
-                    if (Quantity == 0)
-                    {
-                        MessageBox.Show("Amount is required");
-                    }
-                    else
-                    {
-                        db.Stocks.Add(new Stock { DateCreated = DateTime.Now, Quantity = Quantity });
-                        db.SaveChanges();
-                        Update();
-                    }
-                    break;
-                }
-            }
+            var _ = new AdminWelcomePageOrders();
+            _.Show();
+            Close();
         }
-
+        private void ButtonClick_LogOut(object sender, RoutedEventArgs e)
+        {
+            var _ = new LoginWindow();
+            _.Show();
+            Close();
+        }
         private void ButtonClick_RemoveStocks(object sender, RoutedEventArgs e)
         {
             using var db = new UsersContext();
@@ -111,39 +93,15 @@ namespace Login
                     .Where(t => t.StockId == row.StockId)
                     .ToList()
                     .LastOrDefault();
-                switch (ItemName)
+                if (Quantity == 0)
                 {
-                    case null when Quantity == 0:
-                        MessageBox.Show("No changes were made");
-                        break;
-                    case null:
-                    {
-                        selectedStock.Quantity = Quantity;
-                        selectedStock.DateModified = DateTime.Now;
-                        db.SaveChanges();
-                        Update();
-                            break;
-                    }
-                    default:
-                    {
-                        if (Quantity == 0)
-                        {
-                            selectedStock.ItemName = ItemName;
-                            selectedStock.DateModified = DateTime.Now;
-                            db.SaveChanges();
-                            Update();
-                        }
-                        else
-                        {
-                            selectedStock.ItemName = ItemName;
-                            selectedStock.Quantity = Quantity;
-                            selectedStock.DateModified = DateTime.Now;
-                            db.SaveChanges();
-                            Update();
-                        }
-
-                        break;
-                    }
+                    MessageBox.Show("No changes were made.");
+                }
+                else
+                {
+                    selectedStock.Quantity = Quantity;
+                    selectedStock.DateModified = DateTime.Now;
+                    Update();
                 }
             }
         }

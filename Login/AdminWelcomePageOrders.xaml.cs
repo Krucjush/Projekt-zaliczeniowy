@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,9 +20,16 @@ namespace Login
     /// </summary>
     public partial class AdminWelcomePageOrders : Window
     {
+        public long Id { get; set; }
         public AdminWelcomePageOrders()
         {
             InitializeComponent();
+            DataContext = this;
+            using var db = new UsersContext();
+            var _ = db.Orders
+                .Select(q => new OrderTable { Id = q.Id, OrderId = q.OrderId, OrderItems = q.OrderItems })
+                .ToList();
+            Orders.ItemsSource = _;
         }
 
         private void ButtonClick_ManageExpenses(object sender, RoutedEventArgs e)
@@ -52,9 +60,50 @@ namespace Login
             Close();
         }
 
-        private void ButtonClick_AddOrder(object sender, RoutedEventArgs e)
+        private void ButtonClick_EditOrder(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            using var db = new UsersContext();
+            var row = (OrderTable)Orders.SelectedItem;
+            if (row == null)
+            {
+                MessageBox.Show("Item not selected.");
+            }
+            else
+            {
+                var selectedOrder = db.Orders
+                    .Where(t => t.OrderId == row.OrderId)
+                    .ToList()
+                    .LastOrDefault();
+                selectedOrder.Id = Id;
+                db.SaveChanges();
+                Update();
+            }
+        }
+
+        private void ButtonClick_RemoveOrder(object sender, RoutedEventArgs e)
+        {
+            using var db = new UsersContext();
+            var row = (OrderTable)Orders.SelectedItem;
+            if (row == null)
+            {
+                MessageBox.Show("Item not selected.");
+            }
+            else
+            {
+                var selectedOrder = db.Orders
+                    .Where(t => t.OrderId == row.OrderId)
+                    .ToList()
+                    .LastOrDefault();
+                db.Orders.Remove(selectedOrder);
+                db.SaveChanges();
+                Update();
+            }
+        }
+        private void Update()
+        {
+            var _ = new AdminWelcomePageOrders();
+            _.Show();
+            Close();
         }
     }
 }

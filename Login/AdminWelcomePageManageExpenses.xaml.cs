@@ -13,7 +13,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Program;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Login
 {
@@ -24,6 +23,7 @@ namespace Login
     {
         public string ExpensesName { get; set; }
         public long Amount { get; set; }
+        public long Cost { get; set; }
         public AdminWelcomePageManageExpenses()
         {
             InitializeComponent();
@@ -49,6 +49,18 @@ namespace Login
             q.Show();
             Close();
         }
+        private void ButtonClick_Orders(object sender, RoutedEventArgs e)
+        {
+            var _ = new AdminWelcomePageOrders();
+            _.Show();
+            Close();
+        }
+        private void ButtonClick_LogOut(object sender, RoutedEventArgs e)
+        {
+            var _ = new LoginWindow();
+            _.Show();
+            Close();
+        }
         private void ButtonClick_AddExpenses(object sender, RoutedEventArgs e)
         {
             using var db = new UsersContext();
@@ -68,7 +80,7 @@ namespace Login
                     }
                     else
                     {
-                        db.Expenses.Add(new Expense { ExpensesName = ExpensesName, Date = DateTime.Now, Amount = Amount });
+                        db.Expenses.Add(new Expense { ExpensesName = ExpensesName, Date = DateTime.Now, Amount = Amount, Cost = Cost });
                         db.SaveChanges();
                         Update();
                     }

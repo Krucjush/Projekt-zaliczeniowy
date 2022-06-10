@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Runtime.InteropServices;
+using System.Windows.Controls;
 using System.Windows.Documents;
 
 namespace Login
@@ -26,7 +28,6 @@ namespace Login
         {
 
         }
-
     }
     public class UserLogin
     {
@@ -105,9 +106,9 @@ namespace Login
 
     public class OrderItem
     {
-        [Key]
+        [Key, Column(Order = 0)]
         public long OrderId { get; set; }
-        [Key]
+        [Key, Column(Order = 1)]
         public long ItemId { get; set; }
         public long Quantity { get; set; }
         public long Price { get; set; }
@@ -115,7 +116,7 @@ namespace Login
         [ForeignKey("OrderId")]
         public Order Orders { get; set; }
 
-        public long ProductId { get; set; }
+        public long? ProductId { get; set; }
 
         [ForeignKey("ProductId")]
         public Product Products { get; set; }
@@ -135,5 +136,11 @@ namespace Login
         public long Quantity { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
+    }
+    public class OrderTable
+    {
+        public long OrderId { get; set; }
+        public long Id { get; set; }
+        public List<OrderItem> OrderItems { get; set; }
     }
 }

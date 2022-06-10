@@ -25,19 +25,19 @@ namespace Login
         {
             InitializeComponent();
         }
-        private void Button_Click_Manage_Expenses(object sender, RoutedEventArgs e)
+        private void ButtonClick_ManageExpenses(object sender, RoutedEventArgs e)
         {
             var q = new AdminWelcomePageManageExpenses();
             q.Show();
             Close();
         }
-        private void Button_Click_Manage_Stocks(object sender, RoutedEventArgs e)
+        private void ButtonClick_ManageStocks(object sender, RoutedEventArgs e)
         {
             var q = new AdminWelcomePageManageStocks();
             q.Show();
             Close();
         }
-        private void Button_Click_Manage_Accounts(object sender, RoutedEventArgs e)
+        private void ButtonClick_ManageAccounts(object sender, RoutedEventArgs e)
         {
             var q = new AdminWelcomePageManageAccounts();
             q.Show();

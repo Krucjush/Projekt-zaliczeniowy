@@ -31,25 +31,22 @@
             <Button Grid.Column="4" Content="Log Out" Click="ButtonClick_LogOut"/>
         </Grid>
         <Grid Grid.Row="2">
-            <AccessText Text="Recipient Id:" HorizontalAlignment="Center"/>
+            <AccessText Text="New Recipient Id:" HorizontalAlignment="Center"/>
         </Grid>
         <Grid Grid.Row="3">
-            <TextBox Text="{Binding RecipientId}"/>
+            <TextBox Text="{Binding Id}"/>
         </Grid>
         <Grid Grid.Row="4">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Add" Click="ButtonClick_AddOrder"/>
-            <Button Grid.Column="2" Content="Remove"/>
-            <Button Grid.Column="4" Content="Edit"/>
+            <Button Grid.Column="0" Content="Edit" Click="ButtonClick_EditOrder"/>
+            <Button Grid.Column="2" Content="Remove" Click="ButtonClick_RemoveOrder"/>
         </Grid>
         <Grid Grid.Row="5">
-            <DataGrid Name="Orders"/>
+            <DataGrid Name="Orders" ColumnWidth="*" IsReadOnly="True"/>
         </Grid>
     </Grid>
 </Window>
