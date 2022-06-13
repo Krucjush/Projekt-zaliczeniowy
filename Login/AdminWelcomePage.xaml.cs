@@ -43,7 +43,12 @@ namespace Login
             q.Show();
             Close();
         }
-
+        private void ButtonClick_ManageProducts(object sender, RoutedEventArgs e)
+        {
+            var _ = new AdminWelcomePageManageProducts();
+            _.Show();
+            Close();
+        }
         private void ButtonClick_Orders(object sender, RoutedEventArgs e)
         {
             var _ = new AdminWelcomePageOrders();

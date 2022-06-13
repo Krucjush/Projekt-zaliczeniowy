@@ -53,6 +53,7 @@ namespace Login
     {
         [Key]
         public long OrderId { get; set; }
+        public string OrderStatus { get; set; }
 
         public long Id { get; set; }
         [ForeignKey("Id")]
@@ -63,6 +64,7 @@ namespace Login
         public Stock Stock { get; set; }
 
         public List<OrderItem> OrderItems { get; set; }
+
     }
 
     public class Expense
@@ -74,7 +76,8 @@ namespace Login
         public DateTime Date { get; set; }
         [Required]
         public long Amount { get; set; }
-        public long Cost { get; set; }
+        public long TotalCost { get; set; }
+        public float CostPerSingle { get; set; }
     }
 
     public class Stock
@@ -95,7 +98,7 @@ namespace Login
         [Key]
         public long ProductId { get; set; }
         public string ProductName { get; set; }
-        public long Price { get; set; }
+        public float Price { get; set; }
 
         public long StockId { get; set; }
         [ForeignKey("StockId")]
@@ -126,7 +129,7 @@ namespace Login
     {
         public long Amount { get; set; }
         public string ProductName { get; set; }
-        public long Price { get; set; }
+        public float Price { get; set; }
         public int? AmountInCart { get; set; }
     }
     public class StockTable
@@ -137,10 +140,10 @@ namespace Login
         public DateTime DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
     }
-    public class OrderTable
+    public class ProductTable
     {
-        public long OrderId { get; set; }
-        public long Id { get; set; }
-        public List<OrderItem> OrderItems { get; set; }
+        public long ProductId { get; set; }
+        public string ProductName { get; set; }
+        public float Price { get; set; }
     }
 }

@@ -189,6 +189,9 @@
     <Compile Include="AdminWelcomePageManageExpenses.xaml.cs">
       <DependentUpon>AdminWelcomePageManageExpenses.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AdminWelcomePageManageProducts.xaml.cs">
+      <DependentUpon>AdminWelcomePageManageProducts.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AdminWelcomePageManageStocks.xaml.cs">
       <DependentUpon>AdminWelcomePageManageStocks.xaml</DependentUpon>
     </Compile>
@@ -220,6 +223,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AdminWelcomePageManageExpenses.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AdminWelcomePageManageProducts.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -8,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -27,7 +29,6 @@ namespace Login
             DataContext = this;
             using var db = new UsersContext();
             var _ = db.Orders
-                .Select(q => new OrderTable { Id = q.Id, OrderId = q.OrderId, OrderItems = q.OrderItems })
                 .ToList();
             Orders.ItemsSource = _;
         }
@@ -45,7 +46,12 @@ namespace Login
             _.Show();
             Close();
         }
-
+        private void ButtonClick_ManageProducts(object sender, RoutedEventArgs e)
+        {
+            var _ = new AdminWelcomePageManageProducts();
+            _.Show();
+            Close();
+        }
         private void ButtonClick_ManageAccounts(object sender, RoutedEventArgs e)
         {
             var _ = new AdminWelcomePageManageAccounts();
@@ -63,7 +69,7 @@ namespace Login
         private void ButtonClick_EditOrder(object sender, RoutedEventArgs e)
         {
             using var db = new UsersContext();
-            var row = (OrderTable)Orders.SelectedItem;
+            var row = (Order)Orders.SelectedItem;
             if (row == null)
             {
                 MessageBox.Show("Item not selected.");
@@ -83,7 +89,7 @@ namespace Login
         private void ButtonClick_RemoveOrder(object sender, RoutedEventArgs e)
         {
             using var db = new UsersContext();
-            var row = (OrderTable)Orders.SelectedItem;
+            var row = (Order)Orders.SelectedItem;
             if (row == null)
             {
                 MessageBox.Show("Item not selected.");
@@ -95,6 +101,83 @@ namespace Login
                     .ToList()
                     .LastOrDefault();
                 db.Orders.Remove(selectedOrder);
+                db.SaveChanges();
+                Update();
+            }
+        }
+        private void Pending_Selected(object sender, RoutedEventArgs e)
+        {
+            using var db = new UsersContext();
+            var row = (Order)Orders.SelectedItem;
+            if (row == null)
+            {
+                MessageBox.Show("Item not selected");
+            }
+            else
+            {
+                var selectedOrder = db.Orders
+                    .Where(o => o.OrderId == row.OrderId)
+                    .ToList()
+                    .LastOrDefault();
+                selectedOrder.OrderStatus = "Pending";
+                db.SaveChanges();
+                Update();
+            }
+        }
+
+        private void Processing_Selected(object sender, RoutedEventArgs e)
+        {
+            using var db = new UsersContext();
+            var row = (Order)Orders.SelectedItem;
+            if (row == null)
+            {
+                MessageBox.Show("Item not selected");
+            }
+            else
+            {
+                var selectedOrder = db.Orders
+                    .Where(o => o.OrderId == row.OrderId)
+                    .ToList()
+                    .LastOrDefault();
+                selectedOrder.OrderStatus = "Pending";
+                db.SaveChanges();
+                Update();
+            }
+        }
+        private void Rejected_Selected(object sender, RoutedEventArgs e)
+        {
+            using var db = new UsersContext();
+            var row = (Order)Orders.SelectedItem;
+            if (row == null)
+            {
+                MessageBox.Show("Item not selected");
+            }
+            else
+            {
+                var selectedOrder = db.Orders
+                    .Where(o => o.OrderId == row.OrderId)
+                    .ToList()
+                    .LastOrDefault();
+                selectedOrder.OrderStatus = "Rejected";
+                db.SaveChanges();
+                Update();
+            }
+        }
+        private void Completed_Selected(object sender, RoutedEventArgs e)
+        {
+            using var db = new UsersContext();
+            var row = (Order)Orders.SelectedItem;
+            if (row == null)
+            {
+                MessageBox.Show("Item not selected");
+            }
+            else
+            {
+                var selectedOrder = db.Orders
+                    .Where(o => o.OrderId == row.OrderId)
+                    .ToList()
+                    .LastOrDefault();
+                selectedOrder.OrderStatus = "Completed";
                 db.SaveChanges();
                 Update();
             }

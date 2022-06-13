@@ -27,7 +27,7 @@ namespace Login
             using (var db = new UsersContext())
             {
                 var s = db.Stocks
-                    .Select(q => new StockTable {StockId = q.StockId, Quantity = q.Quantity, DateCreated = q.DateCreated, DateModified = q.DateModified})
+                    .Select(q => new StockTable { StockId = q.StockId, ItemName = q.Products.Where(p => p.StockId == q.StockId).Select(p => p.ProductName).FirstOrDefault(), Quantity = q.Quantity, DateCreated = q.DateCreated, DateModified = q.DateModified })
                     .ToList();
                 Stocks.ItemsSource = s;
             }
@@ -45,6 +45,12 @@ namespace Login
         {
             var q = new AdminWelcomePageManageAccounts();
             q.Show();
+            Close();
+        }
+        private void ButtonClick_ManageProducts(object sender, RoutedEventArgs e)
+        {
+            var _ = new AdminWelcomePageManageProducts();
+            _.Show();
             Close();
         }
         private void ButtonClick_Orders(object sender, RoutedEventArgs e)

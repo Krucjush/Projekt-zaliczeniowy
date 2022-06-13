@@ -31,7 +31,6 @@ namespace Login
             DataContext = this;
             using var db = new UsersContext();
             var a = db.UserLogins
-                .Select(q => q)
                 .ToList();
             Accounts.ItemsSource = a;
         }
@@ -46,6 +45,12 @@ namespace Login
         private void ButtonClick_ManageExpenses(object sender, RoutedEventArgs e)
         {
             var _ = new AdminWelcomePageManageExpenses();
+            _.Show();
+            Close();
+        }
+        private void ButtonClick_ManageProducts(object sender, RoutedEventArgs e)
+        {
+            var _ = new AdminWelcomePageManageProducts();
             _.Show();
             Close();
         }

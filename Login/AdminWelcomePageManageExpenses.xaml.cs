@@ -21,9 +21,10 @@ namespace Login
     /// </summary>
     public partial class AdminWelcomePageManageExpenses : Window
     {
-        public string ExpensesName { get; set; }
+        public static string ExpensesName { get; set; }
         public long Amount { get; set; }
         public long Cost { get; set; }
+        public float Multiplier { get; set; } = 1;
         public AdminWelcomePageManageExpenses()
         {
             InitializeComponent();
@@ -33,7 +34,6 @@ namespace Login
                     .ToList();
                 Expenses.ItemsSource = e;
             }
-
             DataContext = this;
         }
         private void ButtonClick_ManageStocks(object sender, RoutedEventArgs e)
@@ -47,6 +47,12 @@ namespace Login
         {
             var q = new AdminWelcomePageManageAccounts();
             q.Show();
+            Close();
+        }
+        private void ButtonClick_ManageProducts(object sender, RoutedEventArgs e)
+        {
+            var _ = new AdminWelcomePageManageProducts();
+            _.Show();
             Close();
         }
         private void ButtonClick_Orders(object sender, RoutedEventArgs e)
@@ -80,7 +86,7 @@ namespace Login
                     }
                     else
                     {
-                        db.Expenses.Add(new Expense { ExpensesName = ExpensesName, Date = DateTime.Now, Amount = Amount, Cost = Cost });
+                        db.Expenses.Add(new Expense { ExpensesName = ExpensesName, Date = DateTime.Now, Amount = Amount, TotalCost = Cost, CostPerSingle = (float)Math.Round(Cost/(float)Amount, 2) });
                         db.SaveChanges();
                         Update();
                     }
@@ -97,16 +103,22 @@ namespace Login
             {
                 MessageBox.Show("Item not selected.");
             }
+            else if (Multiplier == 0)
+            {
+                MessageBox.Show("Multiplier cannot be 0.");
+            }
             else
             {
                 var selectedExpense = db.Expenses
                     .Where(t => t.ExpenseId == row.ExpenseId)
                     .ToList()
                     .LastOrDefault();
-                db.Stocks.Add(new Stock
-                {
-                    Quantity = selectedExpense.Amount, DateCreated = DateTime.Now
-                });
+                var s = new Stock { Quantity = selectedExpense.Amount, DateCreated = DateTime.Now };
+                db.Stocks.Add(s);
+                var p = new Product { ProductName = selectedExpense.ExpensesName, Price = (float)Math.Round(selectedExpense.CostPerSingle * Multiplier, 2), StockId = s.StockId };
+                db.Products.Add(p);
+                db.SaveChanges();
+                db.Expenses.Remove(selectedExpense);
                 db.SaveChanges();
                 Update();
             }
