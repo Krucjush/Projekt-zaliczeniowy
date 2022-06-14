@@ -114,7 +114,7 @@ namespace Login
         [Key, Column(Order = 1)]
         public long ItemId { get; set; }
         public long Quantity { get; set; }
-        public long Price { get; set; }
+        public float Price { get; set; }
 
         [ForeignKey("OrderId")]
         public Order Orders { get; set; }
@@ -127,10 +127,10 @@ namespace Login
     }
     public class ProductInStore
     {
-        public long Amount { get; set; }
+        public long Available { get; set; }
         public string ProductName { get; set; }
         public float Price { get; set; }
-        public int? AmountInCart { get; set; }
+        public long? AmountInCart { get; set; }
     }
     public class StockTable
     {
@@ -145,5 +145,12 @@ namespace Login
         public long ProductId { get; set; }
         public string ProductName { get; set; }
         public float Price { get; set; }
+    }
+    public class CartItem
+    {
+        public long Amount { get; set; }
+        public string ProductName { get; set; }
+        public float Cost { get; set; }
+        public float TotalCost { get; set; }
     }
 }

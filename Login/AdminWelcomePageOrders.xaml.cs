@@ -22,7 +22,6 @@ namespace Login
     /// </summary>
     public partial class AdminWelcomePageOrders : Window
     {
-        public long Id { get; set; }
         public AdminWelcomePageOrders()
         {
             InitializeComponent();
@@ -65,27 +64,6 @@ namespace Login
             _.Show();
             Close();
         }
-
-        private void ButtonClick_EditOrder(object sender, RoutedEventArgs e)
-        {
-            using var db = new UsersContext();
-            var row = (Order)Orders.SelectedItem;
-            if (row == null)
-            {
-                MessageBox.Show("Item not selected.");
-            }
-            else
-            {
-                var selectedOrder = db.Orders
-                    .Where(t => t.OrderId == row.OrderId)
-                    .ToList()
-                    .LastOrDefault();
-                selectedOrder.Id = Id;
-                db.SaveChanges();
-                Update();
-            }
-        }
-
         private void ButtonClick_RemoveOrder(object sender, RoutedEventArgs e)
         {
             using var db = new UsersContext();

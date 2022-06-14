@@ -163,9 +163,9 @@ namespace Login
         }
         public void Update()
         {
-            Close();
             var _ = new AdminWelcomePageManageAccounts();
             _.Show();
+            Close();
         }
     }
 }

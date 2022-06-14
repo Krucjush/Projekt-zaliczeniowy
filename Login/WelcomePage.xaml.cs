@@ -11,47 +11,62 @@ namespace Login
     /// </summary>
     public partial class WelcomePage : Window
     {
-        public List<ProductInStore> Products;
+        public List<CartItem> CartItems { get; set; }
         public int Amount { get; set; }
-        public string ProductName { get; set; }
         public WelcomePage()
         {
             InitializeComponent();
             DataContext = this;
             using var db = new UsersContext();
             var _ = db.Products
-                .Select(q => new ProductInStore{ Amount = q.Stock.Quantity, ProductName = q.ProductName, Price = q.Price })
+                .Select(q => new ProductInStore { Available = q.Stock.Quantity, ProductName = q.ProductName, Price = q.Price, AmountInCart = q.OrderItems.Where(p => p.ProductId == q.ProductId).Select(p => p.Quantity).FirstOrDefault()})
                 .ToList();
             Store.ItemsSource = _;
+            var c = db.Products
+                .Select(q => new CartItem { Amount = q.OrderItems.Where(p => p.ProductId == q.ProductId).Select(p => p.Quantity).FirstOrDefault(), ProductName = q.ProductName, Cost = q.Price, TotalCost = (float)Math.Round(q.Price * q.OrderItems.Where(p => p.ProductId == q.ProductId).Select(p => p.Quantity).FirstOrDefault(), 2) })
+                .ToList();
+            CartItems = c;
         }
 
         private void ButtonClick_ManageAccount(object sender, RoutedEventArgs e)
         {
-            Close();
             var _ = new ManageAccount();
             _.Show();
+            Close();
         }
 
         private void ButtonClick_ShoppingCart(object sender, RoutedEventArgs e)
         {
-            Close();
-            var _ = new ShoppingCart(Products);
+            var _ = new ShoppingCart(CartItems);
             _.Show();
+            Close();
         }
 
         private void ButtonClick_LogOut(object sender, RoutedEventArgs e)
         {
-            Close();
             var _ = new LoginWindow();
             _.Show();
+            Close();
         }
 
         private void ButtonClick_Add(object sender, RoutedEventArgs e)
         {
             var row = (ProductInStore)Store.SelectedItem;
             using var db = new UsersContext();
-            var o = db.OrderItems
-                 .LastOrDefault(q => q.Products.ProductName == row.ProductName);
+            var user = db.UserLogins
+                .FirstOrDefault(q => q.UserName == LoginWindow.UserName);
+            var o = db.Orders
+                .Where(q => q.Id == user.Id)
+                .Select(q => q.OrderStatus)
+                .ToList();
+            var p = db.Products
+                .FirstOrDefault(q => q.ProductName == row.ProductName);
+            if (!o.Contains("Pending"))
+            {
+                var order = new Order { OrderStatus = "Pending", Id = user.Id, StockId = p.StockId };
+                db.Orders.Add(order);
+                db.SaveChanges();
+            }
             if (Amount < 1)
             {
                 MessageBox.Show("You cannot add less than one item.");
@@ -60,80 +75,97 @@ namespace Login
             {
                 MessageBox.Show("No item selected");
             }
-            else if (row.AmountInCart > 0)
+            else if (Amount > row.Available)
             {
-                var i = Products
-                    .LastOrDefault(q => q.ProductName == row.ProductName);
-                var t = db.Products
-                    .LastOrDefault(q => q.ProductName == row.ProductName);
-                if (t.Stock.Quantity >= Amount)
-                {
-                    i.Amount += Amount;
-                    i.AmountInCart += Amount;
-                    t.Stock.Quantity -= Amount;
-                    o.Quantity -= Amount;
-                    db.SaveChanges();
-                    Update();
-                }
-                else
-                {
-                    MessageBox.Show("Not enough items in the store.");
-                }
+                MessageBox.Show("Not enough items in store.");
+            }
+            else if(row.AmountInCart == 0)
+            {
+                var order = db.Orders
+                    .Where(q => q.Id == user.Id)
+                    .FirstOrDefault(q => q.OrderStatus == "Pending");
+                db.OrderItems.Add(new OrderItem
+                    { OrderId = order.OrderId, Quantity = Amount, Price = p.Price, ProductId = p.ProductId });
+                var s = db.Stocks
+                    .FirstOrDefault(q => q.StockId == p.StockId);
+                s.Quantity -= Amount;
+                db.SaveChanges();
+                Update();
             }
             else
             {
-                var t = db.Products
-                    .LastOrDefault(q => q.ProductName == row.ProductName);
-                if (t.Stock.Quantity >= Amount)
-                {
-                    Products.Add(new ProductInStore { Amount = Amount, ProductName = ProductName, Price = row.Price, AmountInCart = Amount});
-                    t.Stock.Quantity -= Amount;
-                    o.Quantity -= Amount;
-                    db.SaveChanges();
-                    Update();
-                }
-                else
-                {
-                    MessageBox.Show("Not enough items in the store.");
-                }
+                var orderItem = db.OrderItems
+                    .FirstOrDefault(q => q.ProductId == p.ProductId);
+                var s = db.Stocks
+                    .FirstOrDefault(q => q.StockId == p.StockId);
+                orderItem.Quantity += Amount;
+                s.Quantity -= Amount;
+                db.SaveChanges();
+                Update();
             }
         }
         private void ButtonClick_Remove(object sender, RoutedEventArgs e)
         {
             var row = (ProductInStore)Store.SelectedItem;
             using var db = new UsersContext();
-            var o = db.OrderItems
-                .LastOrDefault(q => q.Products.ProductName == row.ProductName);
             if (row == null)
             {
                 MessageBox.Show("Item not selected");
             }
-            else if (Amount < 0)
+            else if (row.AmountInCart == 0)
             {
-                MessageBox.Show("You cannot remove less than one item.");
+                MessageBox.Show("You don't have this item in cart.");
             }
-            else if (row.Amount < Amount)
+            else if (Amount < 1)
             {
-                MessageBox.Show("You cannot remove more items than you have in cart.");
+                MessageBox.Show("You cannot remove negative number of items.");
+            }
+            else if (Amount == 0)
+            {
+                var p = db.Products
+                    .FirstOrDefault(q => q.ProductName == row.ProductName);
+                var s = db.Stocks
+                    .FirstOrDefault(q => q.StockId == p.StockId);
+                var orderItem = db.OrderItems
+                    .FirstOrDefault(q => q.ProductId == p.ProductId);
+                db.OrderItems.Remove(orderItem);
+                s.Quantity += (long)row.AmountInCart;
+                db.SaveChanges();
+                Update();
             }
             else
             {
-                var i = Products
-                    .LastOrDefault(q => q.ProductName == row.ProductName);
-                var t = db.Products
-                    .LastOrDefault(q => q.ProductName == row.ProductName);
-                t.Stock.Quantity += Amount;
-                i.Amount -= Amount;
-                o.Quantity += Amount;
-                db.SaveChanges();
-                Update();
+                var p = db.Products
+                    .FirstOrDefault(q => q.ProductName == row.ProductName);
+                var s = db.Stocks
+                    .FirstOrDefault(q => q.StockId == p.StockId);
+                var orderItem = db.OrderItems
+                    .FirstOrDefault(q => q.ProductId == p.ProductId);
+                if (Amount > orderItem.Quantity)
+                {
+                    MessageBox.Show("You don't have this many items in cart.");
+                }
+                else if (Amount == orderItem.Quantity)
+                {
+                    db.OrderItems.Remove(orderItem);
+                    s.Quantity += Amount;
+                    db.SaveChanges();
+                    Update();
+                }
+                else
+                {
+                    orderItem.Quantity -= Amount;
+                    s.Quantity += Amount;
+                    db.SaveChanges();
+                    Update();
+                }
             }
         }
         private void Update()
         {
-            Close();
             var _ = new WelcomePage();
             _.Show();
+            Close();
         }
     }
 }

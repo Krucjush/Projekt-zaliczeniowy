@@ -28,7 +28,7 @@
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
             <AccessText Grid.Column="0" Text="User Name" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" Name="TextBoxUserName" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <TextBox Grid.Column="1" Name="TextBoxUserName" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
             <TextBox Grid.Column="2" Text="{Binding UserName}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             <Button Grid.Column="3" Content="set" Click="ButtonClick_SetUserName"/>
             <Button Grid.Column="4" Content="remove" IsEnabled="False"/>
@@ -42,7 +42,7 @@
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
             <AccessText Grid.Column="0" Text="Password" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" Name="TextBoxPassword" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <TextBox Grid.Column="1" Name="TextBoxPassword" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
             <TextBox Grid.Column="2" Text="{Binding Password}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             <Button Grid.Column="3" Content="set" Click="ButtonClick_SetPassword"/>
             <Button Grid.Column="4" Content="remove" IsEnabled="False"/>
@@ -56,7 +56,7 @@
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
             <AccessText Grid.Column="0" Text="Email" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" Name="TextBoxEmail" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <TextBox Grid.Column="1" Name="TextBoxEmail" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
             <TextBox Grid.Column="2" Text="{Binding Email}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             <Button Grid.Column="3" Content="set" Click="ButtonClick_SetEmail"/>
             <Button Grid.Column="4" Content="remove" IsEnabled="False"/>
@@ -70,7 +70,7 @@
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
             <AccessText Grid.Column="0" Text="First Name" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" Name="TextBoxFirstName" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <TextBox Grid.Column="1" Name="TextBoxFirstName" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
             <TextBox Grid.Column="2" Text="{Binding FirstName}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             <Button Grid.Column="3" Content="set" Click="ButtonClick_SetFirstName"/>
             <Button Grid.Column="4" Content="remove" Click="ButtonClick_RemoveFirstName"/>
@@ -84,7 +84,7 @@
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
             <AccessText Grid.Column="0" Text="Last Name" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" Name="TextBoxLastName" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <TextBox Grid.Column="1" Name="TextBoxLastName" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
             <TextBox Grid.Column="2" Text="{Binding LastName}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             <Button Grid.Column="3" Content="set" Click="ButtonClick_SetLastName"/>
             <Button Grid.Column="4" Content="remove" Click="ButtonClick_RemoveLastName"/>
@@ -98,7 +98,7 @@
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
             <AccessText Grid.Column="0" Text="Age" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" Name="TextBoxAge" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <TextBox Grid.Column="1" Name="TextBoxAge" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
             <TextBox Grid.Column="2" Text="{Binding Age}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             <Button Grid.Column="3" Content="set" Click="ButtonClick_SetAge"/>
             <Button Grid.Column="4" Content="remove" Click="ButtonClick_RemoveAge"/>
@@ -112,7 +112,7 @@
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
             <AccessText Grid.Column="0" Text="Phone Number" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" Name="TextBoxPhoneNumber" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <TextBox Grid.Column="1" Name="TextBoxPhoneNumber" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
             <TextBox Grid.Column="2" Text="{Binding PhoneNumber}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             <Button Grid.Column="3" Content="set" Click="ButtonClick_SetPhoneNumber" />
             <Button Grid.Column="4" Content="remove" Click="ButtonClick_RemovePhoneNumber"/>
@@ -126,7 +126,7 @@
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
             <AccessText Grid.Column="0" Text="Address" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" Name="TextBoxAddress" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <TextBox Grid.Column="1" Name="TextBoxAddress" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
             <TextBox Grid.Column="2" Text="{Binding Address}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             <Button Grid.Column="3" Content="set" Click="ButtonClick_SetAddress"/>
             <Button Grid.Column="4" Content="remove" Click="ButtonClick_RemoveAddress"/>
@@ -140,7 +140,7 @@
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
             <AccessText Grid.Column="0" Text="Zip Code" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" Name="TextBoxZipCode" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <TextBox Grid.Column="1" Name="TextBoxZipCode" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
             <TextBox Grid.Column="2" Text="{Binding ZipCode}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             <Button Grid.Column="3" Content="set" Click="ButtonClick_SetZipCode"/>
             <Button Grid.Column="4" Content="remove" Click="ButtonClick_RemoveZipCode"/>

@@ -25,7 +25,7 @@
             </Grid>
         </Grid>
         <Grid Grid.Row="1">
-            <DataGrid Name="Products" IsReadOnly="True"/>
+            <DataGrid Name="Products" ColumnWidth="*" IsReadOnly="True"/>
         </Grid>
     </Grid>
 </Window>

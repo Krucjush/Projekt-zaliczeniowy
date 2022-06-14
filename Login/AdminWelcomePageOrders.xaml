@@ -11,8 +11,6 @@
             <RowDefinition Height="20"/>
             <RowDefinition Height="20"/>
             <RowDefinition Height="20"/>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBlock Text="Store Management System" Grid.Row="0" HorizontalAlignment="Center"/>
@@ -33,28 +31,20 @@
             <Button Grid.Column="5" Content="Log Out" Click="ButtonClick_LogOut"/>
         </Grid>
         <Grid Grid.Row="2">
-            <AccessText Text="New Recipient Id:" HorizontalAlignment="Center"/>
-        </Grid>
-        <Grid Grid.Row="3">
-            <TextBox Text="{Binding Id}"/>
-        </Grid>
-        <Grid Grid.Row="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Edit" Click="ButtonClick_EditOrder"/>
-            <ComboBox Grid.Column="1" HorizontalContentAlignment="Center">
+            <ComboBox Grid.Column="0" HorizontalContentAlignment="Center">
                 <ComboBoxItem IsSelected="True" IsEnabled="False">Order Status</ComboBoxItem>
                 <ComboBoxItem Selected="Pending_Selected">Pending</ComboBoxItem>
                 <ComboBoxItem Selected="Processing_Selected">Processing</ComboBoxItem>
                 <ComboBoxItem Selected="Rejected_Selected">Rejected</ComboBoxItem>
                 <ComboBoxItem Selected="Completed_Selected">Completed</ComboBoxItem>
             </ComboBox>
-            <Button Grid.Column="2" Content="Remove" Click="ButtonClick_RemoveOrder"/>
+            <Button Grid.Column="1" Content="Remove" Click="ButtonClick_RemoveOrder"/>
         </Grid>
-        <Grid Grid.Row="5">
+        <Grid Grid.Row="3">
             <DataGrid Name="Orders" ColumnWidth="*" IsReadOnly="True"/>
         </Grid>
     </Grid>

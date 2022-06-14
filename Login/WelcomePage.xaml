@@ -7,7 +7,6 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="0.5*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="0.5*"/>
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
@@ -38,10 +37,10 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0">
-                    <AccessText Text="Amount:" HorizontalAlignment="Center"/>
+                    <TextBox Text="Amount:" HorizontalContentAlignment="Center" IsReadOnly="True"/>
                 </Grid>
                 <Grid Grid.Row="1">
-                    <TextBox Text="{Binding Amount}"/>
+                    <TextBox HorizontalContentAlignment="Center" Text="{Binding Amount}"/>
                 </Grid>
             </Grid>
             <Grid Grid.Column="1">
@@ -51,8 +50,8 @@
                 <Button Content="Remove" Click="ButtonClick_Remove"/>
             </Grid>
         </Grid>
-        <Grid Grid.Row="4">
-            <DataGrid Name="Store" IsReadOnly="True"/>
+        <Grid Grid.Row="3">
+            <DataGrid Name="Store" ColumnWidth="*" IsReadOnly="True"/>
         </Grid>
     </Grid>
 </Window>

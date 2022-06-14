@@ -329,9 +329,9 @@ namespace Login
         }
         private void Update()
         {
-            Close();
             var _ = new ManageAccount();
             _.Show();
+            Close();
         }
         private void ManageAccount_Closing(object sender, CancelEventArgs e)
         {

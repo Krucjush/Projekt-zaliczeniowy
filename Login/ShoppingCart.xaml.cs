@@ -21,12 +21,12 @@ namespace Login
     public partial class ShoppingCart : Window
     {
         public bool DoClose { get; set; } = true;
-        public List<ProductInStore> Cart { get; set; }
-        public ShoppingCart(List<ProductInStore> cart)
+        public List<CartItem> CartItems { get; set; }
+        public ShoppingCart(List<CartItem> cartItems)
         {
             InitializeComponent();
-            Cart = cart;
-            Products.ItemsSource = Cart;
+            CartItems = cartItems;
+            Products.ItemsSource = CartItems;
         }
 
         private void ButtonClick_Back(object sender, RoutedEventArgs e)
@@ -36,23 +36,33 @@ namespace Login
 
         private void ButtonClick_Remove(object sender, RoutedEventArgs e)
         {
-            var row = (ProductInStore)Products.SelectedItem;
+            using var db = new UsersContext();
+            var row = (CartItem)Products.SelectedItem;
             if (row == null)
             {
                 MessageBox.Show("Item not selected");
             }
             else
             {
-                Cart.Remove(row);
+                var p = db.Products
+                    .FirstOrDefault(q => q.ProductName == row.ProductName);
+                var s = db.Stocks
+                    .FirstOrDefault(q => q.StockId == p.StockId);
+                var orderItem = db.OrderItems
+                    .FirstOrDefault(q => q.ProductId == p.ProductId);
+                db.OrderItems.Remove(orderItem);
+                s.Quantity += row.Amount;
+                db.SaveChanges();
+                CartItems.Remove(row);
                 DoClose = false;
                 Update();
             }
         }
         private void Update()
         {
-            Close();
-            var _ = new ShoppingCart(Cart);
+            var _ = new ShoppingCart(CartItems);
             _.Show();
+            Close();
         }
 
         private void ShoppingCart_Closing(object sender, CancelEventArgs e)
