@@ -28,6 +28,7 @@ namespace Login
             DataContext = this;
             using var db = new UsersContext();
             var _ = db.Orders
+                .Select(q => new OrdersTable { OrderId = q.OrderId, OrderStatus = q.OrderStatus, UserId = q.Id })
                 .ToList();
             Orders.ItemsSource = _;
         }
@@ -67,7 +68,7 @@ namespace Login
         private void ButtonClick_RemoveOrder(object sender, RoutedEventArgs e)
         {
             using var db = new UsersContext();
-            var row = (Order)Orders.SelectedItem;
+            var row = (OrdersTable)Orders.SelectedItem;
             if (row == null)
             {
                 MessageBox.Show("Item not selected.");
@@ -86,7 +87,7 @@ namespace Login
         private void Pending_Selected(object sender, RoutedEventArgs e)
         {
             using var db = new UsersContext();
-            var row = (Order)Orders.SelectedItem;
+            var row = (OrdersTable)Orders.SelectedItem;
             if (row == null)
             {
                 MessageBox.Show("Item not selected");
@@ -106,7 +107,7 @@ namespace Login
         private void Processing_Selected(object sender, RoutedEventArgs e)
         {
             using var db = new UsersContext();
-            var row = (Order)Orders.SelectedItem;
+            var row = (OrdersTable)Orders.SelectedItem;
             if (row == null)
             {
                 MessageBox.Show("Item not selected");
@@ -125,7 +126,7 @@ namespace Login
         private void Rejected_Selected(object sender, RoutedEventArgs e)
         {
             using var db = new UsersContext();
-            var row = (Order)Orders.SelectedItem;
+            var row = (OrdersTable)Orders.SelectedItem;
             if (row == null)
             {
                 MessageBox.Show("Item not selected");
@@ -137,6 +138,7 @@ namespace Login
                     .ToList()
                     .LastOrDefault();
                 selectedOrder.OrderStatus = "Rejected";
+
                 db.SaveChanges();
                 Update();
             }
@@ -144,7 +146,7 @@ namespace Login
         private void Completed_Selected(object sender, RoutedEventArgs e)
         {
             using var db = new UsersContext();
-            var row = (Order)Orders.SelectedItem;
+            var row = (OrdersTable)Orders.SelectedItem;
             if (row == null)
             {
                 MessageBox.Show("Item not selected");

@@ -15,6 +15,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <AccessText Text="Manage Account" HorizontalAlignment="Center"/>
@@ -125,7 +126,7 @@
                 <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
-            <AccessText Grid.Column="0" Text="Address" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <AccessText Grid.Column="0" Text="Address*" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <TextBox Grid.Column="1" Name="TextBoxAddress" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
             <TextBox Grid.Column="2" Text="{Binding Address}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             <Button Grid.Column="3" Content="set" Click="ButtonClick_SetAddress"/>
@@ -139,11 +140,14 @@
                 <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
-            <AccessText Grid.Column="0" Text="Zip Code" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <AccessText Grid.Column="0" Text="Zip Code*" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <TextBox Grid.Column="1" Name="TextBoxZipCode" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
             <TextBox Grid.Column="2" Text="{Binding ZipCode}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             <Button Grid.Column="3" Content="set" Click="ButtonClick_SetZipCode"/>
             <Button Grid.Column="4" Content="remove" Click="ButtonClick_RemoveZipCode"/>
+        </Grid>
+        <Grid Grid.Row="10">
+            <AccessText Text="fields marked with * are needed for delivery"/>
         </Grid>
     </Grid>
 </Window>

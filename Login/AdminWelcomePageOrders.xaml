@@ -8,9 +8,10 @@
         Title="AdminWelcomePageOrders" WindowState="Maximized">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="25"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBlock Text="Store Management System" Grid.Row="0" HorizontalAlignment="Center"/>
@@ -31,10 +32,9 @@
             <Button Grid.Column="5" Content="Log Out" Click="ButtonClick_LogOut"/>
         </Grid>
         <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+            <Button Content="Remove" Click="ButtonClick_RemoveOrder"/>
+        </Grid>
+        <Grid Grid.Row="3">
             <ComboBox Grid.Column="0" HorizontalContentAlignment="Center">
                 <ComboBoxItem IsSelected="True" IsEnabled="False">Order Status</ComboBoxItem>
                 <ComboBoxItem Selected="Pending_Selected">Pending</ComboBoxItem>
@@ -42,9 +42,8 @@
                 <ComboBoxItem Selected="Rejected_Selected">Rejected</ComboBoxItem>
                 <ComboBoxItem Selected="Completed_Selected">Completed</ComboBoxItem>
             </ComboBox>
-            <Button Grid.Column="1" Content="Remove" Click="ButtonClick_RemoveOrder"/>
         </Grid>
-        <Grid Grid.Row="3">
+        <Grid Grid.Row="4">
             <DataGrid Name="Orders" ColumnWidth="*" IsReadOnly="True"/>
         </Grid>
     </Grid>

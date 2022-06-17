@@ -22,7 +22,10 @@ namespace Login
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
-        public UsersContext() : base("Data Source=localhost;Integrated Security=True")
+        //change to connection string when needed
+        //Data Source=localhost\SQLEXPRESS;Initial Catalog=InternetStore;Integrated Security=True
+        //Data Source=localhost;Initial Catalog=InternetStore;Integrated Security=True
+        public UsersContext() : base("InternetStore")
         {
 
         }
@@ -108,13 +111,12 @@ namespace Login
 
     public class OrderItem
     {
-        [Key, Column(Order = 0)]
-        public long OrderId { get; set; }
-        [Key, Column(Order = 1)]
+        [Key]
         public long ItemId { get; set; }
         public long Quantity { get; set; }
         public float Price { get; set; }
 
+        public long OrderId { get; set; }
         [ForeignKey("OrderId")]
         public Order Orders { get; set; }
 
@@ -151,5 +153,11 @@ namespace Login
         public string ProductName { get; set; }
         public float Cost { get; set; }
         public float TotalCost { get; set; }
+    }
+    public class OrdersTable
+    {
+        public long OrderId { get; set; }
+        public string OrderStatus { get; set; }
+        public long UserId { get; set; }
     }
 }
