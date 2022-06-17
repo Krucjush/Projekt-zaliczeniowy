@@ -16,12 +16,16 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
                 <Button Content="Back" Click="ButtonClick_Back"/>
             </Grid>
             <Grid Grid.Column="1">
                 <Button Content="Remove" Click="ButtonClick_Remove"/>
+            </Grid>
+            <Grid Grid.Column="2">
+                <Button Content="Order" Click="ButtonClick_Order"/>
             </Grid>
         </Grid>
         <Grid Grid.Row="1">

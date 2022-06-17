@@ -22,9 +22,7 @@ namespace Login
         public DbSet<Stock> Stocks { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
-
-
-        public UsersContext() : base("InternetStore")
+        public UsersContext() : base("Data Source=localhost;Integrated Security=True")
         {
 
         }
@@ -54,6 +52,7 @@ namespace Login
         [Key]
         public long OrderId { get; set; }
         public string OrderStatus { get; set; }
+        //"Pending", "Processing", "Rejected", "Completed"
 
         public long Id { get; set; }
         [ForeignKey("Id")]

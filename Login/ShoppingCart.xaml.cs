@@ -58,13 +58,23 @@ namespace Login
                 Update();
             }
         }
+        private void ButtonClick_Order(object sender, RoutedEventArgs e)
+        {
+            using var db = new UsersContext();
+            var user = db.UserLogins
+                .FirstOrDefault(q => q.UserName == LoginWindow.UserName);
+            var o = db.Orders
+                .FirstOrDefault(q => q.Id == user.Id);
+            o.OrderStatus = "Processing";
+            db.SaveChanges();
+            Update();
+        }
         private void Update()
         {
             var _ = new ShoppingCart(CartItems);
             _.Show();
             Close();
         }
-
         private void ShoppingCart_Closing(object sender, CancelEventArgs e)
         {
             if(!DoClose) return;

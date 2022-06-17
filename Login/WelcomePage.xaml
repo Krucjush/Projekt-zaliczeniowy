@@ -30,6 +30,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
                 <Grid.RowDefinitions>
@@ -48,6 +49,9 @@
             </Grid>
             <Grid Grid.Column="2">
                 <Button Content="Remove" Click="ButtonClick_Remove"/>
+            </Grid>
+            <Grid Grid.Column="3">
+                <Button Content="Order" Click="ButtonClick_Order"/>
             </Grid>
         </Grid>
         <Grid Grid.Row="3">
