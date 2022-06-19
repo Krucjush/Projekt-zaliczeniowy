@@ -23,8 +23,7 @@ namespace Login
         public DbSet<Product> Products { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         //change to connection string when needed
-        //Data Source=localhost\SQLEXPRESS;Initial Catalog=InternetStore;Integrated Security=True
-        //Data Source=localhost;Initial Catalog=InternetStore;Integrated Security=True
+        //Data Source={};Initial Catalog=InternetStore;Integrated Security=True
         public UsersContext() : base("InternetStore")
         {
 

@@ -24,7 +24,7 @@ namespace Login
                 .ToList();
             Store.ItemsSource = _;
             var c = db.Products
-                .Where(q => q.OrderItems.Select(p => p.Orders.OrderStatus).FirstOrDefault() == "Pending")
+                .Where(q => q.OrderItems.Where(p => p.Orders.OrderStatus == "Pending").Select(p => p.Orders.OrderStatus).FirstOrDefault() == "Pending")
                 .Select(q => new CartItem { Amount = q.OrderItems.Where(p => p.ProductId == q.ProductId).Select(p => p.Quantity).FirstOrDefault(), ProductName = q.ProductName, Cost = q.Price, TotalCost = (float)Math.Round(q.Price * q.OrderItems.Where(p => p.ProductId == q.ProductId).Select(p => p.Quantity).FirstOrDefault(), 2) })
                 .ToList();
             CartItems = c;
@@ -68,7 +68,6 @@ namespace Login
                     .Select(q => q.OrderStatus)
                     .ToList();
                 var p = db.Products
-                    //.Where(q => q.OrderItems.Select(r => r.Orders.OrderStatus).FirstOrDefault() == "Pending")
                     .FirstOrDefault(q => q.ProductName == row.ProductName);
                 if (!o.Contains("Pending"))
                 {
@@ -86,6 +85,7 @@ namespace Login
                 }
                 else if (row.AmountInCart == 0)
                 {
+
                     var order = db.Orders
                         .Where(q => q.Id == user.Id)
                         .FirstOrDefault(q => q.OrderStatus == "Pending");
@@ -99,6 +99,7 @@ namespace Login
                 }
                 else
                 {
+
                     var orderItem = db.OrderItems
                         .FirstOrDefault(q => q.ProductId == p.ProductId);
                     var s = db.Stocks
