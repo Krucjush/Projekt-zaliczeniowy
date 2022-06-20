@@ -26,13 +26,21 @@ namespace Login
         public bool IsSelected { get; set; }
         public AdminWelcomePageOrders()
         {
-            InitializeComponent();
-            DataContext = this;
-            using var db = new UsersContext();
-            var _ = db.Orders
-                .Select(q => new OrdersTable { OrderId = q.OrderId, OrderStatus = q.OrderStatus, UserId = q.Id })
-                .ToList();
-            Orders.ItemsSource = _;
+            try
+            {
+                InitializeComponent();
+                DataContext = this;
+                using var db = new UsersContext();
+                var _ = db.Orders
+                    .Select(q => new OrdersTable { OrderId = q.OrderId, OrderStatus = q.OrderStatus, UserId = q.Id })
+                    .ToList();
+                Orders.ItemsSource = _;
+            }
+            catch
+            {
+                MessageBox.Show("Something went wrong");
+                Close();
+            }
         }
 
         private void ButtonClick_ManageExpenses(object sender, RoutedEventArgs e)
@@ -69,21 +77,29 @@ namespace Login
         }
         private void ButtonClick_RemoveOrder(object sender, RoutedEventArgs e)
         {
-            using var db = new UsersContext();
-            var row = (OrdersTable)Orders.SelectedItem;
-            if (row == null)
+            try
             {
-                MessageBox.Show("Item not selected.");
+                using var db = new UsersContext();
+                var row = (OrdersTable)Orders.SelectedItem;
+                if (row == null)
+                {
+                    MessageBox.Show("Item not selected.");
+                }
+                else
+                {
+                    var selectedOrder = db.Orders
+                        .Where(t => t.OrderId == row.OrderId)
+                        .ToList()
+                        .LastOrDefault();
+                    db.Orders.Remove(selectedOrder);
+                    db.SaveChanges();
+                    Update();
+                }
             }
-            else
+            catch
             {
-                var selectedOrder = db.Orders
-                    .Where(t => t.OrderId == row.OrderId)
-                    .ToList()
-                    .LastOrDefault();
-                db.Orders.Remove(selectedOrder);
-                db.SaveChanges();
-                Update();
+                MessageBox.Show("Something went wrong");
+                Close();
             }
         }
         private void Pending_Selected(object sender, RoutedEventArgs e)
@@ -109,27 +125,35 @@ namespace Login
         }
         private void ButtonClick_SetOrderStatus(object sender, RoutedEventArgs e)
         {
-            using var db = new UsersContext();
-            var row = (OrdersTable)Orders.SelectedItem;
-            var order = db.Orders
-                .FirstOrDefault(q => q.OrderId == row.OrderId);
-            if (!IsSelected)
+            try
             {
-                MessageBox.Show("New Order status was not selected");
+                using var db = new UsersContext();
+                var row = (OrdersTable)Orders.SelectedItem;
+                var order = db.Orders
+                    .FirstOrDefault(q => q.OrderId == row.OrderId);
+                if (!IsSelected)
+                {
+                    MessageBox.Show("New Order status was not selected");
+                }
+                else if (row == null)
+                {
+                    MessageBox.Show("No item selected");
+                }
+                else if (row.OrderStatus == OrderStatus)
+                {
+                    MessageBox.Show("No changes were made");
+                }
+                else
+                {
+                    order.OrderStatus = OrderStatus;
+                    db.SaveChanges();
+                    Update();
+                }
             }
-            else if (row == null)
+            catch
             {
-                MessageBox.Show("No item selected");
-            }
-            else if (row.OrderStatus == OrderStatus)
-            {
-                MessageBox.Show("No changes were made");
-            }
-            else
-            {
-                order.OrderStatus = OrderStatus;
-                db.SaveChanges();
-                Update();
+                MessageBox.Show("Something went wrong");
+                Close();
             }
         }
         private void Update()

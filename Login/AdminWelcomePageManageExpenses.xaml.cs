@@ -27,14 +27,22 @@ namespace Login
         public float Multiplier { get; set; } = 1;
         public AdminWelcomePageManageExpenses()
         {
-            InitializeComponent();
-            using (var db = new UsersContext())
+            try
             {
-                var e = db.Expenses
-                    .ToList();
-                Expenses.ItemsSource = e;
+                InitializeComponent();
+                using (var db = new UsersContext())
+                {
+                    var e = db.Expenses
+                        .ToList();
+                    Expenses.ItemsSource = e;
+                }
+                DataContext = this;
             }
-            DataContext = this;
+            catch
+            {
+                MessageBox.Show("Something went wrong");
+                Close();
+            }
         }
         private void ButtonClick_ManageStocks(object sender, RoutedEventArgs e)
         {
@@ -69,78 +77,100 @@ namespace Login
         }
         private void ButtonClick_AddExpenses(object sender, RoutedEventArgs e)
         {
-            using var db = new UsersContext();
-            switch (ExpensesName)
+            try
             {
-                case null when Amount == 0:
-                    MessageBox.Show("You cannot add an empty field.");
-                    break;
-                case null:
-                    MessageBox.Show("Expenses require name.");
-                    break;
-                default:
+                using var db = new UsersContext();
+                switch (ExpensesName)
                 {
-                    if (Amount == 0)
+                    case null when Amount == 0:
+                        MessageBox.Show("You cannot add an empty field.");
+                        break;
+                    case null:
+                        MessageBox.Show("Expenses require name.");
+                        break;
+                    default:
                     {
-                        MessageBox.Show("Amount is required");
-                    }
-                    else
-                    {
-                        db.Expenses.Add(new Expense { ExpensesName = ExpensesName, Date = DateTime.Now, Amount = Amount, TotalCost = Cost, CostPerSingle = (float)Math.Round(Cost/(float)Amount, 2) });
-                        db.SaveChanges();
-                        Update();
-                    }
+                        if (Amount == 0)
+                        {
+                            MessageBox.Show("Amount is required");
+                        }
+                        else
+                        {
+                            db.Expenses.Add(new Expense { ExpensesName = ExpensesName, Date = DateTime.Now, Amount = Amount, TotalCost = Cost, CostPerSingle = (float)Math.Round(Cost/(float)Amount, 2) });
+                            db.SaveChanges();
+                            Update();
+                        }
 
-                    break;
+                        break;
+                    }
                 }
+            }
+            catch
+            {
+                MessageBox.Show("Something went wrong");
+                Close();
             }
         }
         private void ButtonClick_AddToStocks(object sender, RoutedEventArgs e)
         {
-            using var db = new UsersContext();
-            var row = (Expense)Expenses.SelectedItem;
-            if (row == null)
+            try
             {
-                MessageBox.Show("Item not selected.");
+                using var db = new UsersContext();
+                var row = (Expense)Expenses.SelectedItem;
+                if (row == null)
+                {
+                    MessageBox.Show("Item not selected.");
+                }
+                else if (Multiplier == 0)
+                {
+                    MessageBox.Show("Multiplier cannot be 0.");
+                }
+                else
+                {
+                    var selectedExpense = db.Expenses
+                        .Where(t => t.ExpenseId == row.ExpenseId)
+                        .ToList()
+                        .LastOrDefault();
+                    var s = new Stock { Quantity = selectedExpense.Amount, DateCreated = DateTime.Now };
+                    db.Stocks.Add(s);
+                    var p = new Product { ProductName = selectedExpense.ExpensesName, Price = (float)Math.Round(selectedExpense.CostPerSingle * Multiplier, 2), StockId = s.StockId };
+                    db.Products.Add(p);
+                    db.SaveChanges();
+                    db.Expenses.Remove(selectedExpense);
+                    db.SaveChanges();
+                    Update();
+                }
             }
-            else if (Multiplier == 0)
+            catch
             {
-                MessageBox.Show("Multiplier cannot be 0.");
-            }
-            else
-            {
-                var selectedExpense = db.Expenses
-                    .Where(t => t.ExpenseId == row.ExpenseId)
-                    .ToList()
-                    .LastOrDefault();
-                var s = new Stock { Quantity = selectedExpense.Amount, DateCreated = DateTime.Now };
-                db.Stocks.Add(s);
-                var p = new Product { ProductName = selectedExpense.ExpensesName, Price = (float)Math.Round(selectedExpense.CostPerSingle * Multiplier, 2), StockId = s.StockId };
-                db.Products.Add(p);
-                db.SaveChanges();
-                db.Expenses.Remove(selectedExpense);
-                db.SaveChanges();
-                Update();
+                MessageBox.Show("Something went wrong");
             }
         }
 
         private void ButtonClick_RemoveExpenses(object sender, RoutedEventArgs e)
         {
-            using var db = new UsersContext();
-            var row = (Expense)Expenses.SelectedItem;
-            if (row == null)
+            try
             {
-                MessageBox.Show("Item not selected.");
+                using var db = new UsersContext();
+                var row = (Expense)Expenses.SelectedItem;
+                if (row == null)
+                {
+                    MessageBox.Show("Item not selected.");
+                }
+                else
+                {
+                    var selectedExpense = db.Expenses
+                        .Where(t => t.ExpenseId == row.ExpenseId)
+                        .ToList()
+                        .LastOrDefault();
+                    db.Expenses.Remove(selectedExpense);
+                    db.SaveChanges();
+                    Update();
+                }
             }
-            else
+            catch
             {
-                var selectedExpense = db.Expenses
-                    .Where(t => t.ExpenseId == row.ExpenseId)
-                    .ToList()
-                    .LastOrDefault();
-                db.Expenses.Remove(selectedExpense);
-                db.SaveChanges();
-                Update();
+                MessageBox.Show("Something went wrong");
             }
         }
 

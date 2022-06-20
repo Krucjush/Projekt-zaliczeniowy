@@ -23,15 +23,23 @@ namespace Login
         public long Quantity { get; set; }
         public AdminWelcomePageManageStocks()
         {
-            InitializeComponent();
-            using (var db = new UsersContext())
+            try
             {
-                var s = db.Stocks
-                    .Select(q => new StockTable { StockId = q.StockId, ItemName = q.Products.Where(p => p.StockId == q.StockId).Select(p => p.ProductName).FirstOrDefault(), Quantity = q.Quantity, DateCreated = q.DateCreated, DateModified = q.DateModified })
-                    .ToList();
-                Stocks.ItemsSource = s;
+                InitializeComponent();
+                using (var db = new UsersContext())
+                {
+                    var s = db.Stocks
+                        .Select(q => new StockTable { StockId = q.StockId, ItemName = q.Products.Where(p => p.StockId == q.StockId).Select(p => p.ProductName).FirstOrDefault(), Quantity = q.Quantity, DateCreated = q.DateCreated, DateModified = q.DateModified })
+                        .ToList();
+                    Stocks.ItemsSource = s;
+                }
+                DataContext = this;
             }
-            DataContext = this;
+            catch
+            {
+                MessageBox.Show("Something went wrong");
+                Close();
+            }
         }
 
         private void ButtonClick_ManageExpenses(object sender, RoutedEventArgs e)
@@ -67,48 +75,64 @@ namespace Login
         }
         private void ButtonClick_RemoveStocks(object sender, RoutedEventArgs e)
         {
-            using var db = new UsersContext();
-            var row = (StockTable)Stocks.SelectedItem;
-            if (row == null)
+            try
             {
-                MessageBox.Show("Item not selected");
+                using var db = new UsersContext();
+                var row = (StockTable)Stocks.SelectedItem;
+                if (row == null)
+                {
+                    MessageBox.Show("Item not selected");
+                }
+                else
+                {
+                    var selectedStock = db.Stocks
+                        .Where(t => t.StockId == row.StockId)
+                        .ToList()
+                        .LastOrDefault();
+                    db.Stocks.Remove(selectedStock);
+                    db.SaveChanges();
+                    Update();
+                }
             }
-            else
+            catch
             {
-                var selectedStock = db.Stocks
-                    .Where(t => t.StockId == row.StockId)
-                    .ToList()
-                    .LastOrDefault();
-                db.Stocks.Remove(selectedStock);
-                db.SaveChanges();
-                Update();
+                MessageBox.Show("Something went wrong");
+                Close();
             }
         }
 
         private void ButtonClick_EditStocks(object sender, RoutedEventArgs e)
         {
-            using var db = new UsersContext();
-            var row = (StockTable)Stocks.SelectedItem;
-            if (row == null)
+            try
             {
-                MessageBox.Show("Item not selected");
-            }
-            else
-            {
-                var selectedStock = db.Stocks
-                    .Where(t => t.StockId == row.StockId)
-                    .ToList()
-                    .LastOrDefault();
-                if (Quantity == 0)
+                using var db = new UsersContext();
+                var row = (StockTable)Stocks.SelectedItem;
+                if (row == null)
                 {
-                    MessageBox.Show("No changes were made.");
+                    MessageBox.Show("Item not selected");
                 }
                 else
                 {
-                    selectedStock.Quantity = Quantity;
-                    selectedStock.DateModified = DateTime.Now;
-                    Update();
+                    var selectedStock = db.Stocks
+                        .Where(t => t.StockId == row.StockId)
+                        .ToList()
+                        .LastOrDefault();
+                    if (Quantity == 0)
+                    {
+                        MessageBox.Show("No changes were made.");
+                    }
+                    else
+                    {
+                        selectedStock.Quantity = Quantity;
+                        selectedStock.DateModified = DateTime.Now;
+                        Update();
+                    }
                 }
+            }
+            catch
+            {
+                MessageBox.Show("Something went wrong");
+                Close();
             }
         }
         private void Update()

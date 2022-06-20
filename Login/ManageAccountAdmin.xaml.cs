@@ -52,318 +52,437 @@ namespace Login
         }
         private void ButtonClick_SetUserName(object sender, RoutedEventArgs e)
         {
-            using (var db = new UsersContext())
+            try
             {
-                var userNames = db.UserLogins
-                    .Select(q => q.UserName)
-                    .ToList();
-                if (string.IsNullOrEmpty(UserName))
+                using (var db = new UsersContext())
                 {
-                    MessageBox.Show("User Name cannot be empty.");
+                    var userNames = db.UserLogins
+                        .Select(q => q.UserName)
+                        .ToList();
+                    if (string.IsNullOrEmpty(UserName))
+                    {
+                        MessageBox.Show("User Name cannot be empty.");
+                    }
+                    else if (userNames.Contains(UserName))
+                    {
+                        MessageBox.Show("This User Name is taken.");
+                    }
+                    else
+                    {
+                        var userData = db.UserLogins
+                            .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
+                        userData.UserName = UserName;
+                        SelectedAccount.UserName = UserName;
+                        db.SaveChanges();
+                    }
                 }
-                else if (userNames.Contains(UserName))
-                {
-                    MessageBox.Show("This User Name is taken.");
-                }
-                else
-                {
-                    var userData = db.UserLogins
-                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
-                    userData.UserName = UserName;
-                    SelectedAccount.UserName = UserName;
-                    db.SaveChanges();
-                }
+                Update();
             }
-            Update();
+            catch
+            {
+                MessageBox.Show("Something went wrong");
+                Close();
+            }
         }
 
         private void ButtonClick_SetPassword(object sender, RoutedEventArgs e)
         {
-            using (var db = new UsersContext())
+            try
             {
-                if (string.IsNullOrEmpty(Password))
+                using (var db = new UsersContext())
                 {
-                    MessageBox.Show("Password cannot be empty");
+                    if (string.IsNullOrEmpty(Password))
+                    {
+                        MessageBox.Show("Password cannot be empty");
+                    }
+                    else
+                    {
+                        var userData = db.UserLogins
+                            .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
+                        userData.Password = Password;
+                        SelectedAccount.Password = Password;
+                        db.SaveChanges();
+                    }
                 }
-                else
-                {
-                    var userData = db.UserLogins
-                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
-                    userData.Password = Password;
-                    SelectedAccount.Password = Password;
-                    db.SaveChanges();
-                }
+                Update();
             }
-            Update();
+            catch
+            {
+                MessageBox.Show("Something went wrong");
+                Close();
+            }
         }
 
         private void ButtonClick_SetEmail(object sender, RoutedEventArgs e)
         {
-            using (var db = new UsersContext())
+            try
             {
-                if (string.IsNullOrEmpty(Email))
+                using (var db = new UsersContext())
                 {
-                    MessageBox.Show("Email cannot be empty");
+                    if (string.IsNullOrEmpty(Email))
+                    {
+                        MessageBox.Show("Email cannot be empty");
+                    }
+                    else if (!Email.Contains("@") && !Email.Contains("."))
+                    {
+                        MessageBox.Show("Wrong Email");
+                    }
+                    else
+                    {
+                        var userData = db.UserLogins
+                            .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
+                        userData.Email = Email;
+                        SelectedAccount.Email = Email;
+                        db.SaveChanges();
+                    }
                 }
-                else if (!Email.Contains("@") && !Email.Contains("."))
-                {
-                    MessageBox.Show("Wrong Email");
-                }
-                else
-                {
-                    var userData = db.UserLogins
-                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
-                    userData.Email = Email;
-                    SelectedAccount.Email = Email;
-                    db.SaveChanges();
-                }
+                Update();
             }
-            Update();
+            catch
+            {
+                MessageBox.Show("Something went wrong");
+                Close();
+            }
         }
 
         private void ButtonClick_SetFirstName(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(FirstName))
+            try
             {
-                MessageBox.Show("You can't set empty First Name, if you want to remove Fist Name, press \"Remove\" button");
+                if (string.IsNullOrEmpty(FirstName))
+                {
+                    MessageBox.Show("You can't set empty First Name, if you want to remove Fist Name, press \"Remove\" button");
+                }
+                else
+                {
+                    using var db = new UsersContext();
+                    var userData = db.UserLogins
+                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
+                    userData.FirstName = FirstName;
+                    SelectedAccount.FirstName = FirstName;
+                    db.SaveChanges();
+                }
+                Update();
             }
-            else
+            catch
             {
-                using var db = new UsersContext();
-                var userData = db.UserLogins
-                    .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
-                userData.FirstName = FirstName;
-                SelectedAccount.FirstName = FirstName;
-                db.SaveChanges();
+                MessageBox.Show("Something went wrong");
+                Close();
             }
-            Update();
         }
 
         private void ButtonClick_RemoveFirstName(object sender, RoutedEventArgs e)
         {
-            using (var db = new UsersContext())
+            try
             {
-                var userData = db.UserLogins
-                    .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
-                if (userData?.FirstName == null)
+                using (var db = new UsersContext())
                 {
-                    MessageBox.Show("First Name is already empty");
+                    var userData = db.UserLogins
+                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
+                    if (userData?.FirstName == null)
+                    {
+                        MessageBox.Show("First Name is already empty");
+                    }
+                    else
+                    {
+                        userData.FirstName = null;
+                        SelectedAccount.FirstName = null;
+                        db.SaveChanges();
+                    }
                 }
-                else
-                {
-                    userData.FirstName = null;
-                    SelectedAccount.FirstName = null;
-                    db.SaveChanges();
-                }
+                Update();
             }
-            Update();
+            catch
+            {
+                MessageBox.Show("Something went wrong");
+                Close();
+            }
         }
 
         private void ButtonClick_SetLastName(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(LastName))
+            try
             {
-                MessageBox.Show("You can't set empty Last Name, if you want to remove Last Name, press \"Remove\" button");
+                if (string.IsNullOrEmpty(LastName))
+                {
+                    MessageBox.Show("You can't set empty Last Name, if you want to remove Last Name, press \"Remove\" button");
+                }
+                else
+                {
+                    using var db = new UsersContext();
+                    var userData = db.UserLogins
+                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
+                    userData.LastName = LastName;
+                    SelectedAccount.LastName = LastName;
+                    db.SaveChanges();
+                }
+                Update();
             }
-            else
+            catch
             {
-                using var db = new UsersContext();
-                var userData = db.UserLogins
-                    .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
-                userData.LastName = LastName;
-                SelectedAccount.LastName = LastName;
-                db.SaveChanges();
+                MessageBox.Show("Something went wrong");
+                Close();
             }
-            Update();
         }
 
         private void ButtonClick_RemoveLastName(object sender, RoutedEventArgs e)
         {
-            using (var db = new UsersContext())
+            try
             {
-                var userData = db.UserLogins
-                    .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
-                if (userData?.LastName == null)
+                using (var db = new UsersContext())
                 {
-                    MessageBox.Show("Last Name is already empty");
+                    var userData = db.UserLogins
+                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
+                    if (userData?.LastName == null)
+                    {
+                        MessageBox.Show("Last Name is already empty");
+                    }
+                    else
+                    {
+                        userData.LastName = null;
+                        SelectedAccount.LastName = null;
+                        db.SaveChanges();
+                    }
                 }
-                else
-                {
-                    userData.LastName = null;
-                    SelectedAccount.LastName = null;
-                    db.SaveChanges();
-                }
+                Update();
             }
-            Update();
+            catch
+            {
+                MessageBox.Show("Something went wrong");
+                Close();
+            }
         }
 
         private void ButtonClick_SetAge(object sender, RoutedEventArgs e)
         {
-            using (var db = new UsersContext())
+            try
             {
-                if (string.IsNullOrEmpty(Age))
+                using (var db = new UsersContext())
                 {
-                    MessageBox.Show("You can't set empty Age, if you want to remove Age, press \"Remove\" button");
+                    if (string.IsNullOrEmpty(Age))
+                    {
+                        MessageBox.Show("You can't set empty Age, if you want to remove Age, press \"Remove\" button");
+                    }
+                    else
+                    {
+                        var userData = db.UserLogins
+                            .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
+                        userData.Age = Age;
+                        SelectedAccount.Age = Age;
+                        db.SaveChanges();
+                    }
                 }
-                else
-                {
-                    var userData = db.UserLogins
-                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
-                    userData.Age = Age;
-                    SelectedAccount.Age = Age;
-                    db.SaveChanges();
-                }
+                Update();
             }
-            Update();
+            catch
+            {
+                MessageBox.Show("Something went wrong");
+                Close();
+            }
         }
 
         private void ButtonClick_RemoveAge(object sender, RoutedEventArgs e)
         {
-            using (var db = new UsersContext())
+            try
             {
-                var userData = db.UserLogins
-                    .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
-                if (userData?.Age == null)
+                using (var db = new UsersContext())
                 {
-                    MessageBox.Show("Age is already empty");
+                    var userData = db.UserLogins
+                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
+                    if (userData?.Age == null)
+                    {
+                        MessageBox.Show("Age is already empty");
+                    }
+                    else
+                    {
+                        userData.Age = null;
+                        SelectedAccount.Age = null;
+                        db.SaveChanges();
+                    }
                 }
-                else
-                {
-                    userData.Age = null;
-                    SelectedAccount.Age = null;
-                    db.SaveChanges();
-                }
+                Update();
             }
-            Update();
+            catch
+            {
+                MessageBox.Show("Something went wrong");
+                Close();
+            }
         }
 
         private void ButtonClick_SetPhoneNumber(object sender, RoutedEventArgs e)
         {
-            using (var db = new UsersContext())
+            try
             {
-                if (PhoneNumber.Length == 0)
+                using (var db = new UsersContext())
                 {
-                    MessageBox.Show("You can't set empty Phone Number, if you want to remove Phone Number, press \"Remove\" button.");
+                    if (PhoneNumber.Length == 0)
+                    {
+                        MessageBox.Show("You can't set empty Phone Number, if you want to remove Phone Number, press \"Remove\" button.");
+                    }
+                    else if (PhoneNumber.Length != 9)
+                    {
+                        MessageBox.Show("Wrong Phone Number.");
+                    }
+                    else
+                    {
+                        var userData = db.UserLogins
+                            .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
+                        userData.PhoneNumber = PhoneNumber;
+                        SelectedAccount.PhoneNumber = PhoneNumber;
+                        db.SaveChanges();
+                    }
                 }
-                else if (PhoneNumber.Length != 9)
-                {
-                    MessageBox.Show("Wrong Phone Number.");
-                }
-                else
-                {
-                    var userData = db.UserLogins
-                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
-                    userData.PhoneNumber = PhoneNumber;
-                    SelectedAccount.PhoneNumber = PhoneNumber;
-                    db.SaveChanges();
-                }
+                Update();
             }
-            Update();
+            catch
+            {
+                MessageBox.Show("Something went wrong");
+                Close();
+            }
         }
 
         private void ButtonClick_RemovePhoneNumber(object sender, RoutedEventArgs e)
         {
-            using (var db = new UsersContext())
+            try
             {
-                var userData = db.UserLogins
-                    .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
-                if (userData?.PhoneNumber == null)
+                using (var db = new UsersContext())
                 {
-                    MessageBox.Show("Phone Number is already empty");
+                    var userData = db.UserLogins
+                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
+                    if (userData?.PhoneNumber == null)
+                    {
+                        MessageBox.Show("Phone Number is already empty");
+                    }
+                    else
+                    {
+                        userData.PhoneNumber = null;
+                        SelectedAccount.PhoneNumber = null;
+                        db.SaveChanges();
+                    }
                 }
-                else
-                {
-                    userData.PhoneNumber = null;
-                    SelectedAccount.PhoneNumber = null;
-                    db.SaveChanges();
-                }
+                Update();
             }
-            Update();
-
+            catch
+            {
+                MessageBox.Show("Something went wrong");
+                Close();
+            }
         }
 
         private void ButtonClick_SetAddress(object sender, RoutedEventArgs e)
         {
-            using (var db = new UsersContext())
+            try
             {
-                if (string.IsNullOrEmpty(Address))
+                using (var db = new UsersContext())
                 {
-                    MessageBox.Show("You can't set empty Address, if you want to remove Address, press \"Remove\" button.");
+                    if (string.IsNullOrEmpty(Address))
+                    {
+                        MessageBox.Show("You can't set empty Address, if you want to remove Address, press \"Remove\" button.");
+                    }
+                    else
+                    {
+                        var userData = db.UserLogins
+                            .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
+                        userData.Address = Address;
+                        SelectedAccount.Address = Address;
+                        db.SaveChanges();
+                    }
                 }
-                else
-                {
-                    var userData = db.UserLogins
-                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
-                    userData.Address = Address;
-                    SelectedAccount.Address = Address;
-                    db.SaveChanges();
-                }
+                Update();
             }
-            Update();
+            catch
+            {
+                MessageBox.Show("Something went wrong");
+                Close();
+            }
         }
 
         private void ButtonClick_RemoveAddress(object sender, RoutedEventArgs e)
         {
-            using (var db = new UsersContext())
+            try
             {
-                var userData = db.UserLogins
-                    .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
-                if (userData?.Address == null)
+                using (var db = new UsersContext())
                 {
-                    MessageBox.Show("Address is already empty");
+                    var userData = db.UserLogins
+                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
+                    if (userData?.Address == null)
+                    {
+                        MessageBox.Show("Address is already empty");
+                    }
+                    else
+                    {
+                        userData.Address = null;
+                        SelectedAccount.Address = null;
+                        db.SaveChanges();
+                    }
                 }
-                else
-                {
-                    userData.Address = null;
-                    SelectedAccount.Address = null;
-                    db.SaveChanges();
-                }
+                Update();
             }
-            Update();
+            catch
+            {
+                MessageBox.Show("Something went wrong");
+                Close();
+            }
         }
 
         private void ButtonClick_SetZipCode(object sender, RoutedEventArgs e)
         {
-            using (var db = new UsersContext())
+            try
             {
-                if (string.IsNullOrEmpty(ZipCode))
+                using (var db = new UsersContext())
                 {
-                    MessageBox.Show("You can't set empty Zip Code, if you want to remove Zip Code, press \"Remove\" button.");
+                    if (string.IsNullOrEmpty(ZipCode))
+                    {
+                        MessageBox.Show("You can't set empty Zip Code, if you want to remove Zip Code, press \"Remove\" button.");
+                    }
+                    else if (!ZipCode.Contains("-") && ZipCode.Length != 6)
+                    {
+                        MessageBox.Show("Wrong Zip Code");
+                    }
+                    else
+                    {
+                        var userData = db.UserLogins
+                            .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
+                        userData.ZipCode = ZipCode;
+                        SelectedAccount.ZipCode = ZipCode;
+                        db.SaveChanges();
+                    }
                 }
-                else if (!ZipCode.Contains("-") && ZipCode.Length != 6)
-                {
-                    MessageBox.Show("Wrong Zip Code");
-                }
-                else
-                {
-                    var userData = db.UserLogins
-                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
-                    userData.ZipCode = ZipCode;
-                    SelectedAccount.ZipCode = ZipCode;
-                    db.SaveChanges();
-                }
+                Update();
             }
-            Update();
+            catch
+            {
+                MessageBox.Show("Something went wrong");
+                Close();
+            }
         }
 
         private void ButtonClick_RemoveZipCode(object sender, RoutedEventArgs e)
         {
-            using (var db = new UsersContext())
+            try
             {
-                var userData = db.UserLogins
-                    .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
-                if (userData?.ZipCode == null)
+                using (var db = new UsersContext())
                 {
-                    MessageBox.Show("Zip Code is already empty");
+                    var userData = db.UserLogins
+                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
+                    if (userData?.ZipCode == null)
+                    {
+                        MessageBox.Show("Zip Code is already empty");
+                    }
+                    else
+                    {
+                        userData.ZipCode = null;
+                        SelectedAccount.ZipCode = null;
+                        db.SaveChanges();
+                    }
                 }
-                else
-                {
-                    userData.ZipCode = null;
-                    SelectedAccount.ZipCode = null;
-                    db.SaveChanges();
-                }
+                Update();
             }
-            Update();
+            catch
+            {
+                MessageBox.Show("Something went wrong");
+                Close();
+            }
         }
 
         private void ComboBoxAdministrator_Selected(object sender, RoutedEventArgs e)
@@ -380,36 +499,44 @@ namespace Login
 
         private void ButtonClick_SetAccountType(object sender, RoutedEventArgs e)
         {
-            using (var db = new UsersContext())
+            try
             {
-                var userData = db.UserLogins
-                    .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
-                if (!IsSelected)
+                using (var db = new UsersContext())
                 {
-                    MessageBox.Show("Nothing was selected.");
-                }
-                else if (TextBoxAccountType.Text == AccountType)
-                {
-                    MessageBox.Show("No changes were made");
-                }
-                else
-                {
-                    var users = db.UserLogins
-                        .Where(q => q.AccountType == "Administrator")
-                        .ToList();
-                    if (users.Count <= 1 && userData.AccountType == "Administrator" && AccountType == "Customer")
+                    var userData = db.UserLogins
+                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
+                    if (!IsSelected)
                     {
-                        MessageBox.Show("You can't remove last Administrator Account");
+                        MessageBox.Show("Nothing was selected.");
+                    }
+                    else if (TextBoxAccountType.Text == AccountType)
+                    {
+                        MessageBox.Show("No changes were made");
                     }
                     else
                     {
-                        userData.AccountType = AccountType;
-                        SelectedAccount.AccountType = AccountType;
-                        db.SaveChanges();
+                        var users = db.UserLogins
+                            .Where(q => q.AccountType == "Administrator")
+                            .ToList();
+                        if (users.Count <= 1 && userData.AccountType == "Administrator" && AccountType == "Customer")
+                        {
+                            MessageBox.Show("You can't remove last Administrator Account");
+                        }
+                        else
+                        {
+                            userData.AccountType = AccountType;
+                            SelectedAccount.AccountType = AccountType;
+                            db.SaveChanges();
+                        }
                     }
                 }
+                Update();
             }
-            Update();
+            catch
+            {
+                MessageBox.Show("Something went wrong");
+                Close();
+            }
         }
         private void Update()
         {

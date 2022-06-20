@@ -36,55 +36,71 @@ namespace Login
 
         private void ButtonClick_Remove(object sender, RoutedEventArgs e)
         {
-            using var db = new UsersContext();
-            var row = (CartItem)Products.SelectedItem;
-            if (row == null)
+            try
             {
-                MessageBox.Show("Item not selected");
+                using var db = new UsersContext();
+                var row = (CartItem)Products.SelectedItem;
+                if (row == null)
+                {
+                    MessageBox.Show("Item not selected");
+                }
+                else
+                {
+                    var p = db.Products
+                        .FirstOrDefault(q => q.ProductName == row.ProductName);
+                    var s = db.Stocks
+                        .FirstOrDefault(q => q.StockId == p.StockId);
+                    var orderItem = db.OrderItems
+                        .FirstOrDefault(q => q.ProductId == p.ProductId);
+                    db.OrderItems.Remove(orderItem);
+                    s.Quantity += row.Amount;
+                    db.SaveChanges();
+                    CartItems.Remove(row);
+                    DoClose = false;
+                    Update();
+                }
             }
-            else
+            catch
             {
-                var p = db.Products
-                    .FirstOrDefault(q => q.ProductName == row.ProductName);
-                var s = db.Stocks
-                    .FirstOrDefault(q => q.StockId == p.StockId);
-                var orderItem = db.OrderItems
-                    .FirstOrDefault(q => q.ProductId == p.ProductId);
-                db.OrderItems.Remove(orderItem);
-                s.Quantity += row.Amount;
-                db.SaveChanges();
-                CartItems.Remove(row);
-                DoClose = false;
-                Update();
+                MessageBox.Show("Something went wrong");
+                Close();
             }
         }
         private void ButtonClick_Order(object sender, RoutedEventArgs e)
         {
-            using var db = new UsersContext();
-            var user = db.UserLogins
-                .FirstOrDefault(q => q.UserName == LoginWindow.UserName);
-            var o = db.Orders
-                .Where(q => q.Id == user.Id)
-                .Select(q => q.OrderStatus)
-                .ToList();
-            if (o.Contains("Pending") && (user.Address == null || user.ZipCode == null || user.FirstName == null || user.LastName == null))
+            try
             {
-                MessageBox.Show("Please fill additional data.");
-                var _ = new ManageAccount();
-                _.Show();
-                DoClose = false;
-                Close();
+                using var db = new UsersContext();
+                var user = db.UserLogins
+                    .FirstOrDefault(q => q.UserName == LoginWindow.UserName);
+                var o = db.Orders
+                    .Where(q => q.Id == user.Id)
+                    .Select(q => q.OrderStatus)
+                    .ToList();
+                if (o.Contains("Pending") && (user.Address == null || user.ZipCode == null || user.FirstName == null || user.LastName == null))
+                {
+                    MessageBox.Show("Please fill additional data.");
+                    var _ = new ManageAccount();
+                    _.Show();
+                    DoClose = false;
+                    Close();
+                }
+                else if (o.Contains("Pending"))
+                {
+                    var _ = new OrderInformation();
+                    _.Show();
+                    DoClose = false;
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show("You don't have any items in cart.");
+                }
             }
-            else if (o.Contains("Pending"))
+            catch
             {
-                var _ = new OrderInformation();
-                _.Show();
-                DoClose = false;
+                MessageBox.Show("Something went wrong");
                 Close();
-            }
-            else
-            {
-                MessageBox.Show("You don't have any items in cart.");
             }
         }
         private void Update()

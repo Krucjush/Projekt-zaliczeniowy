@@ -11,25 +11,33 @@ namespace Login
         public static string Password { get; set; }
         public LoginWindow()
         {
-            using (var db = new UsersContext())
+            try
             {
-                var userData = db.UserLogins
-                    .Where(q => q.AccountType == "Administrator")
-                    .ToList();
-                if (userData.Count == 0)
+                using (var db = new UsersContext())
                 {
-                    db.UserLogins.Add(new UserLogin()
+                    var userData = db.UserLogins
+                        .Where(q => q.AccountType == "Administrator")
+                        .ToList();
+                    if (userData.Count == 0)
                     {
-                        UserName = "Admin", Password = "Admin", Email = "example@gmail.com",
-                        AccountType = "Administrator"
-                    });
-                    db.SaveChanges();
-                    MessageBox.Show(
-                        "Created Administrator account with\nUserName: Admin\nPassword Admin\nRemember to change User Name and Password!");
+                        db.UserLogins.Add(new UserLogin()
+                        {
+                            UserName = "Admin", Password = "Admin", Email = "example@gmail.com",
+                            AccountType = "Administrator"
+                        });
+                        db.SaveChanges();
+                        MessageBox.Show(
+                            "Created Administrator account with\nUserName: Admin\nPassword Admin\nRemember to change User Name and Password!");
+                    }
                 }
+                InitializeComponent();
+                DataContext = this;
             }
-            InitializeComponent();
-            DataContext = this;
+            catch
+            {
+                MessageBox.Show("Something went wrong");
+                Close();
+            }
         }
         private void Button_Click_Login(object sender, RoutedEventArgs e)
         {

@@ -86,9 +86,10 @@ namespace Login
                     Close();
                 }
             }
-            catch (Exception e)
+            catch
             {
-                MessageBox.Show("Something went wrong." + nameof(e));
+                MessageBox.Show("Something went wrong");
+                Close();
             }
         }
     }

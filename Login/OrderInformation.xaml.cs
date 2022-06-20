@@ -27,19 +27,27 @@ namespace Login
         public bool IsSelected { get; set; }
         public OrderInformation()
         {
-            InitializeComponent();
-            DataContext = this;
-            using var db = new UsersContext();
-            var user = db.UserLogins
-                .FirstOrDefault(q => q.UserName == LoginWindow.UserName);
-            TextBoxFullName.Text = user.LastName + " " + user.LastName;
-            TextBoxAddress.Text = user.Address;
-            TextBoxZipCode.Text = user.ZipCode;
-            var _ = db.OrderItems
-                .Where(q => q.Orders.OrderStatus == "Pending")
-                .Select(q => new OrderItemsTable { Quantity = q.Quantity, ItemName = q.Products.ProductName, Cost = (float)Math.Round(q.Price * q.Quantity, 2)})
-                .ToList();
-            OrderItemsData.ItemsSource = _;
+            try
+            {
+                InitializeComponent();
+                DataContext = this;
+                using var db = new UsersContext();
+                var user = db.UserLogins
+                    .FirstOrDefault(q => q.UserName == LoginWindow.UserName);
+                TextBoxFullName.Text = user.LastName + " " + user.LastName;
+                TextBoxAddress.Text = user.Address;
+                TextBoxZipCode.Text = user.ZipCode;
+                var _ = db.OrderItems
+                    .Where(q => q.Orders.OrderStatus == "Pending")
+                    .Select(q => new OrderItemsTable { Quantity = q.Quantity, ItemName = q.Products.ProductName, Cost = (float)Math.Round(q.Price * q.Quantity, 2)})
+                    .ToList();
+                OrderItemsData.ItemsSource = _;
+            }
+            catch
+            {
+                MessageBox.Show("Something went wrong");
+                Close();
+            }
         }
 
         private void PackageShipping_Selected(object sender, RoutedEventArgs e)
@@ -67,41 +75,57 @@ namespace Login
         }
         private void Buttons(object sender, RoutedEventArgs e)
         {
-            using var db = new UsersContext();
-            var user = db.UserLogins
-                .FirstOrDefault(q => q.UserName == LoginWindow.UserName);
-            var order = db.Orders
-                .Where(q => q.Id == user.Id)
-                .FirstOrDefault(q => q.OrderStatus == "Pending");
-            if (!IsSelected)
+            try
             {
-                MessageBox.Show("Please select Shipment method.");
+                using var db = new UsersContext();
+                var user = db.UserLogins
+                    .FirstOrDefault(q => q.UserName == LoginWindow.UserName);
+                var order = db.Orders
+                    .Where(q => q.Id == user.Id)
+                    .FirstOrDefault(q => q.OrderStatus == "Pending");
+                if (!IsSelected)
+                {
+                    MessageBox.Show("Please select Shipment method.");
+                }
+                else
+                {
+                    order.ShippingMethod = ShippingMethod;
+                    order.OrderStatus = "Processing";
+                    order.Payment = true;
+                    db.SaveChanges();
+                    MessageBox.Show("Order Placed.");
+                    var _ = new WelcomePage();
+                    _.Show();
+                    DoClose = false;
+                    Close();
+                }
             }
-            else
+            catch
             {
-                order.ShippingMethod = ShippingMethod;
-                order.OrderStatus = "Processing";
-                order.Payment = true;
-                db.SaveChanges();
-                MessageBox.Show("Order Placed.");
-                var _ = new WelcomePage();
-                _.Show();
-                DoClose = false;
+                MessageBox.Show("Something went wrong");
                 Close();
             }
         }
         private void OrderInformation_OnClosing(object sender, CancelEventArgs e)
         {
-            if (!DoClose) return;
-            using var db = new UsersContext();
-            var user = db.UserLogins
-                .FirstOrDefault(q => q.UserName == LoginWindow.UserName);
-            var order = db.Orders
-                .Where(q => q.Id == user.Id)
-                .FirstOrDefault(q => q.OrderStatus == "Pending");
-            order.OrderStatus = "Rejected";
-            order.Payment = false;
-            db.SaveChanges();
+            try
+            {
+                if (!DoClose) return;
+                using var db = new UsersContext();
+                var user = db.UserLogins
+                    .FirstOrDefault(q => q.UserName == LoginWindow.UserName);
+                var order = db.Orders
+                    .Where(q => q.Id == user.Id)
+                    .FirstOrDefault(q => q.OrderStatus == "Pending");
+                order.OrderStatus = "Rejected";
+                order.Payment = false;
+                db.SaveChanges();
+            }
+            catch
+            {
+                MessageBox.Show("Something went wrong");
+                Close();
+            }
         }
     }
 }

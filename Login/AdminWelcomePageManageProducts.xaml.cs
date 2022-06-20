@@ -22,13 +22,21 @@ namespace Login
         public float Price { get; set; }
         public AdminWelcomePageManageProducts()
         {
-            InitializeComponent();
-            DataContext = this;
-            using var db = new UsersContext();
-            var d = db.Products
-                .Select(q => new ProductTable { ProductId = q.ProductId, ProductName = q.ProductName, Price = q.Price })
-                .ToList();
-            Products.ItemsSource = d;
+            try
+            {
+                InitializeComponent();
+                DataContext = this;
+                using var db = new UsersContext();
+                var d = db.Products
+                    .Select(q => new ProductTable { ProductId = q.ProductId, ProductName = q.ProductName, Price = q.Price })
+                    .ToList();
+                Products.ItemsSource = d;
+            }
+            catch
+            {
+                MessageBox.Show("Something went wrong");
+                Close();
+            }
         }
         private void ButtonClick_ManageExpenses(object sender, RoutedEventArgs e)
         {
@@ -62,25 +70,33 @@ namespace Login
         }
         private void ButtonClick_SetPrice(object sender, RoutedEventArgs e)
         {
-            using var db = new UsersContext();
-            var row = (ProductTable)Products.SelectedItem;
-            if (row == null)
+            try
             {
-                MessageBox.Show("Item not selected");
+                using var db = new UsersContext();
+                var row = (ProductTable)Products.SelectedItem;
+                if (row == null)
+                {
+                    MessageBox.Show("Item not selected");
+                }
+                else if (Price == 0)
+                {
+                    MessageBox.Show("Price cannot be 0.");
+                }
+                else
+                {
+                    var selectedProduct = db.Products
+                        .Where(p => p.ProductId == row.ProductId)
+                        .ToList()
+                        .LastOrDefault();
+                    selectedProduct.Price = (float)Math.Round(Price, 2);
+                    db.SaveChanges();
+                    Update();
+                }
             }
-            else if (Price == 0)
+            catch
             {
-                MessageBox.Show("Price cannot be 0.");
-            }
-            else
-            {
-                var selectedProduct = db.Products
-                    .Where(p => p.ProductId == row.ProductId)
-                    .ToList()
-                    .LastOrDefault();
-                selectedProduct.Price = (float)Math.Round(Price, 2);
-                db.SaveChanges();
-                Update();
+                MessageBox.Show("Something went wrong");
+                Close();
             }
         }
         public void Update()
