@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Windows;
@@ -14,18 +15,23 @@ namespace Login
     {
         public List<CartItem> CartItems { get; set; }
         public int Amount { get; set; }
+        public bool DoClose { get; set; } = true;
         public WelcomePage()
         {
             InitializeComponent();
             DataContext = this;
-            using var db = new UsersContext();
+            using var db = new UsersContext(); 
             var _ = db.Products
                 .Select(q => new ProductInStore { Available = q.Stock.Quantity, ProductName = q.ProductName, Price = q.Price, AmountInCart = q.OrderItems.Where(p => p.ProductId == q.ProductId && p.Orders.OrderStatus == "Pending").Select(p => p.Quantity).FirstOrDefault()})
                 .ToList();
             Store.ItemsSource = _;
-            var c = db.Products
-                .Where(q => q.OrderItems.Where(p => p.Orders.OrderStatus == "Pending").Select(p => p.Orders.OrderStatus).FirstOrDefault() == "Pending")
-                .Select(q => new CartItem { Amount = q.OrderItems.Where(p => p.ProductId == q.ProductId).Select(p => p.Quantity).FirstOrDefault(), ProductName = q.ProductName, Cost = q.Price, TotalCost = (float)Math.Round(q.Price * q.OrderItems.Where(p => p.ProductId == q.ProductId).Select(p => p.Quantity).FirstOrDefault(), 2) })
+            var c = db.OrderItems
+                .Where(q => q.Orders.OrderStatus == "Pending")
+                .Select(q => new CartItem
+                {
+                    Amount = q.Quantity, ProductName = q.Products.ProductName, Cost = q.Price,
+                    TotalCost = (float)Math.Round(q.Price * q.Quantity, 2)
+                })
                 .ToList();
             CartItems = c;
         }
@@ -34,6 +40,7 @@ namespace Login
         {
             var _ = new ManageAccount();
             _.Show();
+            DoClose = false;
             Close();
         }
 
@@ -41,6 +48,7 @@ namespace Login
         {
             var _ = new ShoppingCart(CartItems);
             _.Show();
+            DoClose = false;
             Close();
         }
 
@@ -69,6 +77,8 @@ namespace Login
                     .ToList();
                 var p = db.Products
                     .FirstOrDefault(q => q.ProductName == row.ProductName);
+                var s = db.Stocks
+                    .FirstOrDefault(q => q.StockId == p.StockId);
                 if (!o.Contains("Pending"))
                 {
                     var order = new Order { OrderStatus = "Pending", Id = user.Id, StockId = p.StockId };
@@ -91,19 +101,15 @@ namespace Login
                         .FirstOrDefault(q => q.OrderStatus == "Pending");
                     db.OrderItems.Add(new OrderItem
                         { OrderId = order.OrderId, Quantity = Amount, Price = p.Price, ProductId = p.ProductId });
-                    var s = db.Stocks
-                        .FirstOrDefault(q => q.StockId == p.StockId);
                     s.Quantity -= Amount;
                     db.SaveChanges();
                     Update();
                 }
                 else
                 {
-
                     var orderItem = db.OrderItems
+                        .Where(q => q.Orders.OrderStatus == "Pending")
                         .FirstOrDefault(q => q.ProductId == p.ProductId);
-                    var s = db.Stocks
-                        .FirstOrDefault(q => q.StockId == p.StockId);
                     orderItem.Quantity += Amount;
                     s.Quantity -= Amount;
                     db.SaveChanges();
@@ -115,6 +121,13 @@ namespace Login
         {
             var row = (ProductInStore)Store.SelectedItem;
             using var db = new UsersContext();
+            var p = db.Products
+                .FirstOrDefault(q => q.ProductName == row.ProductName);
+            var s = db.Stocks
+                .FirstOrDefault(q => q.StockId == p.StockId);
+            var orderItem = db.OrderItems
+                .Where(q => q.Orders.OrderStatus == "Pending")
+                .FirstOrDefault(q => q.ProductId == p.ProductId);
             if (row == null)
             {
                 MessageBox.Show("Item not selected");
@@ -130,12 +143,7 @@ namespace Login
                     break;
                 case 0:
                 {
-                    var p = db.Products
-                        .FirstOrDefault(q => q.ProductName == row.ProductName);
-                    var s = db.Stocks
-                        .FirstOrDefault(q => q.StockId == p.StockId);
-                    var orderItem = db.OrderItems
-                        .FirstOrDefault(q => q.ProductId == p.ProductId);
+
                     db.OrderItems.Remove(orderItem);
                     s.Quantity += (long)row.AmountInCart;
                     db.SaveChanges();
@@ -144,12 +152,6 @@ namespace Login
                 }
                 default:
                 {
-                    var p = db.Products
-                        .FirstOrDefault(q => q.ProductName == row.ProductName);
-                    var s = db.Stocks
-                        .FirstOrDefault(q => q.StockId == p.StockId);
-                    var orderItem = db.OrderItems
-                        .FirstOrDefault(q => q.ProductId == p.ProductId);
                     if (Amount > orderItem.Quantity)
                     {
                         MessageBox.Show("You don't have this many items in cart.");
@@ -168,7 +170,6 @@ namespace Login
                         db.SaveChanges();
                         Update();
                     }
-
                     break;
                 }
             }
@@ -182,23 +183,20 @@ namespace Login
                 .Where(q => q.Id == user.Id)
                 .Select(q => q.OrderStatus)
                 .ToList();
-            if (o.Contains("Pending") && (user.Address == null || user.ZipCode == null))
+            if (o.Contains("Pending") && (user.Address == null || user.ZipCode == null || user.FirstName == null || user.LastName == null))
             {
                 MessageBox.Show("Please fill additional data.");
                 var _ = new ManageAccount();
                 _.Show();
+                DoClose = false;
                 Close();
             }
             else if (o.Contains("Pending"))
             {
-                var order = db.Orders
-                    .Where(q => q.Id == user.Id)
-                    .FirstOrDefault(q => q.OrderStatus == "Pending");
-                order.OrderStatus = "Processing";
-                db.SaveChanges();
-                MessageBox.Show("Currently only cash on delivery is available.");
-                CartItems = null;
-                Update();
+                var _ = new OrderInformation();
+                _.Show();
+                DoClose = false;
+                Close();
             }
             else
             {
@@ -209,7 +207,23 @@ namespace Login
         {
             var _ = new WelcomePage();
             _.Show();
+            DoClose = false;
             Close();
+        }
+
+        private void WelcomePage_OnClosing(object sender, CancelEventArgs e)
+        {
+            if(!DoClose) return;
+            using var db = new UsersContext();
+            var user = db.UserLogins
+                .FirstOrDefault(q => q.UserName == LoginWindow.UserName);
+            var order = db.Orders
+                .Where(q => q.Id == user.Id)
+                .FirstOrDefault(q => q.OrderStatus == "Pending");
+            if (order == null) return;
+            order.OrderStatus = "Rejected";
+            order.Payment = false;
+            db.SaveChanges();
         }
     }
 }

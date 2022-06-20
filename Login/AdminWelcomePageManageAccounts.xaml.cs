@@ -107,6 +107,10 @@ namespace Login
             {
                 MessageBox.Show("Email is taken");
             }
+            else if (!Email.Contains("@") || !Email.Contains("."))
+            {
+                MessageBox.Show("Wrong Email");
+            }
             else
             {
                 db.UserLogins.Add(new UserLogin { UserName = UserName, Password = Password, Email = Email, AccountType = AccountType ?? "Customer" });

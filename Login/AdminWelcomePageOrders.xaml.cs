@@ -22,6 +22,8 @@ namespace Login
     /// </summary>
     public partial class AdminWelcomePageOrders : Window
     {
+        public string OrderStatus { get; set; }
+        public bool IsSelected { get; set; }
         public AdminWelcomePageOrders()
         {
             InitializeComponent();
@@ -86,78 +88,46 @@ namespace Login
         }
         private void Pending_Selected(object sender, RoutedEventArgs e)
         {
-            using var db = new UsersContext();
-            var row = (OrdersTable)Orders.SelectedItem;
-            if (row == null)
-            {
-                MessageBox.Show("Item not selected");
-            }
-            else
-            {
-                var selectedOrder = db.Orders
-                    .Where(o => o.OrderId == row.OrderId)
-                    .ToList()
-                    .LastOrDefault();
-                selectedOrder.OrderStatus = "Pending";
-                db.SaveChanges();
-                Update();
-            }
+            OrderStatus = "Pending";
+            IsSelected = true;
         }
 
         private void Processing_Selected(object sender, RoutedEventArgs e)
         {
-            using var db = new UsersContext();
-            var row = (OrdersTable)Orders.SelectedItem;
-            if (row == null)
-            {
-                MessageBox.Show("Item not selected");
-            }
-            else
-            {
-                var selectedOrder = db.Orders
-                    .Where(o => o.OrderId == row.OrderId)
-                    .ToList()
-                    .LastOrDefault();
-                selectedOrder.OrderStatus = "Pending";
-                db.SaveChanges();
-                Update();
-            }
+            OrderStatus = "Processing";
+            IsSelected = true;
         }
         private void Rejected_Selected(object sender, RoutedEventArgs e)
         {
-            using var db = new UsersContext();
-            var row = (OrdersTable)Orders.SelectedItem;
-            if (row == null)
-            {
-                MessageBox.Show("Item not selected");
-            }
-            else
-            {
-                var selectedOrder = db.Orders
-                    .Where(o => o.OrderId == row.OrderId)
-                    .ToList()
-                    .LastOrDefault();
-                selectedOrder.OrderStatus = "Rejected";
-
-                db.SaveChanges();
-                Update();
-            }
+            OrderStatus = "Rejected";
+            IsSelected = true;
         }
         private void Completed_Selected(object sender, RoutedEventArgs e)
         {
+            OrderStatus = "Completed";
+            IsSelected = true;
+        }
+        private void ButtonClick_SetOrderStatus(object sender, RoutedEventArgs e)
+        {
             using var db = new UsersContext();
             var row = (OrdersTable)Orders.SelectedItem;
-            if (row == null)
+            var order = db.Orders
+                .FirstOrDefault(q => q.OrderId == row.OrderId);
+            if (!IsSelected)
             {
-                MessageBox.Show("Item not selected");
+                MessageBox.Show("New Order status was not selected");
+            }
+            else if (row == null)
+            {
+                MessageBox.Show("No item selected");
+            }
+            else if (row.OrderStatus == OrderStatus)
+            {
+                MessageBox.Show("No changes were made");
             }
             else
             {
-                var selectedOrder = db.Orders
-                    .Where(o => o.OrderId == row.OrderId)
-                    .ToList()
-                    .LastOrDefault();
-                selectedOrder.OrderStatus = "Completed";
+                order.OrderStatus = OrderStatus;
                 db.SaveChanges();
                 Update();
             }

@@ -70,7 +70,7 @@
                 <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
-            <AccessText Grid.Column="0" Text="First Name" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <AccessText Grid.Column="0" Text="First Name**" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <TextBox Grid.Column="1" Name="TextBoxFirstName" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
             <TextBox Grid.Column="2" Text="{Binding FirstName}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             <Button Grid.Column="3" Content="set" Click="ButtonClick_SetFirstName"/>
@@ -84,7 +84,7 @@
                 <ColumnDefinition Width="0.5*"/>
                 <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
-            <AccessText Grid.Column="0" Text="Last Name" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <AccessText Grid.Column="0" Text="Last Name**" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <TextBox Grid.Column="1" Name="TextBoxLastName" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
             <TextBox Grid.Column="2" Text="{Binding LastName}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             <Button Grid.Column="3" Content="set" Click="ButtonClick_SetLastName"/>
@@ -147,7 +147,12 @@
             <Button Grid.Column="4" Content="remove" Click="ButtonClick_RemoveZipCode"/>
         </Grid>
         <Grid Grid.Row="10">
-            <AccessText Text="fields marked with * are needed for delivery"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <AccessText Grid.Column="0" Text="  fields marked with * are needed for delivery"/>
+            <AccessText Grid.Column="1" Text="fields marked with ** are needed for order  " TextAlignment="Right"/>
         </Grid>
     </Grid>
 </Window>

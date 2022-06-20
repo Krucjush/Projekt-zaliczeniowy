@@ -33,8 +33,8 @@ namespace Login
         }
         private void Button_Click_Login(object sender, RoutedEventArgs e)
         {
-            //try
-            //{
+            try
+            {
                 using var db = new UsersContext();
                 var userNames = db.UserLogins
                     .Select(q => q.UserName)
@@ -74,12 +74,12 @@ namespace Login
                 {
                     MessageBox.Show("Please enter correct Username and Password.\nIf you don't have account press register to create one.");
                 }
-            //}
-            //catch (Exception exception)
-            //{
-            //    MessageBox.Show("Something went wrong" + nameof(exception));
-            //    Close();
-            //}
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show("Something went wrong" + nameof(exception));
+                Close();
+            }
         }
         private void Button_Click_Register(object sender, RoutedEventArgs eventArgs)
         {

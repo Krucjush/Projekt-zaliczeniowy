@@ -67,7 +67,7 @@ namespace Login
                 .Where(q => q.Id == user.Id)
                 .Select(q => q.OrderStatus)
                 .ToList();
-            if (o.Contains("Pending") && (user.Address == null || user.ZipCode == null))
+            if (o.Contains("Pending") && (user.Address == null || user.ZipCode == null || user.FirstName == null || user.LastName == null))
             {
                 MessageBox.Show("Please fill additional data.");
                 var _ = new ManageAccount();
@@ -77,15 +77,10 @@ namespace Login
             }
             else if (o.Contains("Pending"))
             {
-                var order = db.Orders
-                    .Where(q => q.Id == user.Id)
-                    .FirstOrDefault(q => q.OrderStatus == "Pending");
-                order.OrderStatus = "Processing";
-                db.SaveChanges();
-                MessageBox.Show("Currently only cash on delivery is available.");
-                CartItems = null;
+                var _ = new OrderInformation();
+                _.Show();
                 DoClose = false;
-                Update();
+                Close();
             }
             else
             {

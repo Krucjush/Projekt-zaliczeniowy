@@ -71,9 +71,9 @@ namespace Login
                         .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
                     userData.UserName = UserName;
                     SelectedAccount.UserName = UserName;
+                    db.SaveChanges();
                 }
             }
-            DoClose = false;
             Update();
         }
 
@@ -94,7 +94,6 @@ namespace Login
                     db.SaveChanges();
                 }
             }
-            DoClose = false;
             Update();
         }
 
@@ -119,7 +118,6 @@ namespace Login
                     db.SaveChanges();
                 }
             }
-            DoClose = false;
             Update();
         }
 
@@ -138,7 +136,6 @@ namespace Login
                 SelectedAccount.FirstName = FirstName;
                 db.SaveChanges();
             }
-            DoClose = false;
             Update();
         }
 
@@ -159,7 +156,6 @@ namespace Login
                     db.SaveChanges();
                 }
             }
-            DoClose = false;
             Update();
         }
 
@@ -178,7 +174,6 @@ namespace Login
                 SelectedAccount.LastName = LastName;
                 db.SaveChanges();
             }
-            DoClose = false;
             Update();
         }
 
@@ -199,7 +194,6 @@ namespace Login
                     db.SaveChanges();
                 }
             }
-            DoClose = false;
             Update();
         }
 
@@ -220,7 +214,6 @@ namespace Login
                     db.SaveChanges();
                 }
             }
-            DoClose = false;
             Update();
         }
 
@@ -241,7 +234,6 @@ namespace Login
                     db.SaveChanges();
                 }
             }
-            DoClose = false;
             Update();
         }
 
@@ -266,7 +258,6 @@ namespace Login
                     db.SaveChanges();
                 }
             }
-            DoClose = false;
             Update();
         }
 
@@ -287,7 +278,6 @@ namespace Login
                     db.SaveChanges();
                 }
             }
-            DoClose = false;
             Update();
 
         }
@@ -309,7 +299,6 @@ namespace Login
                     db.SaveChanges();
                 }
             }
-            DoClose = false;
             Update();
         }
 
@@ -330,7 +319,6 @@ namespace Login
                     db.SaveChanges();
                 }
             }
-            DoClose = false;
             Update();
         }
 
@@ -355,7 +343,6 @@ namespace Login
                     db.SaveChanges();
                 }
             }
-            DoClose = false;
             Update();
         }
 
@@ -376,7 +363,6 @@ namespace Login
                     db.SaveChanges();
                 }
             }
-            DoClose = false;
             Update();
         }
 
@@ -404,7 +390,7 @@ namespace Login
                 }
                 else if (TextBoxAccountType.Text == AccountType)
                 {
-                    MessageBox.Show("No change was made");
+                    MessageBox.Show("No changes were made");
                 }
                 else
                 {
@@ -423,14 +409,14 @@ namespace Login
                     }
                 }
             }
-            DoClose = false;
             Update();
         }
         private void Update()
         {
-            this.Close();
             var _ = new ManageAccountAdmin(SelectedAccount);
             _.Show();
+            DoClose = false;
+            Close();
         }
 
         private void ManageAccountAdmin_Closing(object sender, CancelEventArgs e)

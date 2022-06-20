@@ -74,6 +74,10 @@ namespace Login
                 {
                     MessageBox.Show("Password is too similar to User Name.");
                 }
+                else if (!Email.Contains("@") || !Email.Contains("."))
+                {
+                    MessageBox.Show("Wrong email");
+                }
                 else
                 {
                     db.UserLogins.Add(new UserLogin { UserName = UserName, Password = Password, Email = Email, AccountType = "Customer" });

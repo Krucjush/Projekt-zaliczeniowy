@@ -55,6 +55,9 @@ namespace Login
         public long OrderId { get; set; }
         public string OrderStatus { get; set; }
         //"Pending", "Processing", "Rejected", "Completed"
+        public bool Payment { get; set; }
+        public string ShippingMethod { get; set; }
+        //"Package", "Courier", "Parcel locker", "Pickup at the point"
 
         public long Id { get; set; }
         [ForeignKey("Id")]
@@ -158,5 +161,11 @@ namespace Login
         public long OrderId { get; set; }
         public string OrderStatus { get; set; }
         public long UserId { get; set; }
+    }
+    public class OrderItemsTable
+    {
+        public long Quantity { get; set; }
+        public string ItemName { get; set; }
+        public float Cost { get; set; }
     }
 }

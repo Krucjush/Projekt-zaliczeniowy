@@ -58,7 +58,6 @@ namespace Login
                         .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
                     userData.UserName = UserName;
                     MessageBox.Show("User Name successfully set.");
-                    DoClose = false;
                     Update();
                 }
             }
@@ -77,7 +76,6 @@ namespace Login
                     .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
                 userData.Password = Password;
                 db.SaveChanges();
-                DoClose = false;
                 Update();
             }
         }
@@ -99,7 +97,6 @@ namespace Login
                     .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
                 userData.Email = Email;
                 db.SaveChanges();
-                DoClose = false;
                 Update();
             }
         }
@@ -117,7 +114,6 @@ namespace Login
                     .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
                 userData.FirstName = FirstName;
                 db.SaveChanges();
-                DoClose = false;
                 Update();
             }
         }
@@ -135,7 +131,6 @@ namespace Login
             {
                 userData.FirstName = null;
                 db.SaveChanges();
-                DoClose = false;
                 Update();
             }
         }
@@ -153,7 +148,6 @@ namespace Login
                     .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
                 userData.LastName = LastName;
                 db.SaveChanges();
-                DoClose = false;
                 Update();
             }
         }
@@ -171,7 +165,6 @@ namespace Login
             {
                 userData.LastName = null;
                 db.SaveChanges();
-                DoClose = false;
                 Update();
             }
         }
@@ -189,7 +182,6 @@ namespace Login
                     .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
                 userData.Age = Age;
                 db.SaveChanges();
-                DoClose = false;
                 Update();
             }
         }
@@ -207,7 +199,6 @@ namespace Login
             {
                 userData.Age = null;
                 db.SaveChanges();
-                DoClose = false;
                 Update();
             }
         }
@@ -229,7 +220,6 @@ namespace Login
                     .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
                 userData.PhoneNumber = PhoneNumber;
                 db.SaveChanges();
-                DoClose = false;
                 Update();
             }
         }
@@ -247,7 +237,6 @@ namespace Login
             {
                 userData.PhoneNumber = null;
                 db.SaveChanges();
-                DoClose = false;
                 Update();
             }
         }
@@ -265,7 +254,6 @@ namespace Login
                     .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
                 userData.Address = Address;
                 db.SaveChanges();
-                DoClose = false;
                 Update();
             }
         }
@@ -283,7 +271,6 @@ namespace Login
             {
                 userData.Address = null;
                 db.SaveChanges();
-                DoClose = false;
                 Update();
             }
         }
@@ -305,7 +292,6 @@ namespace Login
                     .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
                 userData.ZipCode = ZipCode;
                 db.SaveChanges();
-                DoClose = false;
                 Update();
             }
         }
@@ -323,7 +309,6 @@ namespace Login
             {
                 userData.ZipCode = null;
                 db.SaveChanges();
-                DoClose = false;
                 Update();
             }
         }
@@ -331,6 +316,7 @@ namespace Login
         {
             var _ = new ManageAccount();
             _.Show();
+            DoClose = false;
             Close();
         }
         private void ManageAccount_Closing(object sender, CancelEventArgs e)

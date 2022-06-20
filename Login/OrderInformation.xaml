@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Login"
         mc:Ignorable="d"
+        Closing="OrderInformation_OnClosing"
         Title="OrderInformation" WindowState="Maximized">
     <Grid>
         <Grid.RowDefinitions>
@@ -12,9 +13,9 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="20*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.5*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
@@ -25,7 +26,7 @@
                 <TextBox Text="Full Name" IsReadOnly="True" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             </Grid>
             <Grid Grid.Column="1">
-                <TextBox Text="{Binding FullName}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                <TextBox Name="TextBoxFullName" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
             </Grid>
         </Grid>
         <Grid Grid.Row="1">
@@ -37,7 +38,7 @@
                 <TextBox Text="Address" IsReadOnly="True" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             </Grid>
             <Grid Grid.Column="1">
-                <TextBox Text="{Binding Address}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                <TextBox Name="TextBoxAddress" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
             </Grid>
         </Grid>
         <Grid Grid.Row="2">
@@ -49,26 +50,51 @@
                 <TextBox Text="Zip Code" IsReadOnly="True" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             </Grid>
             <Grid Grid.Column="1">
-                <TextBox Text="{Binding ZipCode}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                <TextBox Name="TextBoxZipCode" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsReadOnly="True"/>
             </Grid>
         </Grid>
         <Grid Grid.Row="3">
-            <!--payment method-->
-        </Grid>
-        <Grid Grid.Row="4">
             <ComboBox HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                 <ComboBoxItem IsSelected="True" IsEnabled="False" HorizontalContentAlignment="Center">Shipping method</ComboBoxItem>
-                <ComboBoxItem HorizontalContentAlignment="Center">Package</ComboBoxItem>
-                <ComboBoxItem HorizontalContentAlignment="Center">Courier</ComboBoxItem>
-                <ComboBoxItem HorizontalContentAlignment="Center">Parcel locker</ComboBoxItem>
-                <ComboBoxItem HorizontalContentAlignment="Center">Pickup at the point</ComboBoxItem>
+                <ComboBoxItem HorizontalContentAlignment="Center" Selected="PackageShipping_Selected">Package</ComboBoxItem>
+                <ComboBoxItem HorizontalContentAlignment="Center" Selected="CourierShipping_Selected">Courier</ComboBoxItem>
+                <ComboBoxItem HorizontalContentAlignment="Center" Selected="ParcelLockerShipping_Selected">Parcel locker</ComboBoxItem>
+                <ComboBoxItem HorizontalContentAlignment="Center" Selected="PickupAtThePoint_Selected">Pickup at the point</ComboBoxItem>
             </ComboBox>
         </Grid>
+        <Grid Grid.Row="4">
+            <DataGrid Name="OrderItemsData" ColumnWidth="*" IsReadOnly="True"/>
+        </Grid>
         <Grid Grid.Row="5">
-            <!--order items table-->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Button Content="Cash" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="Buttons"/>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Button Content="Check" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="Buttons"/>
+            </Grid>
+            <Grid Grid.Column="2">
+                <Button Content="Debit Card" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="Buttons"/>
+            </Grid>
+            <Grid Grid.Column="3">
+                <Button Content="Credit Card" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="Buttons"/>
+            </Grid>
+            <Grid Grid.Column="4">
+                <Button Content="Mobile Payment" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="Buttons"/>
+            </Grid>
+            <Grid Grid.Column="5">
+                <Button Content="Electronic bank transfer" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="Buttons"/>
+            </Grid>
         </Grid>
         <Grid Grid.Row="6">
-            <Button Content="Order" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <AccessText Text="Make sure all the information on this page is correct"/>
         </Grid>
     </Grid>
 </Window>

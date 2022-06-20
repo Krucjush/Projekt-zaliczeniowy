@@ -35,6 +35,10 @@
             <Button Content="Remove" Click="ButtonClick_RemoveOrder"/>
         </Grid>
         <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
             <ComboBox Grid.Column="0" HorizontalContentAlignment="Center">
                 <ComboBoxItem IsSelected="True" IsEnabled="False">Order Status</ComboBoxItem>
                 <ComboBoxItem Selected="Pending_Selected">Pending</ComboBoxItem>
@@ -42,6 +46,9 @@
                 <ComboBoxItem Selected="Rejected_Selected">Rejected</ComboBoxItem>
                 <ComboBoxItem Selected="Completed_Selected">Completed</ComboBoxItem>
             </ComboBox>
+            <Grid Grid.Column="1">
+                <Button Content="Set" Click="ButtonClick_SetOrderStatus"></Button>
+            </Grid>
         </Grid>
         <Grid Grid.Row="4">
             <DataGrid Name="Orders" ColumnWidth="*" IsReadOnly="True"/>
