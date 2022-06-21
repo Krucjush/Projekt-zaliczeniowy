@@ -38,7 +38,6 @@ namespace Login
         {
             try
             {
-                using var db = new UsersContext();
                 var row = (CartItem)Products.SelectedItem;
                 if (row == null)
                 {
@@ -46,15 +45,18 @@ namespace Login
                 }
                 else
                 {
-                    var p = db.Products
-                        .FirstOrDefault(q => q.ProductName == row.ProductName);
-                    var s = db.Stocks
-                        .FirstOrDefault(q => q.StockId == p.StockId);
-                    var orderItem = db.OrderItems
-                        .FirstOrDefault(q => q.ProductId == p.ProductId);
-                    db.OrderItems.Remove(orderItem);
-                    s.Quantity += row.Amount;
-                    db.SaveChanges();
+                    using (var db = new UsersContext())
+                    {
+                        var p = db.Products
+                            .FirstOrDefault(q => q.ProductName == row.ProductName);
+                        var s = db.Stocks
+                            .FirstOrDefault(q => q.StockId == p.StockId);
+                        var orderItem = db.OrderItems
+                            .FirstOrDefault(q => q.ProductId == p.ProductId);
+                        db.OrderItems.Remove(orderItem);
+                        s.Quantity += row.Amount;
+                        db.SaveChanges();
+                    }
                     CartItems.Remove(row);
                     DoClose = false;
                     Update();

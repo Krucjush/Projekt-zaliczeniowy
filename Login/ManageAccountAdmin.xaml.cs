@@ -89,20 +89,18 @@ namespace Login
         {
             try
             {
-                using (var db = new UsersContext())
+                if (string.IsNullOrEmpty(Password))
                 {
-                    if (string.IsNullOrEmpty(Password))
-                    {
-                        MessageBox.Show("Password cannot be empty");
-                    }
-                    else
-                    {
-                        var userData = db.UserLogins
-                            .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
-                        userData.Password = Password;
-                        SelectedAccount.Password = Password;
-                        db.SaveChanges();
-                    }
+                    MessageBox.Show("Password cannot be empty");
+                }
+                else
+                {
+                    using var db = new UsersContext();
+                    var userData = db.UserLogins
+                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
+                    userData.Password = Password;
+                    SelectedAccount.Password = Password;
+                    db.SaveChanges();
                 }
                 Update();
             }
@@ -117,24 +115,22 @@ namespace Login
         {
             try
             {
-                using (var db = new UsersContext())
+                if (string.IsNullOrEmpty(Email))
                 {
-                    if (string.IsNullOrEmpty(Email))
-                    {
-                        MessageBox.Show("Email cannot be empty");
-                    }
-                    else if (!Email.Contains("@") && !Email.Contains("."))
-                    {
-                        MessageBox.Show("Wrong Email");
-                    }
-                    else
-                    {
-                        var userData = db.UserLogins
-                            .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
-                        userData.Email = Email;
-                        SelectedAccount.Email = Email;
-                        db.SaveChanges();
-                    }
+                    MessageBox.Show("Email cannot be empty");
+                }
+                else if (!Email.Contains("@") && !Email.Contains("."))
+                {
+                    MessageBox.Show("Wrong Email");
+                }
+                else
+                {
+                    using var db = new UsersContext();
+                    var userData = db.UserLogins
+                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
+                    userData.Email = Email;
+                    SelectedAccount.Email = Email;
+                    db.SaveChanges();
                 }
                 Update();
             }
@@ -257,20 +253,19 @@ namespace Login
         {
             try
             {
-                using (var db = new UsersContext())
+                if (string.IsNullOrEmpty(Age))
                 {
-                    if (string.IsNullOrEmpty(Age))
-                    {
-                        MessageBox.Show("You can't set empty Age, if you want to remove Age, press \"Remove\" button");
-                    }
-                    else
-                    {
-                        var userData = db.UserLogins
-                            .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
-                        userData.Age = Age;
-                        SelectedAccount.Age = Age;
-                        db.SaveChanges();
-                    }
+                    MessageBox.Show("You can't set empty Age, if you want to remove Age, press \"Remove\" button");
+                }
+                else
+                {
+                    using var db = new UsersContext();
+
+                    var userData = db.UserLogins
+                    .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
+                    userData.Age = Age;
+                    SelectedAccount.Age = Age;
+                    db.SaveChanges();
                 }
                 Update();
             }
@@ -313,24 +308,23 @@ namespace Login
         {
             try
             {
-                using (var db = new UsersContext())
+                if (PhoneNumber.Length == 0)
                 {
-                    if (PhoneNumber.Length == 0)
-                    {
-                        MessageBox.Show("You can't set empty Phone Number, if you want to remove Phone Number, press \"Remove\" button.");
-                    }
-                    else if (PhoneNumber.Length != 9)
-                    {
-                        MessageBox.Show("Wrong Phone Number.");
-                    }
-                    else
-                    {
-                        var userData = db.UserLogins
+                    MessageBox.Show("You can't set empty Phone Number, if you want to remove Phone Number, press \"Remove\" button.");
+                }
+                else if (PhoneNumber.Length != 9)
+                {
+                    MessageBox.Show("Wrong Phone Number.");
+                }
+                else
+                {
+                    using var db = new UsersContext();
+
+                            var userData = db.UserLogins
                             .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
-                        userData.PhoneNumber = PhoneNumber;
-                        SelectedAccount.PhoneNumber = PhoneNumber;
-                        db.SaveChanges();
-                    }
+                    userData.PhoneNumber = PhoneNumber;
+                    SelectedAccount.PhoneNumber = PhoneNumber;
+                    db.SaveChanges();
                 }
                 Update();
             }
@@ -373,20 +367,19 @@ namespace Login
         {
             try
             {
-                using (var db = new UsersContext())
+                if (string.IsNullOrEmpty(Address))
                 {
-                    if (string.IsNullOrEmpty(Address))
-                    {
-                        MessageBox.Show("You can't set empty Address, if you want to remove Address, press \"Remove\" button.");
-                    }
-                    else
-                    {
-                        var userData = db.UserLogins
-                            .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
-                        userData.Address = Address;
-                        SelectedAccount.Address = Address;
-                        db.SaveChanges();
-                    }
+                    MessageBox.Show("You can't set empty Address, if you want to remove Address, press \"Remove\" button.");
+                }
+                else
+                {
+                    using var db = new UsersContext();
+
+                    var userData = db.UserLogins
+                    .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
+                    userData.Address = Address;
+                    SelectedAccount.Address = Address;
+                    db.SaveChanges();
                 }
                 Update();
             }
@@ -429,24 +422,23 @@ namespace Login
         {
             try
             {
-                using (var db = new UsersContext())
+                if (string.IsNullOrEmpty(ZipCode))
                 {
-                    if (string.IsNullOrEmpty(ZipCode))
-                    {
-                        MessageBox.Show("You can't set empty Zip Code, if you want to remove Zip Code, press \"Remove\" button.");
-                    }
-                    else if (!ZipCode.Contains("-") && ZipCode.Length != 6)
-                    {
-                        MessageBox.Show("Wrong Zip Code");
-                    }
-                    else
-                    {
-                        var userData = db.UserLogins
-                            .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
-                        userData.ZipCode = ZipCode;
-                        SelectedAccount.ZipCode = ZipCode;
-                        db.SaveChanges();
-                    }
+                    MessageBox.Show("You can't set empty Zip Code, if you want to remove Zip Code, press \"Remove\" button.");
+                }
+                else if (!ZipCode.Contains("-") && ZipCode.Length != 6)
+                {
+                    MessageBox.Show("Wrong Zip Code");
+                }
+                else
+                {
+                    using var db = new UsersContext();
+
+                    var userData = db.UserLogins
+                    .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
+                    userData.ZipCode = ZipCode;
+                    SelectedAccount.ZipCode = ZipCode;
+                    db.SaveChanges();
                 }
                 Update();
             }
@@ -501,33 +493,32 @@ namespace Login
         {
             try
             {
-                using (var db = new UsersContext())
+
+                if (!IsSelected)
                 {
+                    MessageBox.Show("Nothing was selected.");
+                }
+                else if (TextBoxAccountType.Text == AccountType)
+                {
+                    MessageBox.Show("No changes were made");
+                }
+                else
+                {
+                    using var db = new UsersContext();
                     var userData = db.UserLogins
-                        .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
-                    if (!IsSelected)
+                    .SingleOrDefault(q => q.UserName == SelectedAccount.UserName);
+                    var users = db.UserLogins
+                        .Where(q => q.AccountType == "Administrator")
+                        .ToList();
+                    if (users.Count <= 1 && userData.AccountType == "Administrator" && AccountType == "Customer")
                     {
-                        MessageBox.Show("Nothing was selected.");
-                    }
-                    else if (TextBoxAccountType.Text == AccountType)
-                    {
-                        MessageBox.Show("No changes were made");
+                        MessageBox.Show("You can't remove last Administrator Account");
                     }
                     else
                     {
-                        var users = db.UserLogins
-                            .Where(q => q.AccountType == "Administrator")
-                            .ToList();
-                        if (users.Count <= 1 && userData.AccountType == "Administrator" && AccountType == "Customer")
-                        {
-                            MessageBox.Show("You can't remove last Administrator Account");
-                        }
-                        else
-                        {
-                            userData.AccountType = AccountType;
-                            SelectedAccount.AccountType = AccountType;
-                            db.SaveChanges();
-                        }
+                        userData.AccountType = AccountType;
+                        SelectedAccount.AccountType = AccountType;
+                        db.SaveChanges();
                     }
                 }
                 Update();

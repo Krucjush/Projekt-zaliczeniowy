@@ -79,7 +79,6 @@ namespace Login
         {
             try
             {
-                using var db = new UsersContext();
                 switch (ExpensesName)
                 {
                     case null when Amount == 0:
@@ -96,11 +95,13 @@ namespace Login
                         }
                         else
                         {
-                            db.Expenses.Add(new Expense { ExpensesName = ExpensesName, Date = DateTime.Now, Amount = Amount, TotalCost = Cost, CostPerSingle = (float)Math.Round(Cost/(float)Amount, 2) });
-                            db.SaveChanges();
+                            using (var db = new UsersContext())
+                            {
+                                db.Expenses.Add(new Expense { ExpensesName = ExpensesName, Date = DateTime.Now, Amount = Amount, TotalCost = Cost, CostPerSingle = (float)Math.Round(Cost / (float)Amount, 2) });
+                                db.SaveChanges();
+                            }
                             Update();
                         }
-
                         break;
                     }
                 }
@@ -115,29 +116,32 @@ namespace Login
         {
             try
             {
-                using var db = new UsersContext();
                 var row = (Expense)Expenses.SelectedItem;
                 if (row == null)
                 {
                     MessageBox.Show("Item not selected.");
                 }
+                
                 else if (Multiplier == 0)
                 {
                     MessageBox.Show("Multiplier cannot be 0.");
                 }
                 else
                 {
-                    var selectedExpense = db.Expenses
-                        .Where(t => t.ExpenseId == row.ExpenseId)
-                        .ToList()
-                        .LastOrDefault();
-                    var s = new Stock { Quantity = selectedExpense.Amount, DateCreated = DateTime.Now };
-                    db.Stocks.Add(s);
-                    var p = new Product { ProductName = selectedExpense.ExpensesName, Price = (float)Math.Round(selectedExpense.CostPerSingle * Multiplier, 2), StockId = s.StockId };
-                    db.Products.Add(p);
-                    db.SaveChanges();
-                    db.Expenses.Remove(selectedExpense);
-                    db.SaveChanges();
+                    using (var db = new UsersContext())
+                    {
+                        var selectedExpense = db.Expenses
+                            .Where(t => t.ExpenseId == row.ExpenseId)
+                            .ToList()
+                            .LastOrDefault();
+                        var s = new Stock { Quantity = selectedExpense.Amount, DateCreated = DateTime.Now };
+                        db.Stocks.Add(s);
+                        var p = new Product { ProductName = selectedExpense.ExpensesName, Price = (float)Math.Round(selectedExpense.CostPerSingle * Multiplier, 2), StockId = s.StockId };
+                        db.Products.Add(p);
+                        db.SaveChanges();
+                        db.Expenses.Remove(selectedExpense);
+                        db.SaveChanges();
+                    }
                     Update();
                 }
             }
@@ -151,7 +155,6 @@ namespace Login
         {
             try
             {
-                using var db = new UsersContext();
                 var row = (Expense)Expenses.SelectedItem;
                 if (row == null)
                 {
@@ -159,12 +162,15 @@ namespace Login
                 }
                 else
                 {
-                    var selectedExpense = db.Expenses
-                        .Where(t => t.ExpenseId == row.ExpenseId)
-                        .ToList()
-                        .LastOrDefault();
-                    db.Expenses.Remove(selectedExpense);
-                    db.SaveChanges();
+                    using (var db = new UsersContext())
+                    {
+                        var selectedExpense = db.Expenses
+                            .Where(t => t.ExpenseId == row.ExpenseId)
+                            .ToList()
+                            .LastOrDefault();
+                        db.Expenses.Remove(selectedExpense);
+                        db.SaveChanges();
+                    }
                     Update();
                 }
             }

@@ -79,54 +79,57 @@ namespace Login
         {
             try
             {
-                using var db = new UsersContext();
-                var userNames = db.UserLogins
-                    .Select(q => q.UserName)
-                    .ToList();
-                var emails = db.UserLogins
-                    .Select(q => q.Email)
-                    .ToList();
-                if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
+                using (var db = new UsersContext())
                 {
-                    var emptyFields = new List<string>();
-                    if (string.IsNullOrEmpty(UserName))
+                    var userNames = db.UserLogins
+                        .Select(q => q.UserName)
+                        .ToList();
+                    var emails = db.UserLogins
+                        .Select(q => q.Email)
+                        .ToList();
+                    if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
                     {
-                        emptyFields.Add("User Name");
+                        var emptyFields = new List<string>();
+                        if (string.IsNullOrEmpty(UserName))
+                        {
+                            emptyFields.Add("User Name");
+                        }
+                        if (string.IsNullOrEmpty(Email))
+                        {
+                            emptyFields.Add("Email");
+                        }
+                        if (string.IsNullOrEmpty(Password))
+                        {
+                            emptyFields.Add("Password");
+                        }
+                        var emptyFieldsString = string.Join(" ", emptyFields);
+                        if (emptyFields.Count == 1)
+                        {
+                            MessageBox.Show(emptyFieldsString + " cannot be empty");
+                        }
+                        else
+                            MessageBox.Show("this fields cannot be empty: " + emptyFieldsString);
                     }
-                    if (string.IsNullOrEmpty(Email))
+                    else if (userNames.Contains(UserName))
                     {
-                        emptyFields.Add("Email");
+                        MessageBox.Show("User name is taken");
                     }
-                    if (string.IsNullOrEmpty(Password))
+                    else if (emails.Contains(Email))
                     {
-                        emptyFields.Add("Password");
+                        MessageBox.Show("Email is taken");
                     }
-                    var emptyFieldsString = string.Join(" ", emptyFields);
-                    if (emptyFields.Count == 1)
+                    else if (!Email.Contains("@") || !Email.Contains("."))
                     {
-                        MessageBox.Show(emptyFieldsString + " cannot be empty");
+                        MessageBox.Show("Wrong Email");
                     }
                     else
-                        MessageBox.Show("this fields cannot be empty: " + emptyFieldsString);
+                    {
+                        db.UserLogins.Add(new UserLogin { UserName = UserName, Password = Password, Email = Email, AccountType = AccountType ?? "Customer" });
+                        db.SaveChanges();
+                    }
                 }
-                else if (userNames.Contains(UserName))
-                {
-                    MessageBox.Show("User name is taken");
-                }
-                else if (emails.Contains(Email))
-                {
-                    MessageBox.Show("Email is taken");
-                }
-                else if (!Email.Contains("@") || !Email.Contains("."))
-                {
-                    MessageBox.Show("Wrong Email");
-                }
-                else
-                {
-                    db.UserLogins.Add(new UserLogin { UserName = UserName, Password = Password, Email = Email, AccountType = AccountType ?? "Customer" });
-                    db.SaveChanges();
-                    Update();
-                }
+                Update();
+
             }
             catch
             {
@@ -139,7 +142,6 @@ namespace Login
         {
             try
             {
-                using var db = new UsersContext();
                 var row = (UserLogin)Accounts.SelectedItem;
                 if (row == null)
                 {
@@ -147,12 +149,16 @@ namespace Login
                 }
                 else
                 {
-                    var selectedAccount = db.UserLogins
-                        .Where(t => t.Id == row.Id)
-                        .ToList()
-                        .LastOrDefault();
-                    var _ = new ManageAccountAdmin(selectedAccount);
-                    _.Show();
+                    using (var db = new UsersContext())
+                    {
+                        var selectedAccount = db.UserLogins
+                            .Where(t => t.Id == row.Id)
+                            .ToList()
+                            .LastOrDefault();
+                        var _ = new ManageAccountAdmin(selectedAccount);
+
+                        _.Show();
+                    }
                     Close();
                 }
             }
@@ -167,27 +173,32 @@ namespace Login
         {
             try
             {
-                using var db = new UsersContext();
                 var row = (UserLogin)Accounts.SelectedItem;
-                var admins = db.UserLogins
-                    .Where(q => q.AccountType == "Administrator")
-                    .ToList();
                 if (row == null)
                 {
                     MessageBox.Show("Item not selected");
                 }
-                else if (admins.Count <= 1 && row.AccountType == "Administrator")
-                {
-                    MessageBox.Show("You can't remove last Administrator Account");
-                }
                 else
                 {
-                    var selectedAccount = db.UserLogins
-                        .Where(t => t.Id == row.Id)
-                        .ToList()
-                        .LastOrDefault();
-                    db.UserLogins.Remove(selectedAccount);
-                    db.SaveChanges();
+                    using (var db = new UsersContext())
+                    {
+                        var admins = db.UserLogins
+                            .Where(q => q.AccountType == "Administrator")
+                            .ToList();
+                        if (admins.Count <= 1 && row.AccountType == "Administrator")
+                        {
+                            MessageBox.Show("You can't remove last Administrator Account");
+                        }
+                        else
+                        {
+                            var selectedAccount = db.UserLogins
+                                .Where(t => t.Id == row.Id)
+                                .ToList()
+                                .LastOrDefault();
+                            db.UserLogins.Remove(selectedAccount);
+                            db.SaveChanges();
+                        }
+                    }
                     Update();
                 }
             }

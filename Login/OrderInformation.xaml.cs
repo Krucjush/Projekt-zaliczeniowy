@@ -34,13 +34,13 @@ namespace Login
                 using var db = new UsersContext();
                 var user = db.UserLogins
                     .FirstOrDefault(q => q.UserName == LoginWindow.UserName);
-                TextBoxFullName.Text = user.LastName + " " + user.LastName;
-                TextBoxAddress.Text = user.Address;
-                TextBoxZipCode.Text = user.ZipCode;
                 var _ = db.OrderItems
                     .Where(q => q.Orders.OrderStatus == "Pending")
                     .Select(q => new OrderItemsTable { Quantity = q.Quantity, ItemName = q.Products.ProductName, Cost = (float)Math.Round(q.Price * q.Quantity, 2)})
                     .ToList();
+                TextBoxFullName.Text = user.LastName + " " + user.LastName;
+                TextBoxAddress.Text = user.Address;
+                TextBoxZipCode.Text = user.ZipCode;
                 OrderItemsData.ItemsSource = _;
             }
             catch
@@ -77,22 +77,24 @@ namespace Login
         {
             try
             {
-                using var db = new UsersContext();
-                var user = db.UserLogins
-                    .FirstOrDefault(q => q.UserName == LoginWindow.UserName);
-                var order = db.Orders
-                    .Where(q => q.Id == user.Id)
-                    .FirstOrDefault(q => q.OrderStatus == "Pending");
                 if (!IsSelected)
                 {
                     MessageBox.Show("Please select Shipment method.");
                 }
                 else
                 {
-                    order.ShippingMethod = ShippingMethod;
-                    order.OrderStatus = "Processing";
-                    order.Payment = true;
-                    db.SaveChanges();
+                    using (var db = new UsersContext())
+                    {
+                        var user = db.UserLogins
+                            .FirstOrDefault(q => q.UserName == LoginWindow.UserName);
+                        var order = db.Orders
+                            .Where(q => q.Id == user.Id)
+                            .FirstOrDefault(q => q.OrderStatus == "Pending");
+                        order.ShippingMethod = ShippingMethod;
+                        order.OrderStatus = "Processing";
+                        order.Payment = true;
+                        db.SaveChanges();
+                    }
                     MessageBox.Show("Order Placed.");
                     var _ = new WelcomePage();
                     _.Show();

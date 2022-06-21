@@ -77,7 +77,6 @@ namespace Login
         {
             try
             {
-                using var db = new UsersContext();
                 var row = (StockTable)Stocks.SelectedItem;
                 if (row == null)
                 {
@@ -85,12 +84,15 @@ namespace Login
                 }
                 else
                 {
-                    var selectedStock = db.Stocks
-                        .Where(t => t.StockId == row.StockId)
-                        .ToList()
-                        .LastOrDefault();
-                    db.Stocks.Remove(selectedStock);
-                    db.SaveChanges();
+                    using (var db = new UsersContext())
+                    {
+                        var selectedStock = db.Stocks
+                            .Where(t => t.StockId == row.StockId)
+                            .ToList()
+                            .LastOrDefault();
+                        db.Stocks.Remove(selectedStock);
+                        db.SaveChanges();
+                    }
                     Update();
                 }
             }
@@ -105,7 +107,6 @@ namespace Login
         {
             try
             {
-                using var db = new UsersContext();
                 var row = (StockTable)Stocks.SelectedItem;
                 if (row == null)
                 {
@@ -113,18 +114,22 @@ namespace Login
                 }
                 else
                 {
-                    var selectedStock = db.Stocks
-                        .Where(t => t.StockId == row.StockId)
-                        .ToList()
-                        .LastOrDefault();
+                    
                     if (Quantity == 0)
                     {
                         MessageBox.Show("No changes were made.");
                     }
                     else
                     {
-                        selectedStock.Quantity = Quantity;
-                        selectedStock.DateModified = DateTime.Now;
+                        using (var db = new UsersContext())
+                        {
+                            var selectedStock = db.Stocks
+                                .Where(t => t.StockId == row.StockId)
+                                .ToList()
+                                .LastOrDefault();
+                            selectedStock.Quantity = Quantity;
+                            selectedStock.DateModified = DateTime.Now;
+                        }
                         Update();
                     }
                 }

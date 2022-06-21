@@ -72,7 +72,6 @@ namespace Login
         {
             try
             {
-                using var db = new UsersContext();
                 var row = (ProductTable)Products.SelectedItem;
                 if (row == null)
                 {
@@ -84,12 +83,15 @@ namespace Login
                 }
                 else
                 {
-                    var selectedProduct = db.Products
-                        .Where(p => p.ProductId == row.ProductId)
-                        .ToList()
-                        .LastOrDefault();
-                    selectedProduct.Price = (float)Math.Round(Price, 2);
-                    db.SaveChanges();
+                    using (var db = new UsersContext())
+                    {
+                        var selectedProduct = db.Products
+                            .Where(p => p.ProductId == row.ProductId)
+                            .ToList()
+                            .LastOrDefault();
+                        selectedProduct.Price = (float)Math.Round(Price, 2);
+                        db.SaveChanges();
+                    }
                     Update();
                 }
             }

@@ -83,17 +83,19 @@ namespace Login
         {
             try
             {
-                using var db = new UsersContext();
                 if (string.IsNullOrEmpty(Password))
                 {
                     MessageBox.Show("Password cannot be empty");
                 }
                 else
                 {
-                    var userData = db.UserLogins
-                        .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
-                    userData.Password = Password;
-                    db.SaveChanges();
+                    using (var db = new UsersContext())
+                    {
+                        var userData = db.UserLogins
+                            .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
+                        userData.Password = Password;
+                        db.SaveChanges();
+                    }
                     Update();
                 }
             }
@@ -108,7 +110,6 @@ namespace Login
         {
             try
             {
-                using var db = new UsersContext();
                 if (string.IsNullOrEmpty(Email))
                 {
                     MessageBox.Show("Email cannot be empty");
@@ -119,10 +120,13 @@ namespace Login
                 }
                 else
                 {
-                    var userData = db.UserLogins
-                        .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
-                    userData.Email = Email;
-                    db.SaveChanges();
+                    using (var db = new UsersContext())
+                    {
+                        var userData = db.UserLogins
+                            .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
+                        userData.Email = Email;
+                        db.SaveChanges();
+                    }
                     Update();
                 }
             }
@@ -143,11 +147,13 @@ namespace Login
                 }
                 else
                 {
-                    using var db = new UsersContext();
-                    var userData = db.UserLogins
-                        .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
-                    userData.FirstName = FirstName;
-                    db.SaveChanges();
+                    using (var db = new UsersContext())
+                    {
+                        var userData = db.UserLogins
+                            .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
+                        userData.FirstName = FirstName;
+                        db.SaveChanges();
+                    }
                     Update();
                 }
             }
@@ -193,11 +199,13 @@ namespace Login
                 }
                 else
                 {
-                    using var db = new UsersContext();
-                    var userData = db.UserLogins
-                        .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
-                    userData.LastName = LastName;
-                    db.SaveChanges();
+                    using (var db = new UsersContext())
+                    {
+                        var userData = db.UserLogins
+                            .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
+                        userData.LastName = LastName;
+                        db.SaveChanges();
+                    }
                     Update();
                 }
             }
@@ -237,17 +245,19 @@ namespace Login
         {
             try
             {
-                using var db = new UsersContext();
                 if (string.IsNullOrEmpty(Age))
                 {
                     MessageBox.Show("You can't set empty Age, if you want to remove Age, press \"Remove\" button");
                 }
                 else
                 {
-                    var userData = db.UserLogins
-                        .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
-                    userData.Age = Age;
-                    db.SaveChanges();
+                    using (var db = new UsersContext())
+                    {
+                        var userData = db.UserLogins
+                            .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
+                        userData.Age = Age;
+                        db.SaveChanges();
+                    }
                     Update();
                 }
             }
@@ -287,7 +297,6 @@ namespace Login
         {
             try
             {
-                using var db = new UsersContext();
                 if (PhoneNumber.Length == 0)
                 {
                     MessageBox.Show("You can't set empty Phone Number, if you want to remove Phone Number, press \"Remove\" button.");
@@ -298,10 +307,13 @@ namespace Login
                 }
                 else
                 {
-                    var userData = db.UserLogins
-                        .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
-                    userData.PhoneNumber = PhoneNumber;
-                    db.SaveChanges();
+                    using (var db = new UsersContext())
+                    {
+                        var userData = db.UserLogins
+                            .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
+                        userData.PhoneNumber = PhoneNumber;
+                        db.SaveChanges();
+                    }
                     Update();
                 }
             }
@@ -341,17 +353,19 @@ namespace Login
         {
             try
             {
-                using var db = new UsersContext();
                 if (string.IsNullOrEmpty(Address))
                 {
                     MessageBox.Show("You can't set empty Address, if you want to remove Address, press \"Remove\" button.");
                 }
                 else
                 {
-                    var userData = db.UserLogins
-                        .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
-                    userData.Address = Address;
-                    db.SaveChanges();
+                    using (var db = new UsersContext())
+                    {
+                        var userData = db.UserLogins
+                            .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
+                        userData.Address = Address;
+                        db.SaveChanges();
+                    }
                     Update();
                 }
             }
@@ -391,7 +405,6 @@ namespace Login
         {
             try
             {
-                using var db = new UsersContext();
                 if (string.IsNullOrEmpty(ZipCode))
                 {
                     MessageBox.Show("You can't set empty Zip Code, if you want to remove Zip Code, press \"Remove\" button.");
@@ -402,10 +415,13 @@ namespace Login
                 }
                 else
                 {
-                    var userData = db.UserLogins
-                        .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
-                    userData.ZipCode = ZipCode;
-                    db.SaveChanges();
+                    using (var db = new UsersContext())
+                    {
+                        var userData = db.UserLogins
+                            .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
+                        userData.ZipCode = ZipCode;
+                        db.SaveChanges();
+                    }
                     Update();
                 }
             }

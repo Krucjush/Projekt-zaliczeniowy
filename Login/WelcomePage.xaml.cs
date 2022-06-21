@@ -26,7 +26,6 @@ namespace Login
                 var _ = db.Products
                     .Select(q => new ProductInStore { Available = q.Stock.Quantity, ProductName = q.ProductName, Price = q.Price, AmountInCart = q.OrderItems.Where(p => p.ProductId == q.ProductId && p.Orders.OrderStatus == "Pending").Select(p => p.Quantity).FirstOrDefault()})
                     .ToList();
-                Store.ItemsSource = _;
                 var c = db.OrderItems
                     .Where(q => q.Orders.OrderStatus == "Pending")
                     .Select(q => new CartItem
@@ -35,6 +34,7 @@ namespace Login
                         TotalCost = (float)Math.Round(q.Price * q.Quantity, 2)
                     })
                     .ToList();
+                Store.ItemsSource = _;
                 CartItems = c;
             }
             catch

@@ -79,7 +79,6 @@ namespace Login
         {
             try
             {
-                using var db = new UsersContext();
                 var row = (OrdersTable)Orders.SelectedItem;
                 if (row == null)
                 {
@@ -87,12 +86,15 @@ namespace Login
                 }
                 else
                 {
-                    var selectedOrder = db.Orders
-                        .Where(t => t.OrderId == row.OrderId)
-                        .ToList()
-                        .LastOrDefault();
-                    db.Orders.Remove(selectedOrder);
-                    db.SaveChanges();
+                    using (var db = new UsersContext())
+                    {
+                        var selectedOrder = db.Orders
+                            .Where(t => t.OrderId == row.OrderId)
+                            .ToList()
+                            .LastOrDefault();
+                        db.Orders.Remove(selectedOrder);
+                        db.SaveChanges();
+                    }
                     Update();
                 }
             }
@@ -127,10 +129,8 @@ namespace Login
         {
             try
             {
-                using var db = new UsersContext();
                 var row = (OrdersTable)Orders.SelectedItem;
-                var order = db.Orders
-                    .FirstOrDefault(q => q.OrderId == row.OrderId);
+                
                 if (!IsSelected)
                 {
                     MessageBox.Show("New Order status was not selected");
@@ -145,8 +145,13 @@ namespace Login
                 }
                 else
                 {
-                    order.OrderStatus = OrderStatus;
-                    db.SaveChanges();
+                    using (var db = new UsersContext())
+                    {
+                        var order = db.Orders
+                            .FirstOrDefault(q => q.OrderId == row.OrderId);
+                        order.OrderStatus = OrderStatus;
+                        db.SaveChanges();
+                    }
                     Update();
                 }
             }
