@@ -17,7 +17,7 @@ using Program;
 namespace Login
 {
     /// <summary>
-    /// Logika interakcji dla klasy AdminWelcomePage.xaml
+    /// klasa Witajaca Administratorow
     /// </summary>
     public partial class AdminWelcomePage : Window
     {

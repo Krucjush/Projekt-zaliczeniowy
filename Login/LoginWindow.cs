@@ -5,6 +5,9 @@ using Program;
 
 namespace Login
 {
+    /// <summary>
+    /// Klasa do logowania
+    /// </summary>
     public partial class LoginWindow : Window
     {
         public static string UserName { get; set; }
@@ -28,7 +31,6 @@ namespace Login
                         db.SaveChanges();
                     }
                 }
-                MessageBox.Show("Created Administrator account with\nUserName: Admin\nPassword Admin\nRemember to change User Name and Password!");
                 InitializeComponent();
                 DataContext = this;
             }

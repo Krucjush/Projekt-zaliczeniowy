@@ -16,7 +16,8 @@ using Program;
 namespace Login
 {
     /// <summary>
-    /// Logika interakcji dla klasy AdminWelcomePageManageStocks.xaml
+    /// Klasa do zarzadzania dostepnymi artykuami
+    /// Dostepna tylko dla administratorow
     /// </summary>
     public partial class AdminWelcomePageManageStocks : Window
     {

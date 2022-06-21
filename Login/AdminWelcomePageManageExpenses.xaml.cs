@@ -17,7 +17,8 @@ using Program;
 namespace Login
 {
     /// <summary>
-    /// Logika interakcji dla klasy AdminWelcomePageManageExpenses.xaml
+    /// Klasa do zarzadzania Wydatkami sklepu
+    /// Dostepna tylko dla administratorow
     /// </summary>
     public partial class AdminWelcomePageManageExpenses : Window
     {

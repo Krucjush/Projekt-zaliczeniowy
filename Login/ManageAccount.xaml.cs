@@ -6,7 +6,8 @@ using System.Windows;
 namespace Login
 {
     /// <summary>
-    /// Logika interakcji dla klasy ManageAccount.xaml
+    /// Klasa do zarzadania kontem
+    /// Widok dla zwyklych uzytkownikow (nie administratorow)
     /// </summary>
     public partial class ManageAccount : Window
     {
@@ -42,6 +43,7 @@ namespace Login
             catch
             {
                 MessageBox.Show("Something went wrong");
+                DoClose = false;
                 Close();
             }
         }
@@ -75,6 +77,7 @@ namespace Login
             catch
             {
                 MessageBox.Show("Something went wrong");
+                DoClose = false;
                 Close();
             }
         }
@@ -102,6 +105,7 @@ namespace Login
             catch
             {
                 MessageBox.Show("Something went wrong");
+                DoClose = false;
                 Close();
             }
         }
@@ -133,6 +137,7 @@ namespace Login
             catch
             {
                 MessageBox.Show("Something went wrong");
+                DoClose = false;
                 Close();
             }
         }
@@ -160,6 +165,7 @@ namespace Login
             catch
             {
                 MessageBox.Show("Something went wrong");
+                DoClose = false;
                 Close();
             }
         }
@@ -185,6 +191,7 @@ namespace Login
             catch
             {
                 MessageBox.Show("Something went wrong");
+                DoClose = false;
                 Close();
             }
         }
@@ -212,6 +219,7 @@ namespace Login
             catch
             {
                 MessageBox.Show("Something went wrong");
+                DoClose = false;
                 Close();
             }
         }
@@ -237,6 +245,7 @@ namespace Login
             catch
             {
                 MessageBox.Show("Something went wrong");
+                DoClose = false;
                 Close();
             }
         }
@@ -264,6 +273,7 @@ namespace Login
             catch
             {
                 MessageBox.Show("Something went wrong");
+                DoClose = false;
                 Close();
             }
         }
@@ -289,6 +299,7 @@ namespace Login
             catch
             {
                 MessageBox.Show("Something went wrong");
+                DoClose = false;
                 Close();
             }
         }
@@ -320,6 +331,7 @@ namespace Login
             catch
             {
                 MessageBox.Show("Something went wrong");
+                DoClose = false;
                 Close();
             }
         }
@@ -345,6 +357,7 @@ namespace Login
             catch
             {
                 MessageBox.Show("Something went wrong");
+                DoClose = false;
                 Close();
             }
         }
@@ -372,6 +385,7 @@ namespace Login
             catch
             {
                 MessageBox.Show("Something went wrong");
+                DoClose = false;
                 Close();
             }
         }
@@ -397,6 +411,7 @@ namespace Login
             catch
             {
                 MessageBox.Show("Something went wrong");
+                DoClose = false;
                 Close();
             }
         }
@@ -428,6 +443,7 @@ namespace Login
             catch
             {
                 MessageBox.Show("Something went wrong");
+                DoClose = false;
                 Close();
             }
         }
@@ -453,6 +469,7 @@ namespace Login
             catch
             {
                 MessageBox.Show("Something went wrong");
+                DoClose = false;
                 Close();
             }
         }

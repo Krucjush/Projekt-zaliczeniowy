@@ -15,7 +15,8 @@ using System.Windows.Shapes;
 namespace Login
 {
     /// <summary>
-    /// Logika interakcji dla klasy AdminWelcomePageManageProducts.xaml
+    /// Klasa do zarzadzania kosztem pojedynczego produktu
+    /// Dostepna tylko dla administratorow
     /// </summary>
     public partial class AdminWelcomePageManageProducts : Window
     {

@@ -17,7 +17,7 @@ using Program;
 namespace Login
 {
     /// <summary>
-    /// Logika interakcji dla klasy AdminWelcomePageManageAccounts.xaml
+    /// Klasa do zarzadzania kontami przez administratorow
     /// </summary>
     public partial class AdminWelcomePageManageAccounts : Window
     {

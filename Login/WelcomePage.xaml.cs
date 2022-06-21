@@ -9,7 +9,7 @@ using System.Windows.Documents;
 namespace Login
 {
     /// <summary>
-    /// Logika interakcji dla klasy WelcomePage.xaml
+    /// Klasa witajaca zwyklych uzytkownikow
     /// </summary>
     public partial class WelcomePage : Window
     {
@@ -40,6 +40,7 @@ namespace Login
             catch
             {
                 MessageBox.Show("Something went wrong");
+                DoClose = false;
                 Close();
             }
         }
@@ -130,6 +131,7 @@ namespace Login
             catch
             {
                 MessageBox.Show("Something went wrong");
+                DoClose = false;
                 Close();
             }
         }
@@ -195,6 +197,7 @@ namespace Login
             catch
             {
                 MessageBox.Show("Something went wrong");
+                DoClose = false;
                 Close();
             }
         }
@@ -232,6 +235,7 @@ namespace Login
             catch
             {
                 MessageBox.Show("Something went wrong");
+                DoClose = false;
                 Close();
             }
         }
@@ -262,6 +266,7 @@ namespace Login
             catch
             {
                 MessageBox.Show("Something went wrong");
+                DoClose = false;
                 Close();
             }
         }

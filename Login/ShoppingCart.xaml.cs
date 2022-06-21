@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace Login
 {
     /// <summary>
-    /// Logika interakcji dla klasy ShoppingCart.xaml
+    /// Klasa imitujaca koszyk sklepowy
     /// </summary>
     public partial class ShoppingCart : Window
     {
@@ -65,6 +65,7 @@ namespace Login
             catch
             {
                 MessageBox.Show("Something went wrong");
+                DoClose = false;
                 Close();
             }
         }
@@ -102,6 +103,7 @@ namespace Login
             catch
             {
                 MessageBox.Show("Something went wrong");
+                DoClose = false;
                 Close();
             }
         }

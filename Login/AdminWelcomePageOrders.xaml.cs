@@ -18,7 +18,8 @@ using System.Windows.Shapes;
 namespace Login
 {
     /// <summary>
-    /// Logika interakcji dla klasy AdminWelcomePageOrders.xaml
+    /// Klasa do zarzadzania statusami zamowien
+    /// Dostepna tylko dla administratorow
     /// </summary>
     public partial class AdminWelcomePageOrders : Window
     {

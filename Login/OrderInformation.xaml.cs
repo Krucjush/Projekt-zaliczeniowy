@@ -18,7 +18,7 @@ using Microsoft.EntityFrameworkCore.Query.Internal;
 namespace Login
 {
     /// <summary>
-    /// Logika interakcji dla klasy OrderInformation.xaml
+    /// Klasa do wybrania metody dostawy i metody platnosci
     /// </summary>
     public partial class OrderInformation : Window
     {
@@ -46,6 +46,7 @@ namespace Login
             catch
             {
                 MessageBox.Show("Something went wrong");
+                DoClose = false;
                 Close();
             }
         }
@@ -105,6 +106,7 @@ namespace Login
             catch
             {
                 MessageBox.Show("Something went wrong");
+                DoClose = false;
                 Close();
             }
         }
@@ -126,6 +128,7 @@ namespace Login
             catch
             {
                 MessageBox.Show("Something went wrong");
+                DoClose = false;
                 Close();
             }
         }

@@ -6,7 +6,7 @@ using System.Windows;
 namespace Login
 {
     /// <summary>
-    /// Logika interakcji dla klasy Registration.xaml
+    /// Klasa do rejestracji zwyklych uzytkownikow
     /// </summary>
     public partial class Registration : Window
     {
