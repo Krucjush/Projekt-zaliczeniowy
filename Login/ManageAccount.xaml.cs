@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 
 namespace Login
@@ -118,7 +119,7 @@ namespace Login
                 {
                     MessageBox.Show("Email cannot be empty");
                 }
-                else if (!Email.Contains("@") && !Email.Contains("."))
+                else if (!IsValid(Email))
                 {
                     MessageBox.Show("Wrong Email");
                 }
@@ -485,6 +486,11 @@ namespace Login
             if (!DoClose) return;
             var _ = new WelcomePage();
             _.Show();
+        }
+        private static bool IsValid(string email)
+        {
+            const string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov|pl)$";
+            return Regex.IsMatch(email, regex, RegexOptions.IgnoreCase);
         }
     }
 }

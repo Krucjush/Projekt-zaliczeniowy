@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -118,7 +119,7 @@ namespace Login
                     {
                         MessageBox.Show("Email is taken");
                     }
-                    else if (!Email.Contains("@") || !Email.Contains("."))
+                    else if (!IsValid(Email))
                     {
                         MessageBox.Show("Wrong Email");
                     }
@@ -214,5 +215,10 @@ namespace Login
             _.Show();
             Close();
         }
+        private static bool IsValid(string email)
+        {
+            const string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov|pl)$";
+            return Regex.IsMatch(email, regex, RegexOptions.IgnoreCase);
+        }           
     }
 }

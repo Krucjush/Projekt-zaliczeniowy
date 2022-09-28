@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 
 namespace Login
@@ -74,7 +75,7 @@ namespace Login
                 {
                     MessageBox.Show("Password is too similar to User Name.");
                 }
-                else if (!Email.Contains("@") || !Email.Contains("."))
+                else if (!IsValid(Email))
                 {
                     MessageBox.Show("Wrong email");
                 }
@@ -91,6 +92,11 @@ namespace Login
                 MessageBox.Show("Something went wrong");
                 Close();
             }
+        }
+        private static bool IsValid(string email)
+        {
+            const string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov|pl)$";
+            return Regex.IsMatch(email, regex, RegexOptions.IgnoreCase);
         }
     }
 }

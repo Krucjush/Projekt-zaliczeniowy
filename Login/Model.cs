@@ -24,7 +24,7 @@ namespace Login
         public DbSet<OrderItem> OrderItems { get; set; }
         //change to connection string when needed
         //Data Source=PK1-20;Initial Catalog=InternetStore;Integrated Security=True Data Source=PK1-20;Integrated Security=True^
-        public UsersContext() : base("Data Source=PK1-20;Initial Catalog=InternetStore;Integrated Security=True")
+        public UsersContext() : base("InternetStore")
         {
 
         }
