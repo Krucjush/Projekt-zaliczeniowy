@@ -115,11 +115,15 @@ namespace Login
                     {
                         MessageBox.Show("User name is taken");
                     }
+                    else if (!Password.Any(char.IsLower) || !Password.Any(char.IsUpper) || !Password.Any(char.IsNumber) || Password.Length < 8)
+                    {
+                        MessageBox.Show("Password must contain the following:\nA lowercase letter\nA capital letter\nA number\nMinimum 8 characters");
+                    }
                     else if (emails.Contains(Email))
                     {
                         MessageBox.Show("Email is taken");
                     }
-                    else if (!IsValid(Email))
+                    else if (!IsValidEmail(Email))
                     {
                         MessageBox.Show("Wrong Email");
                     }
@@ -215,10 +219,10 @@ namespace Login
             _.Show();
             Close();
         }
-        private static bool IsValid(string email)
+        private static bool IsValidEmail(string email)
         {
             const string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov|pl)$";
             return Regex.IsMatch(email, regex, RegexOptions.IgnoreCase);
-        }           
+        }
     }
 }

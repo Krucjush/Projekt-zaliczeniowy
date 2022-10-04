@@ -71,9 +71,13 @@ namespace Login
                 {
                     MessageBox.Show("Passwords are not the same.");
                 }
+                else if (!Password.Any(char.IsLower) || !Password.Any(char.IsUpper) || !Password.Any(char.IsNumber) || Password.Length < 8)
+                {
+                    MessageBox.Show("Password must contain the following:\nA lowercase letter\nA capital letter\nA number\nMinimum 8 characters");
+                }
                 else if (Password.Contains(UserName))
                 {
-                    MessageBox.Show("Password is too similar to User Name.");
+                    MessageBox.Show("Password cannot contain User Name within it.");
                 }
                 else if (!IsValid(Email))
                 {

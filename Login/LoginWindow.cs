@@ -81,7 +81,7 @@ namespace Login
                 }
                 else
                 {
-                    MessageBox.Show("Please enter correct Username and Password.\nIf you don't have account press register to create one.");
+                    MessageBox.Show("Please enter correct Username and Password.\nIf you don't have account press register to create one.\nIf you forgot password press the hyperlink below.");
                 }
             }
             catch (Exception exception)
@@ -94,6 +94,13 @@ namespace Login
         {
             var registration = new Registration();
             registration.Show();
+        }
+
+        private void Hyperlink_Click_Forgot_Password(object sender, RoutedEventArgs e)
+        {
+            var _ = new RecoverPassword();
+            _.Show();
+            Close();
         }
     }
 }

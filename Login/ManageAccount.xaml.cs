@@ -91,6 +91,10 @@ namespace Login
                 {
                     MessageBox.Show("Password cannot be empty");
                 }
+                else if (!Password.Any(char.IsLower) || !Password.Any(char.IsUpper) || !Password.Any(char.IsNumber) || Password.Length < 8)
+                {
+                    MessageBox.Show("Password must contain the following:\nA lowercase letter\nA capital letter\nA number\nMinimum 8 characters");
+                }
                 else
                 {
                     using (var db = new UsersContext())
@@ -119,7 +123,7 @@ namespace Login
                 {
                     MessageBox.Show("Email cannot be empty");
                 }
-                else if (!IsValid(Email))
+                else if (!IsValidEmail(Email))
                 {
                     MessageBox.Show("Wrong Email");
                 }
@@ -425,7 +429,7 @@ namespace Login
                 {
                     MessageBox.Show("You can't set empty Zip Code, if you want to remove Zip Code, press \"Remove\" button.");
                 }
-                else if (!ZipCode.Contains("-") && ZipCode.Length != 6)
+                else if (!IsValidZipCode(ZipCode))
                 {
                     MessageBox.Show("Wrong Zip Code");
                 }
@@ -487,10 +491,15 @@ namespace Login
             var _ = new WelcomePage();
             _.Show();
         }
-        private static bool IsValid(string email)
+        private static bool IsValidEmail(string email)
         {
             const string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov|pl)$";
             return Regex.IsMatch(email, regex, RegexOptions.IgnoreCase);
+        }
+        private static bool IsValidZipCode(string zipCode)
+        {
+            const string regex = @"^[0-9]{2}-[0-9]{3}$";
+            return Regex.IsMatch(zipCode, regex);
         }
     }
 }
