@@ -211,6 +211,12 @@
     <Compile Include="RecoverPassword.xaml.cs">
       <DependentUpon>RecoverPassword.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RecoverPassword2.xaml.cs">
+      <DependentUpon>RecoverPassword2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RecoverPasswordEmail.xaml.cs">
+      <DependentUpon>RecoverPasswordEmail.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Registration.xaml.cs">
       <DependentUpon>Registration.xaml</DependentUpon>
     </Compile>
@@ -269,6 +275,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="RecoverPassword.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RecoverPassword2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RecoverPasswordEmail.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

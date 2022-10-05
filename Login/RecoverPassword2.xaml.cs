@@ -15,43 +15,46 @@ using System.Windows.Shapes;
 namespace Login
 {
     /// <summary>
-    /// Logika interakcji dla klasy RecoverPassword.xaml
+    /// Logika interakcji dla klasy RecoverPassword2.xaml
     /// </summary>
-    public partial class RecoverPassword : Window
+    public partial class RecoverPassword2 : Window
     {
-        public string UserName { get; set; }
-        public RecoverPassword()
+        public RecoverPassword2()
         {
             InitializeComponent();
-            DataContext = this;
         }
 
         private void Button_Click_Next(object sender, RoutedEventArgs e)
         {
-            using var db = new UsersContext();
-            var userNames = db.UserLogins
-                .Select(q => q.UserName)
-                .ToList();
-            if (string.IsNullOrEmpty(UserName))
+            if ((bool)EmailRb.IsChecked)
             {
-                MessageBox.Show("Provide User Name.");
+                var _ = new RecoverPasswordEmail();
+                _.Show();
+                Close();
             }
-            else if (!userNames.Contains(UserName))
+            else if ((bool)PhoneRb.IsChecked)
             {
-                MessageBox.Show("Wrong User Name.");
+                //var _ = new RecoverPasswordPhone();
+                //_.Show();
+                //Close();
             }
-            else
+            else if ((bool)NoneRb.IsChecked)
             {
-                var _ = new RecoverPassword2();
+                MessageBox.Show("We cannot confirm it's really you.");
+                var _ = new LoginWindow();
                 _.Show();
                 Close();
             }
         }
+
+        private void Button_Click_Back(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Not implemented yet");
+        }
+
         private void Button_Click_Cancel(object sender, RoutedEventArgs e)
         {
-            var _ = new LoginWindow();
-            _.Show();
-            Close();
+            MessageBox.Show("Not implemented yet.");
         }
     }
 }
