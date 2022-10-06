@@ -19,8 +19,11 @@ namespace Login
     /// </summary>
     public partial class RecoverPassword2 : Window
     {
-        public RecoverPassword2()
+        public string UserName { get; set; }
+        private readonly Random _random = new();
+        public RecoverPassword2(string userName)
         {
+            UserName = userName;
             InitializeComponent();
         }
 
@@ -28,7 +31,13 @@ namespace Login
         {
             if ((bool)EmailRb.IsChecked)
             {
-                var _ = new RecoverPasswordEmail();
+                var rightCode = "";
+                for (var i = 0; i < 7; i++)
+                {
+                    var n = _random.Next(0, 10);
+                    rightCode += n.ToString();
+                }
+                var _ = new RecoverPasswordEmail(rightCode, UserName);
                 _.Show();
                 Close();
             }
@@ -49,12 +58,16 @@ namespace Login
 
         private void Button_Click_Back(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Not implemented yet");
+            var _ = new RecoverPassword();
+            _.Show();
+            Close();
         }
 
         private void Button_Click_Cancel(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Not implemented yet.");
+            var _ = new LoginWindow();
+            _.Show();
+            Close();
         }
     }
 }

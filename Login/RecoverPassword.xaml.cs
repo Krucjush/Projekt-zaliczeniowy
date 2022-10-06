@@ -42,7 +42,7 @@ namespace Login
             }
             else
             {
-                var _ = new RecoverPassword2();
+                var _ = new RecoverPassword2(UserName);
                 _.Show();
                 Close();
             }
