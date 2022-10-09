@@ -115,10 +115,6 @@ namespace Login
                     {
                         MessageBox.Show("User name is taken");
                     }
-                    else if (!Password.Any(char.IsLower) || !Password.Any(char.IsUpper) || !Password.Any(char.IsNumber) || Password.Length < 8)
-                    {
-                        MessageBox.Show("Password must contain the following:\nA lowercase letter\nA capital letter\nA number\nMinimum 8 characters");
-                    }
                     else if (emails.Contains(Email))
                     {
                         MessageBox.Show("Email is taken");
@@ -126,6 +122,16 @@ namespace Login
                     else if (!IsValidEmail(Email))
                     {
                         MessageBox.Show("Wrong Email");
+                    }
+                    else if (!Password.Any(char.IsLower) || !Password.Any(char.IsUpper) || !Password.Any(char.IsNumber) || Password.Length < 8 || Password.Contains(UserName))
+                    {
+                        MessageBox.Show("Password should follow the following rules:\nAt least one (lowercase and capital) letter is needed,\nAt least one number is needed,\nMust be at least 8 characters long,\nCannot be too similar to User Name.");
+                        var messageBoxResult = MessageBox.Show("Are you sure?", "Confirmation", MessageBoxButton.YesNo);
+                        if (messageBoxResult == MessageBoxResult.Yes)
+                        {
+                            db.UserLogins.Add(new UserLogin { UserName = UserName, Password = Password, Email = Email, AccountType = AccountType ?? "Customer" });
+                            db.SaveChanges();
+                        }
                     }
                     else
                     {

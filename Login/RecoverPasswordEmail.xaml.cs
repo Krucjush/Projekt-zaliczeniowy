@@ -21,10 +21,10 @@ namespace Login
     /// </summary>
     public partial class RecoverPasswordEmail : Window
     {
-        private string Code { get; set; }
-        private string RightCode { get; set; }
-        private string UserName { get; set; }
-        private string NewPassword { get; set; }
+        public string Code { get; set; }
+        public string RightCode { get; set; }
+        public string UserName { get; set; }
+        public string NewPassword { get; set; }
         private readonly Random _random = new();
         private const string Chars = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789";
         public RecoverPasswordEmail(string rightCode, string userName)
@@ -41,23 +41,29 @@ namespace Login
         {
             if (Code == RightCode)
             {
-                NewPassword = new string(Enumerable.Repeat(Chars, 8)
-                    .Select(q => q[_random.Next(q.Length)])
-                    .ToArray());
-                MessageBox.Show(NewPassword);
-                //using (var db = new UsersContext())
-                //{
-                //    var user = db.UserLogins
-                //        .FirstOrDefault(q => q.UserName == UserName);
-                //    //user.Password = 
-                //}
+                do
+                {
+                    NewPassword = PasswordGenerator();
+                } while (!NewPassword.Any(char.IsLower) || !NewPassword.Any(char.IsUpper) ||
+                         !NewPassword.Any(char.IsNumber));
+                MessageBox.Show("Your new password,\nYou can change it in manage account page:\n" + NewPassword);
+                using (var db = new UsersContext())
+                {
+                    var user = db.UserLogins
+                        .FirstOrDefault(q => q.UserName == UserName);
+                    user.Password = NewPassword;
+                    db.SaveChanges();
+                }
+                var _ = new LoginWindow();
+                _.Show();
+                Close();
             }
             else
             {
                 RightCode = "";
-                for (var i = 0; i < 7; i++)
+                for (var i = 0; i < 6; i++)
                 {
-                    var n = _random.Next(0, 10);
+                    var n = _random.Next(0, 9);
                     RightCode += n.ToString();
                 }
                 MessageBox.Show("Wrong code.\nNew code have been sent.\n" + RightCode);
@@ -69,6 +75,10 @@ namespace Login
             var _ = new LoginWindow();
             _.Show();
             Close();
+        }
+        private string PasswordGenerator()
+        {
+            return new string(Enumerable.Repeat(Chars, 8).Select(q => q[_random.Next(q.Length)]).ToArray());
         }
     }
 }

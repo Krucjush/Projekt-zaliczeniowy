@@ -32,9 +32,9 @@ namespace Login
             if ((bool)EmailRb.IsChecked)
             {
                 var rightCode = "";
-                for (var i = 0; i < 7; i++)
+                for (var i = 0; i < 6; i++)
                 {
-                    var n = _random.Next(0, 10);
+                    var n = _random.Next(0, 9);
                     rightCode += n.ToString();
                 }
                 var _ = new RecoverPasswordEmail(rightCode, UserName);
