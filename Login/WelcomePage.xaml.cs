@@ -37,35 +37,54 @@ namespace Login
                 Store.ItemsSource = _;
                 CartItems = c;
             }
-            catch
+            catch(Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                DoClose = false;
-                Close();
+                Error(exception);
             }
         }
 
         private void ButtonClick_ManageAccount(object sender, RoutedEventArgs e)
         {
-            var _ = new ManageAccount();
-            _.Show();
-            DoClose = false;
-            Close();
+            try
+            {
+                var _ = new ManageAccount();
+                _.Show();
+                DoClose = false;
+                Close();
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
         }
 
         private void ButtonClick_ShoppingCart(object sender, RoutedEventArgs e)
         {
-            var _ = new ShoppingCart(CartItems);
-            _.Show();
-            DoClose = false;
-            Close();
+            try
+            {
+                var _ = new ShoppingCart(CartItems);
+                _.Show();
+                DoClose = false;
+                Close();
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
         }
 
         private void ButtonClick_LogOut(object sender, RoutedEventArgs e)
         {
-            var _ = new LoginWindow();
-            _.Show();
-            Close();
+            try
+            {
+                var _ = new LoginWindow();
+                _.Show();
+                Close();
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
         }
 
         private void ButtonClick_Add(object sender, RoutedEventArgs e)
@@ -128,11 +147,9 @@ namespace Login
                     }
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                DoClose = false;
-                Close();
+                Error(exception);
             }
         }
         private void ButtonClick_Remove(object sender, RoutedEventArgs e)
@@ -194,11 +211,9 @@ namespace Login
                     }
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                DoClose = false;
-                Close();
+                Error(exception);
             }
         }
         private void ButtonClick_Order(object sender, RoutedEventArgs e)
@@ -232,11 +247,9 @@ namespace Login
                     MessageBox.Show("You don't have any items in cart.");
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                DoClose = false;
-                Close();
+                Error(exception);
             }
         }
         private void Update()
@@ -249,26 +262,23 @@ namespace Login
 
         private void WelcomePage_OnClosing(object sender, CancelEventArgs e)
         {
-            try
-            {
-                if(!DoClose) return;
-                using var db = new UsersContext();
-                var user = db.UserLogins
-                    .FirstOrDefault(q => q.UserName == LoginWindow.UserName);
-                var order = db.Orders
-                    .Where(q => q.Id == user.Id)
-                    .FirstOrDefault(q => q.OrderStatus == "Pending");
-                if (order == null) return;
-                order.OrderStatus = "Rejected";
-                order.Payment = false;
-                db.SaveChanges();
-            }
-            catch
-            {
-                MessageBox.Show("Something went wrong");
-                DoClose = false;
-                Close();
-            }
+            if (!DoClose) return;
+            using var db = new UsersContext();
+            var user = db.UserLogins
+                .FirstOrDefault(q => q.UserName == LoginWindow.UserName);
+            var order = db.Orders
+                .Where(q => q.Id == user.Id)
+                .FirstOrDefault(q => q.OrderStatus == "Pending");
+            if (order == null) return;
+            order.OrderStatus = "Rejected";
+            order.Payment = false;
+            db.SaveChanges();
+        }
+        private void Error(Exception exception)
+        {
+            MessageBox.Show("Something went wrong\n" + exception);
+            DoClose = false;
+            Close();
         }
     }
 }

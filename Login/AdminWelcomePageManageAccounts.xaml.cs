@@ -37,43 +37,77 @@ namespace Login
                     .ToList();
                 Accounts.ItemsSource = a;
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                Close();
+                Error(exception);
             }
         }
 
         private void ButtonClick_ManageStocks(object sender, RoutedEventArgs e)
         {
-            var _ = new AdminWelcomePageManageStocks();
-            _.Show();
-            Close();
+            try
+            {
+                var _ = new AdminWelcomePageManageStocks();
+                _.Show();
+                Close();
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
         }
 
         private void ButtonClick_ManageExpenses(object sender, RoutedEventArgs e)
         {
-            var _ = new AdminWelcomePageManageExpenses();
-            _.Show();
-            Close();
+            try
+            {
+                var _ = new AdminWelcomePageManageExpenses();
+                _.Show();
+                Close();
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
         }
         private void ButtonClick_ManageProducts(object sender, RoutedEventArgs e)
         {
-            var _ = new AdminWelcomePageManageProducts();
-            _.Show();
-            Close();
+            try
+            {
+                var _ = new AdminWelcomePageManageProducts();
+                _.Show();
+                Close();
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
         }
         private void ButtonClick_Orders(object sender, RoutedEventArgs e)
         {
-            var _ = new AdminWelcomePageOrders();
-            _.Show();
-            Close();
+            try
+            {
+                var _ = new AdminWelcomePageOrders();
+                _.Show();
+                Close();
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
         }
         private void ButtonClick_LogOut(object sender, RoutedEventArgs e)
         {
-            var _ = new LoginWindow();
-            _.Show();
-            Close();
+            try
+            {
+                var _ = new LoginWindow();
+                _.Show();
+                Close();
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
         }
 
         private void ButtonClick_AddAccount(object sender, RoutedEventArgs e)
@@ -123,7 +157,7 @@ namespace Login
                     {
                         MessageBox.Show("Wrong Email");
                     }
-                    else if (!Password.Any(char.IsLower) || !Password.Any(char.IsUpper) || !Password.Any(char.IsNumber) || Password.Length < 8 || Password.Contains(UserName))
+                    else if (!Password.Any(char.IsLower) || !Password.Any(char.IsUpper) || !Password.Any(char.IsNumber) || Password.Length < 8 || Password.ToLower().Contains(UserName.ToLower()))
                     {
                         MessageBox.Show("Password should follow the following rules:\nAt least one (lowercase and capital) letter is needed,\nAt least one number is needed,\nMust be at least 8 characters long,\nCannot be too similar to User Name.");
                         var messageBoxResult = MessageBox.Show("Are you sure?", "Confirmation", MessageBoxButton.YesNo);
@@ -142,10 +176,9 @@ namespace Login
                 Update();
 
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                Close();
+                Error(exception);
             }
         }
 
@@ -173,10 +206,9 @@ namespace Login
                     Close();
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                Close();
+                Error(exception);
             }
         }
 
@@ -213,10 +245,9 @@ namespace Login
                     Update();
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                Close();
+                Error(exception);
             }
         }
         public void Update()
@@ -229,6 +260,11 @@ namespace Login
         {
             const string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov|pl)$";
             return Regex.IsMatch(email, regex, RegexOptions.IgnoreCase);
+        }
+        private void Error(Exception exception)
+        {
+            MessageBox.Show("Something went wrong\n" + exception);
+            Close();
         }
     }
 }

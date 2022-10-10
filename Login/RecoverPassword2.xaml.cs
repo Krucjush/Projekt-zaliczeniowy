@@ -20,53 +20,86 @@ namespace Login
     public partial class RecoverPassword2 : Window
     {
         public string UserName { get; set; }
+        public string RightCode { get; set; }
         private readonly Random _random = new();
         public RecoverPassword2(string userName)
         {
-            UserName = userName;
-            InitializeComponent();
+            try
+            {
+                UserName = userName;
+                InitializeComponent();
+                for (var i = 0; i < 6; i++)
+                {
+                    var t = _random.Next(0, 9);
+                    RightCode += t.ToString();
+                }
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
         }
 
         private void Button_Click_Next(object sender, RoutedEventArgs e)
         {
-            if ((bool)EmailRb.IsChecked)
+            try
             {
-                var rightCode = "";
-                for (var i = 0; i < 6; i++)
+                if ((bool)EmailRb.IsChecked)
                 {
-                    var n = _random.Next(0, 9);
-                    rightCode += n.ToString();
+                    var _ = new RecoverPasswordEmail(RightCode, UserName);
+                    _.Show();
+                    Close();
                 }
-                var _ = new RecoverPasswordEmail(rightCode, UserName);
-                _.Show();
-                Close();
+                else if ((bool)PhoneRb.IsChecked)
+                {
+                    var _ = new RecoverPasswordPhone(RightCode, UserName);
+                    _.Show();
+                    Close();
+                }
+                else if ((bool)NoneRb.IsChecked)
+                {
+                    MessageBox.Show("We cannot confirm it's really you.");
+                    var _ = new LoginWindow();
+                    _.Show();
+                    Close();
+                }
             }
-            else if ((bool)PhoneRb.IsChecked)
+            catch (Exception exception)
             {
-                //var _ = new RecoverPasswordPhone();
-                //_.Show();
-                //Close();
-            }
-            else if ((bool)NoneRb.IsChecked)
-            {
-                MessageBox.Show("We cannot confirm it's really you.");
-                var _ = new LoginWindow();
-                _.Show();
-                Close();
+                Error(exception);
             }
         }
 
         private void Button_Click_Back(object sender, RoutedEventArgs e)
         {
-            var _ = new RecoverPassword();
-            _.Show();
-            Close();
+            try
+            {
+                var _ = new RecoverPassword();
+                _.Show();
+                Close();
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
         }
 
         private void Button_Click_Cancel(object sender, RoutedEventArgs e)
         {
-            var _ = new LoginWindow();
-            _.Show();
+            try
+            {
+                var _ = new LoginWindow();
+                _.Show();
+                Close();
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
+        }
+        private void Error(Exception exception)
+        {
+            MessageBox.Show("Something went wrong\n" + exception);
             Close();
         }
     }

@@ -27,39 +27,86 @@ namespace Login
         }
         private void ButtonClick_ManageExpenses(object sender, RoutedEventArgs e)
         {
-            var q = new AdminWelcomePageManageExpenses();
-            q.Show();
-            Close();
+            try
+            {
+                var q = new AdminWelcomePageManageExpenses();
+                q.Show();
+                Close();
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
         }
         private void ButtonClick_ManageStocks(object sender, RoutedEventArgs e)
         {
-            var q = new AdminWelcomePageManageStocks();
-            q.Show();
-            Close();
+            try
+            {
+                var q = new AdminWelcomePageManageStocks();
+                q.Show();
+                Close();
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
         }
         private void ButtonClick_ManageAccounts(object sender, RoutedEventArgs e)
         {
-            var q = new AdminWelcomePageManageAccounts();
-            q.Show();
-            Close();
+            try
+            {
+                var q = new AdminWelcomePageManageAccounts();
+                q.Show();
+                Close();
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
         }
         private void ButtonClick_ManageProducts(object sender, RoutedEventArgs e)
         {
-            var _ = new AdminWelcomePageManageProducts();
-            _.Show();
-            Close();
+            try
+            {
+                var _ = new AdminWelcomePageManageProducts();
+                _.Show();
+                Close();
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
         }
         private void ButtonClick_Orders(object sender, RoutedEventArgs e)
         {
-            var _ = new AdminWelcomePageOrders();
-            _.Show();
-            Close();
+            try
+            {
+                var _ = new AdminWelcomePageOrders();
+                _.Show();
+                Close();
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
         }
 
         private void ButtonClick_LogOut(object sender, RoutedEventArgs e)
         {
-            var _ = new LoginWindow();
-            _.Show();
+            try
+            {
+                var _ = new LoginWindow();
+                _.Show();
+                Close();
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
+        }
+        private void Error(Exception exception)
+        {
+            MessageBox.Show("Something went wrong\n" + exception);
             Close();
         }
     }

@@ -43,11 +43,9 @@ namespace Login
                 TextBoxZipCode.Text = user.ZipCode;
                 OrderItemsData.ItemsSource = _;
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                DoClose = false;
-                Close();
+                Error(exception);
             }
         }
 
@@ -103,11 +101,9 @@ namespace Login
                     Close();
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                DoClose = false;
-                Close();
+                Error(exception);
             }
         }
         private void OrderInformation_OnClosing(object sender, CancelEventArgs e)
@@ -125,12 +121,16 @@ namespace Login
                 order.Payment = false;
                 db.SaveChanges();
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                DoClose = false;
-                Close();
+                Error(exception);
             }
+        }
+        private void Error(Exception exception)
+        {
+            MessageBox.Show("Something went wrong\n" + exception);
+            DoClose = false;
+            Close();
         }
     }
 }

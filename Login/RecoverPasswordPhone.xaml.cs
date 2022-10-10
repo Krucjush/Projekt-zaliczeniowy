@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Linq;
-using System.IdentityModel.Selectors;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,9 +15,9 @@ using System.Windows.Shapes;
 namespace Login
 {
     /// <summary>
-    /// Logika interakcji dla klasy RecoverPasswordEmail.xaml
+    /// Interaction logic for RecoverPasswordPhone.xaml
     /// </summary>
-    public partial class RecoverPasswordEmail : Window
+    public partial class RecoverPasswordPhone : Window
     {
         public string Code { get; set; }
         public string RightCode { get; set; }
@@ -27,7 +25,8 @@ namespace Login
         public string NewPassword { get; set; }
         private readonly Random _random = new();
         private const string Chars = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789";
-        public RecoverPasswordEmail(string rightCode, string userName)
+
+        public RecoverPasswordPhone(string rightCode, string userName)
         {
             try
             {
@@ -55,6 +54,7 @@ namespace Login
                         NewPassword = PasswordGenerator();
                     } while (!NewPassword.Any(char.IsLower) || !NewPassword.Any(char.IsUpper) ||
                              !NewPassword.Any(char.IsNumber));
+
                     MessageBox.Show("Your new password:\n" + NewPassword + "\nYou can change it in manage account page.");
                     using (var db = new UsersContext())
                     {
@@ -63,6 +63,7 @@ namespace Login
                         user.Password = NewPassword;
                         db.SaveChanges();
                     }
+
                     var _ = new LoginWindow();
                     _.Show();
                     Close();
@@ -75,6 +76,7 @@ namespace Login
                         var t = _random.Next(0, 9);
                         RightCode += t.ToString();
                     }
+
                     MessageBox.Show("Wrong code.\nNew code have been sent.\n" + RightCode);
                 }
             }
@@ -97,6 +99,7 @@ namespace Login
                 Error(exception);
             }
         }
+
         private void Button_Click_Resend(object sender, RoutedEventArgs e)
         {
             try
@@ -115,6 +118,7 @@ namespace Login
                 Error(exception);
             }
         }
+
         private string PasswordGenerator()
         {
             return new string(Enumerable.Repeat(Chars, 8).Select(q => q[_random.Next(q.Length)]).ToArray());

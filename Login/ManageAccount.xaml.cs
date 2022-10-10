@@ -41,11 +41,9 @@ namespace Login
                 TextBoxAddress.Text = userData?.Address ?? "Not provided";
                 TextBoxZipCode.Text = userData?.ZipCode ?? "Not provided";
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                DoClose = false;
-                Close();
+                Error(exception);
             }
         }
 
@@ -75,11 +73,9 @@ namespace Login
                 }
 
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                DoClose = false;
-                Close();
+                Error(exception);
             }
         }
 
@@ -91,9 +87,9 @@ namespace Login
                 {
                     MessageBox.Show("Password cannot be empty");
                 }
-                else if (!Password.Any(char.IsLower) || !Password.Any(char.IsUpper) || !Password.Any(char.IsNumber) || Password.Length < 8)
+                else if (!Password.Any(char.IsLower) || !Password.Any(char.IsUpper) || !Password.Any(char.IsNumber) || Password.Length < 8 || Password.ToLower().Contains(UserName.ToLower()))
                 {
-                    MessageBox.Show("Password must contain the following:\nA lowercase letter\nA capital letter\nA number\nMinimum 8 characters");
+                    MessageBox.Show("Password must follow the following rules:\nAt least one (lowercase and capital) letter is needed,\nAt least one number is needed,\nMust be at least 8 characters long,\nCannot be too similar to User Name.");
                 }
                 else
                 {
@@ -107,11 +103,9 @@ namespace Login
                     Update();
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                DoClose = false;
-                Close();
+                Error(exception);
             }
         }
 
@@ -139,11 +133,9 @@ namespace Login
                     Update();
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                DoClose = false;
-                Close();
+                Error(exception);
             }
         }
 
@@ -167,11 +159,9 @@ namespace Login
                     Update();
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                DoClose = false;
-                Close();
+                Error(exception);
             }
         }
 
@@ -193,11 +183,9 @@ namespace Login
                     Update();
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                DoClose = false;
-                Close();
+                Error(exception);
             }
         }
 
@@ -221,11 +209,9 @@ namespace Login
                     Update();
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                DoClose = false;
-                Close();
+                Error(exception);
             }
         }
 
@@ -247,11 +233,9 @@ namespace Login
                     Update();
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                DoClose = false;
-                Close();
+                Error(exception);
             }
         }
 
@@ -275,11 +259,9 @@ namespace Login
                     Update();
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                DoClose = false;
-                Close();
+                Error(exception);
             }
         }
 
@@ -301,11 +283,9 @@ namespace Login
                     Update();
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                DoClose = false;
-                Close();
+                Error(exception);
             }
         }
 
@@ -333,11 +313,9 @@ namespace Login
                     Update();
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                DoClose = false;
-                Close();
+                Error(exception);
             }
         }
 
@@ -359,11 +337,9 @@ namespace Login
                     Update();
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                DoClose = false;
-                Close();
+                Error(exception);
             }
         }
 
@@ -387,11 +363,9 @@ namespace Login
                     Update();
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                DoClose = false;
-                Close();
+                Error(exception);
             }
         }
 
@@ -413,11 +387,9 @@ namespace Login
                     Update();
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                DoClose = false;
-                Close();
+                Error(exception);
             }
         }
 
@@ -445,11 +417,9 @@ namespace Login
                     Update();
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                DoClose = false;
-                Close();
+                Error(exception);
             }
         }
 
@@ -471,11 +441,9 @@ namespace Login
                     Update();
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                DoClose = false;
-                Close();
+                Error(exception);
             }
         }
         private void Update()
@@ -500,6 +468,12 @@ namespace Login
         {
             const string regex = @"^[0-9]{2}-[0-9]{3}$";
             return Regex.IsMatch(zipCode, regex);
+        }
+        private void Error(Exception exception)
+        {
+            MessageBox.Show("Something went wrong\n" + exception);
+            DoClose = false;
+            Close();
         }
     }
 }

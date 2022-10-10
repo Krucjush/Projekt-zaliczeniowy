@@ -37,44 +37,78 @@ namespace Login
                     .ToList();
                 Orders.ItemsSource = _;
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                Close();
+                Error(exception);
             }
         }
 
         private void ButtonClick_ManageExpenses(object sender, RoutedEventArgs e)
         {
-            var _ = new AdminWelcomePageManageExpenses();
-            _.Show();
-            Close();
+            try
+            {
+                var _ = new AdminWelcomePageManageExpenses();
+                _.Show();
+                Close();
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
         }
 
         private void ButtonClick_ManageStocks(object sender, RoutedEventArgs e)
         {
-            var _ = new AdminWelcomePageManageStocks();
-            _.Show();
-            Close();
+            try
+            {
+                var _ = new AdminWelcomePageManageStocks();
+                _.Show();
+                Close();
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
         }
         private void ButtonClick_ManageProducts(object sender, RoutedEventArgs e)
         {
-            var _ = new AdminWelcomePageManageProducts();
-            _.Show();
-            Close();
+            try
+            {
+                var _ = new AdminWelcomePageManageProducts();
+                _.Show();
+                Close();
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
         }
         private void ButtonClick_ManageAccounts(object sender, RoutedEventArgs e)
         {
-            var _ = new AdminWelcomePageManageAccounts();
-            _.Show();
-            Close();
+            try
+            {
+                var _ = new AdminWelcomePageManageAccounts();
+                _.Show();
+                Close();
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
         }
 
         private void ButtonClick_LogOut(object sender, RoutedEventArgs e)
         {
-            var _ = new LoginWindow();
-            _.Show();
-            Close();
+            try
+            {
+                var _ = new LoginWindow();
+                _.Show();
+                Close();
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
         }
         private void ButtonClick_RemoveOrder(object sender, RoutedEventArgs e)
         {
@@ -99,10 +133,9 @@ namespace Login
                     Update();
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                Close();
+                Error(exception);
             }
         }
         private void Pending_Selected(object sender, RoutedEventArgs e)
@@ -156,16 +189,20 @@ namespace Login
                     Update();
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                Close();
+                Error(exception);
             }
         }
         private void Update()
         {
             var _ = new AdminWelcomePageOrders();
             _.Show();
+            Close();
+        }
+        private void Error(Exception exception)
+        {
+            MessageBox.Show("Something went wrong\n" + exception);
             Close();
         }
     }

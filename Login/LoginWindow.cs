@@ -34,10 +34,9 @@ namespace Login
                 InitializeComponent();
                 DataContext = this;
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                Close();
+                Error(exception);
             }
         }
         private void Button_Click_Login(object sender, RoutedEventArgs e)
@@ -86,20 +85,38 @@ namespace Login
             }
             catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong" + nameof(exception));
-                Close();
+                Error(exception);
             }
         }
         private void Button_Click_Register(object sender, RoutedEventArgs eventArgs)
         {
-            var registration = new Registration();
-            registration.Show();
+            try
+            {
+                var registration = new Registration();
+                registration.Show();
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
         }
 
         private void Hyperlink_Click_Forgot_Password(object sender, RoutedEventArgs e)
         {
-            var _ = new RecoverPassword();
-            _.Show();
+            try
+            {
+                var _ = new RecoverPassword();
+                _.Show();
+                Close();
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
+        }
+        private void Error(Exception exception)
+        {
+            MessageBox.Show("Something went wrong\n" + exception);
             Close();
         }
     }

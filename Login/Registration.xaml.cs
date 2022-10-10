@@ -18,8 +18,15 @@ namespace Login
         public string ConfirmEmail { get; set; }
         public Registration()
         {
-            InitializeComponent();
-            DataContext = this;
+            try
+            {
+                InitializeComponent();
+                DataContext = this;
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
         }
         private void Button_Click_Register(object sender, RoutedEventArgs eventArgs)
         {
@@ -71,10 +78,9 @@ namespace Login
                 {
                     MessageBox.Show("Passwords are not the same.");
                 }
-                else if (!Password.Any(char.IsLower) || !Password.Any(char.IsUpper) || !Password.Any(char.IsNumber) || Password.Length < 8 || Password.Contains(UserName))
+                else if (!Password.Any(char.IsLower) || !Password.Any(char.IsUpper) || !Password.Any(char.IsNumber) || Password.Length < 8 || Password.ToLower().Contains(UserName.ToLower()))
                 {
                     MessageBox.Show("Password must follow the following rules:\nAt least one (lowercase and capital) letter is needed,\nAt least one number is needed,\nMust be at least 8 characters long,\nCannot be too similar to User Name.");
-                    
                 }
                 else if (Password.Contains(UserName))
                 {
@@ -92,16 +98,19 @@ namespace Login
                     Close();
                 }
             }
-            catch
+            catch(Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                Close();
+                Error(exception);
             }
         }
         private static bool IsValid(string email)
         {
             const string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov|pl)$";
             return Regex.IsMatch(email, regex, RegexOptions.IgnoreCase);
+        }
+        private void Error(Exception exception)
+        {
+            MessageBox.Show("Something went wrong\n" + exception);
         }
     }
 }

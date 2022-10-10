@@ -24,9 +24,16 @@ namespace Login
         public List<CartItem> CartItems { get; set; }
         public ShoppingCart(List<CartItem> cartItems)
         {
-            InitializeComponent();
-            CartItems = cartItems;
-            Products.ItemsSource = CartItems;
+            try
+            {
+                InitializeComponent();
+                CartItems = cartItems;
+                Products.ItemsSource = CartItems;
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
         }
 
         private void ButtonClick_Back(object sender, RoutedEventArgs e)
@@ -62,11 +69,9 @@ namespace Login
                     Update();
                 }
             }
-            catch
+            catch(Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                DoClose = false;
-                Close();
+                Error(exception);
             }
         }
         private void ButtonClick_Order(object sender, RoutedEventArgs e)
@@ -100,11 +105,9 @@ namespace Login
                     MessageBox.Show("You don't have any items in cart.");
                 }
             }
-            catch
+            catch (Exception exception)
             {
-                MessageBox.Show("Something went wrong");
-                DoClose = false;
-                Close();
+                Error(exception);
             }
         }
         private void Update()
@@ -118,6 +121,12 @@ namespace Login
             if(!DoClose) return;
             var _ = new WelcomePage();
             _.Show();
+        }
+        private void Error(Exception exception)
+        {
+            MessageBox.Show("Something went wrong\n" + exception);
+            DoClose = false;
+            Close();
         }
     }
 }

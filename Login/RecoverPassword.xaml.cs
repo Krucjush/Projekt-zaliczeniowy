@@ -22,35 +22,61 @@ namespace Login
         public string UserName { get; set; }
         public RecoverPassword()
         {
-            InitializeComponent();
-            DataContext = this;
+            try
+            {
+                InitializeComponent();
+                DataContext = this;
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
         }
 
         private void Button_Click_Next(object sender, RoutedEventArgs e)
         {
-            using var db = new UsersContext();
-            var userNames = db.UserLogins
-                .Select(q => q.UserName)
-                .ToList();
-            if (string.IsNullOrEmpty(UserName))
+            try
             {
-                MessageBox.Show("Provide User Name.");
+                using var db = new UsersContext();
+                var userNames = db.UserLogins
+                    .Select(q => q.UserName)
+                    .ToList();
+                if (string.IsNullOrEmpty(UserName))
+                {
+                    MessageBox.Show("Provide User Name.");
+                }
+                else if (!userNames.Contains(UserName))
+                {
+                    MessageBox.Show("Wrong User Name.");
+                }
+                else
+                {
+                    var _ = new RecoverPassword2(UserName);
+                    _.Show();
+                    Close();
+                }
             }
-            else if (!userNames.Contains(UserName))
+            catch (Exception exception)
             {
-                MessageBox.Show("Wrong User Name.");
-            }
-            else
-            {
-                var _ = new RecoverPassword2(UserName);
-                _.Show();
-                Close();
+                Error(exception);
             }
         }
         private void Button_Click_Cancel(object sender, RoutedEventArgs e)
         {
-            var _ = new LoginWindow();
-            _.Show();
+            try
+            {
+                var _ = new LoginWindow();
+                _.Show();
+                Close();
+            }
+            catch (Exception exception)
+            {
+                Error(exception);
+            }
+        }
+        private void Error(Exception exception)
+        {
+            MessageBox.Show("something went wrong\n" + exception);
             Close();
         }
     }
