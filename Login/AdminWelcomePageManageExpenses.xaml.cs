@@ -17,8 +17,9 @@ using Program;
 namespace Login
 {
     /// <summary>
-    /// Klasa do zarzadzania Wydatkami sklepu
-    /// Dostepna tylko dla administratorow
+    /// This class is available only to "Administrator"s.
+    /// It allows them to view, add, remove and add expenses to stocks.
+    /// If they add expenses to stocks they can set a multiplier of a price, by default its 1.
     /// </summary>
     public partial class AdminWelcomePageManageExpenses : Window
     {
@@ -26,24 +27,28 @@ namespace Login
         public long Amount { get; set; }
         public long Cost { get; set; }
         public float Multiplier { get; set; } = 1;
+        /// <summary>
+        /// This constructor generates binding, and fills "Expenses" DataGrid.
+        /// </summary>
         public AdminWelcomePageManageExpenses()
         {
             try
             {
                 InitializeComponent();
-                using (var db = new UsersContext())
-                {
-                    var e = db.Expenses
-                        .ToList();
-                    Expenses.ItemsSource = e;
-                }
                 DataContext = this;
+                using var db = new UsersContext();
+                var e = db.Expenses
+                    .ToList();
+                Expenses.ItemsSource = e;
             }
             catch (Exception exception)
             {
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method opens "AdminWelcomePageManageStocks" window.
+        /// </summary>
         private void ButtonClick_ManageStocks(object sender, RoutedEventArgs e)
         {
             try
@@ -57,7 +62,9 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method opens "AdminWelcomePageManageAccounts" window.
+        /// </summary>
         private void ButtonClick_ManageAccounts(object sender, RoutedEventArgs e)
         {
             try
@@ -71,6 +78,9 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method opens "AdminWelcomePageManageProducts" window.
+        /// </summary>
         private void ButtonClick_ManageProducts(object sender, RoutedEventArgs e)
         {
             try
@@ -84,6 +94,10 @@ namespace Login
                 Error(exception);
             }
         }
+
+        /// <summary>
+        /// This method opens "AdminWelcomePageOrders" window.
+        /// </summary>
         private void ButtonClick_Orders(object sender, RoutedEventArgs e)
         {
             try
@@ -97,6 +111,9 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method logs user out, showing him login window.
+        /// </summary>
         private void ButtonClick_LogOut(object sender, RoutedEventArgs e)
         {
             try
@@ -110,6 +127,11 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method allows "Administrator"s to add new expenses to database.
+        /// Each expense must have "ExpensesName" and "Amount".
+        /// "Cost" is not required, as it can be changed later, or in stocks.
+        /// </summary>
         private void ButtonClick_AddExpenses(object sender, RoutedEventArgs e)
         {
             try
@@ -146,6 +168,10 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method allows "Administrator"s to add expenses to stock.
+        /// If nothing is selected, or multiplier is set to 0 it shows a MessageBox.
+        /// </summary>
         private void ButtonClick_AddToStocks(object sender, RoutedEventArgs e)
         {
             try
@@ -184,7 +210,10 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method allows "Administrator"s to remove expenses from database.
+        /// If nothing is selected it shows a MessageBox.
+        /// </summary>
         private void ButtonClick_RemoveExpenses(object sender, RoutedEventArgs e)
         {
             try
@@ -213,7 +242,9 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method refreshes data, by closing and reopening window.
+        /// </summary>
         private void Update()
         {
             try
@@ -227,6 +258,9 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method shows user information of error
+        /// </summary>
         private void Error(Exception exception)
         {
             MessageBox.Show("Something went wrong\n" + exception);

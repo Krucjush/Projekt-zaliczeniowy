@@ -17,7 +17,8 @@ using Program;
 namespace Login
 {
     /// <summary>
-    /// klasa Witajaca Administratorow
+    /// This class is shown after successful "Administrator" login.
+    /// It is used only for navigation.
     /// </summary>
     public partial class AdminWelcomePage : Window
     {
@@ -25,6 +26,9 @@ namespace Login
         {
             InitializeComponent();
         }
+        /// <summary>
+        /// This method opens "AdminWelcomePageManageExpenses" window.
+        /// </summary>
         private void ButtonClick_ManageExpenses(object sender, RoutedEventArgs e)
         {
             try
@@ -38,6 +42,9 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method opens "AdminWelcomePageManageStocks" window.
+        /// </summary>
         private void ButtonClick_ManageStocks(object sender, RoutedEventArgs e)
         {
             try
@@ -51,6 +58,9 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method opens "AdminWelcomePageManageAccounts" window.
+        /// </summary>
         private void ButtonClick_ManageAccounts(object sender, RoutedEventArgs e)
         {
             try
@@ -64,6 +74,9 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method opens "AdminWelcomePageManageProducts" window.
+        /// </summary>
         private void ButtonClick_ManageProducts(object sender, RoutedEventArgs e)
         {
             try
@@ -77,6 +90,9 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method opens "AdminWelcomePageOrders" window.
+        /// </summary>
         private void ButtonClick_Orders(object sender, RoutedEventArgs e)
         {
             try
@@ -90,7 +106,9 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method logs user out, and opens login window.
+        /// </summary>
         private void ButtonClick_LogOut(object sender, RoutedEventArgs e)
         {
             try
@@ -104,6 +122,9 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method shows user a message, about error.
+        /// </summary>
         private void Error(Exception exception)
         {
             MessageBox.Show("Something went wrong\n" + exception);

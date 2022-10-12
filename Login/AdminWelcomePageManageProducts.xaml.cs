@@ -15,12 +15,15 @@ using System.Windows.Shapes;
 namespace Login
 {
     /// <summary>
-    /// Klasa do zarzadzania kosztem pojedynczego produktu
-    /// Dostepna tylko dla administratorow
+    /// This class is available only for "Administrator"s.
+    /// It allows them to view and change price of products.
     /// </summary>
     public partial class AdminWelcomePageManageProducts : Window
     {
         public float Price { get; set; }
+        /// <summary>
+        /// This constructor generates binding, and fills "Products" DataGrid.
+        /// </summary>
         public AdminWelcomePageManageProducts()
         {
             try
@@ -38,6 +41,9 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method shows "AdminWelcomePageManageExpenses" window.
+        /// </summary>
         private void ButtonClick_ManageExpenses(object sender, RoutedEventArgs e)
         {
             try
@@ -51,6 +57,9 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method shows "AdminWelcomePageManageStocks" window.
+        /// </summary>
         private void ButtonClick_ManageStocks(object sender, RoutedEventArgs e)
         {
             try
@@ -64,6 +73,10 @@ namespace Login
                 Error(exception);
             }
         }
+
+        /// <summary>
+        /// This method shows "AdminWelcomePageManageAccounts" window.
+        /// </summary>
         private void ButtonClick_ManageAccounts(object sender, RoutedEventArgs e)
         {
             try
@@ -77,6 +90,9 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method shows "AdminWelcomePageOrders" window.
+        /// </summary>
         private void ButtonClick_Orders(object sender, RoutedEventArgs e)
         {
             try
@@ -90,6 +106,9 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method logs user out, showing him login window.
+        /// </summary>
         private void ButtonClick_LogOut(object sender, RoutedEventArgs e)
         {
             try
@@ -103,6 +122,10 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method allows "Administrator"s to change price of products.
+        /// if nothing is selected or price is set to 0 it shows a MessageBox.
+        /// </summary>
         private void ButtonClick_SetPrice(object sender, RoutedEventArgs e)
         {
             try
@@ -135,12 +158,18 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method refreshes data, by closing window and reopening it.
+        /// </summary>
         public void Update()
         {
             var _ = new AdminWelcomePageManageProducts();
             _.Show();
             Close();
         }
+        /// <summary>
+        /// This method shows user information of error.
+        /// </summary>
         private void Error(Exception exception)
         {
             MessageBox.Show("Something went wrong\n" + exception);

@@ -18,7 +18,8 @@ using Program;
 namespace Login
 {
     /// <summary>
-    /// Klasa do zarzadzania kontami przez administratorow
+    /// This class is available only to "Administrator"s.
+    /// It allows them to see all users data, delete users, and add new ones.
     /// </summary>
     public partial class AdminWelcomePageManageAccounts : Window
     {
@@ -26,6 +27,9 @@ namespace Login
         public string Password { get; set; }
         public string Email { get; set; }
         public string AccountType { get; set; }
+        /// <summary>
+        /// This constructor generates binding, and fills "Accounts" DataGrid.
+        /// </summary>
         public AdminWelcomePageManageAccounts()
         {
             try
@@ -42,7 +46,9 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method opens "AdminWelcomePageManageStocks" window.
+        /// </summary>
         private void ButtonClick_ManageStocks(object sender, RoutedEventArgs e)
         {
             try
@@ -56,7 +62,9 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method opens "AdminWelcomePageManageExpenses" window.
+        /// </summary>
         private void ButtonClick_ManageExpenses(object sender, RoutedEventArgs e)
         {
             try
@@ -70,6 +78,9 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method opens "AdminWelcomePageManageProducts" window.
+        /// </summary>
         private void ButtonClick_ManageProducts(object sender, RoutedEventArgs e)
         {
             try
@@ -83,6 +94,9 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method opens "AdminWelcomePageOrders" window.
+        /// </summary>
         private void ButtonClick_Orders(object sender, RoutedEventArgs e)
         {
             try
@@ -96,6 +110,9 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method logs user out, showing him login window.
+        /// </summary>
         private void ButtonClick_LogOut(object sender, RoutedEventArgs e)
         {
             try
@@ -109,7 +126,14 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method allows administrators to add new accounts and add them to a database.
+        /// Each account must have a "UserName", "Password" and "Email".
+        /// "UserName" and "Email" shouldn't repeat in database, yet "Administrator"s are able to bypass this.
+        /// "Email" must be correct format.
+        /// "AccountType" allows to add new administrators.
+        /// "AccountType" allows only "Administrator" and "Customer".
+        /// </summary>
         private void ButtonClick_AddAccount(object sender, RoutedEventArgs e)
         {
             try
@@ -163,13 +187,13 @@ namespace Login
                         var messageBoxResult = MessageBox.Show("Are you sure?", "Confirmation", MessageBoxButton.YesNo);
                         if (messageBoxResult == MessageBoxResult.Yes)
                         {
-                            db.UserLogins.Add(new UserLogin { UserName = UserName, Password = Password, Email = Email, AccountType = AccountType ?? "Customer" });
+                            db.UserLogins.Add(new UserLogin { UserName = UserName, Password = Password, Email = Email, AccountType = AccountType == "Administrator" ? "Administrator" : "Customer" });
                             db.SaveChanges();
                         }
                     }
                     else
                     {
-                        db.UserLogins.Add(new UserLogin { UserName = UserName, Password = Password, Email = Email, AccountType = AccountType ?? "Customer" });
+                        db.UserLogins.Add(new UserLogin { UserName = UserName, Password = Password, Email = Email, AccountType = AccountType == "Administrator" ? "Administrator" : "Customer" });
                         db.SaveChanges();
                     }
                 }
@@ -181,7 +205,10 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method opens "ManageAccountAdmin" window, if row is selected.
+        /// Otherwise it shows a MessageBox.
+        /// </summary>
         private void ButtonClick_EditAccount(object sender, RoutedEventArgs e)
         {
             try
@@ -211,7 +238,11 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method allows "Administrator" to remove accounts form database, if correct user is selected.
+        /// If no user is selected it shows a MessageBox.
+        /// If it would remove the last "Administrator" it shows a MessageBox.
+        /// </summary>
         private void ButtonClick_RemoveAccount(object sender, RoutedEventArgs e)
         {
             try
@@ -250,17 +281,28 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method refreshes data by closing window and reopening it.
+        /// </summary>
         public void Update()
         {
             var _ = new AdminWelcomePageManageAccounts();
             _.Show();
             Close();
         }
+        /// <summary>
+        /// This method checks if email is of correct format, using regex.
+        /// </summary>
+        /// <param name="email">Email provided by "Administrator"</param>
+        /// <returns>True if email is of correct format, otherwise false.</returns>
         private static bool IsValidEmail(string email)
         {
             const string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov|pl)$";
             return Regex.IsMatch(email, regex, RegexOptions.IgnoreCase);
         }
+        /// <summary>
+        /// This method display information of error.
+        /// </summary>
         private void Error(Exception exception)
         {
             MessageBox.Show("Something went wrong\n" + exception);
