@@ -18,13 +18,16 @@ using System.Windows.Shapes;
 namespace Login
 {
     /// <summary>
-    /// Klasa do zarzadzania statusami zamowien
-    /// Dostepna tylko dla administratorow
+    /// This class is available only for "Administrator"s.
+    /// It allows them to view, remove, and edit status of all placed orders.
     /// </summary>
     public partial class AdminWelcomePageOrders : Window
     {
         public string OrderStatus { get; set; }
         public bool IsSelected { get; set; }
+        /// <summary>
+        /// This constructor generates binding and fills "Orders" DataGrid.
+        /// </summary>
         public AdminWelcomePageOrders()
         {
             try
@@ -42,7 +45,9 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method shows "AdminWelcomePageManageExpenses" window.
+        /// </summary>
         private void ButtonClick_ManageExpenses(object sender, RoutedEventArgs e)
         {
             try
@@ -56,7 +61,9 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method shows "AdminWelcomePageManageStocks" window.
+        /// </summary>
         private void ButtonClick_ManageStocks(object sender, RoutedEventArgs e)
         {
             try
@@ -70,6 +77,9 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method opens "AdminWelcomePageManageProducts" window.
+        /// </summary>
         private void ButtonClick_ManageProducts(object sender, RoutedEventArgs e)
         {
             try
@@ -83,6 +93,9 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method opens "AdminWelcomePageManageAccounts" window.
+        /// </summary>
         private void ButtonClick_ManageAccounts(object sender, RoutedEventArgs e)
         {
             try
@@ -96,7 +109,9 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method logs user out, showing him login window.
+        /// </summary>
         private void ButtonClick_LogOut(object sender, RoutedEventArgs e)
         {
             try
@@ -110,6 +125,10 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method allows "Administrator"s to remove orders from database.
+        /// If nothing is selected it shows a MessageBox.
+        /// </summary>
         private void ButtonClick_RemoveOrder(object sender, RoutedEventArgs e)
         {
             try
@@ -138,33 +157,48 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method sets "OrderStatus" to "Pending".
+        /// </summary>
         private void Pending_Selected(object sender, RoutedEventArgs e)
         {
             OrderStatus = "Pending";
             IsSelected = true;
         }
-
+        /// <summary>
+        /// This method sets "OrderStatus" to "Processing".
+        /// </summary>
         private void Processing_Selected(object sender, RoutedEventArgs e)
         {
             OrderStatus = "Processing";
             IsSelected = true;
         }
+        /// <summary>
+        /// This method set "OrderStatus" to "Rejected".
+        /// </summary>
         private void Rejected_Selected(object sender, RoutedEventArgs e)
         {
             OrderStatus = "Rejected";
             IsSelected = true;
         }
+        /// <summary>
+        /// This method sets "OrderStatus" to "Completed".
+        /// </summary>
         private void Completed_Selected(object sender, RoutedEventArgs e)
         {
             OrderStatus = "Completed";
             IsSelected = true;
         }
+        /// <summary>
+        /// This method allows "Administrator"s to set selected "OrderStatus" in database.
+        /// If "OrderStatus" is not selected, "OrderStatus" is the same as the one in database or nothing is selected it shows a MessageBox.
+        /// </summary>
         private void ButtonClick_SetOrderStatus(object sender, RoutedEventArgs e)
         {
             try
             {
                 var row = (OrdersTable)Orders.SelectedItem;
-                
+
                 if (!IsSelected)
                 {
                     MessageBox.Show("New Order status was not selected");
@@ -194,12 +228,18 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method refreshes data, closing and reopening the window.
+        /// </summary>
         private void Update()
         {
             var _ = new AdminWelcomePageOrders();
             _.Show();
             Close();
         }
+        /// <summary>
+        /// This method shows user information of error.
+        /// </summary>
         private void Error(Exception exception)
         {
             MessageBox.Show("Something went wrong\n" + exception);

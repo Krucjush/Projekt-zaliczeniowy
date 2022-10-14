@@ -7,8 +7,8 @@ using System.Windows;
 namespace Login
 {
     /// <summary>
-    /// Klasa do zarzadania kontem
-    /// Widok dla zwyklych uzytkownikow (nie administratorow)
+    /// This class is available only for "Customer"s.
+    /// It allows them to view, edit and remove their information in database.
     /// </summary>
     public partial class ManageAccount : Window
     {
@@ -22,6 +22,9 @@ namespace Login
         public string Address { get; set; }
         public string ZipCode { get; set; }
         public bool DoClose { get; set; } = true;
+        /// <summary>
+        /// This constructor generates binding.
+        /// </summary>
         public ManageAccount()
         {
             try
@@ -46,7 +49,10 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method allows "Customer"s to change their "UserName".
+        /// If input is empty or already exists in database, it shows a MessageBox.
+        /// </summary>
         private void ButtonClick_SetUserName(object sender, RoutedEventArgs e)
         {
             try
@@ -78,7 +84,10 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method allows "Customer"s to change their "Password".
+        /// If input is empty or it doesn't follow the rules, it shows a MessageBox.
+        /// </summary>
         private void ButtonClick_SetPassword(object sender, RoutedEventArgs e)
         {
             try
@@ -108,7 +117,10 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method allows "Customer"s to change their "Email".
+        /// If input is empty, or it doesn't follow the rules, it shows a MessageBox.
+        /// </summary>
         private void ButtonClick_SetEmail(object sender, RoutedEventArgs e)
         {
             try
@@ -138,7 +150,10 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method allows "Customer"s to set their "FirstName".
+        /// If input is empty it shows a MessageBox.
+        /// </summary>
         private void ButtonClick_SetFirstName(object sender, RoutedEventArgs e)
         {
             try
@@ -164,7 +179,10 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method allows "Customer"s to remove their "FirstName" from database.
+        /// If "UserName" is already empty it shows a MessageBox.
+        /// </summary>
         private void ButtonClick_RemoveFirstName(object sender, RoutedEventArgs e)
         {
             try
@@ -188,7 +206,10 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method allows "Customer"s to set their "LastName".
+        /// If input is empty it shows a MessageBox.
+        /// </summary>
         private void ButtonClick_SetLastName(object sender, RoutedEventArgs e)
         {
             try
@@ -214,7 +235,10 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method allows "Customer"s to remove their "LastName" from database.
+        /// If "LastName" is already empty it shows a MessageBox.
+        /// </summary>
         private void ButtonClick_RemoveLastName(object sender, RoutedEventArgs e)
         {
             try
@@ -238,7 +262,10 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method allows "Customer"s to set their "Age".
+        /// If input is empty it shows a MessageBox.
+        /// </summary>
         private void ButtonClick_SetAge(object sender, RoutedEventArgs e)
         {
             try
@@ -264,7 +291,10 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method allows "Customer"s to remove their "Age" from database.
+        /// If "Age" is already empty it shows a MessageBox.
+        /// </summary>
         private void ButtonClick_RemoveAge(object sender, RoutedEventArgs e)
         {
             try
@@ -288,16 +318,20 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method allows "Customer"s to set their "PhoneNumber".
+        /// If input is empty, or wrong format it shows a MessageBox.
+        /// </summary>
         private void ButtonClick_SetPhoneNumber(object sender, RoutedEventArgs e)
         {
             try
             {
+                var isCorrect = PhoneNumber.Any(t => !char.IsLetter(t));
                 if (PhoneNumber.Length == 0)
                 {
                     MessageBox.Show("You can't set empty Phone Number, if you want to remove Phone Number, press \"Remove\" button.");
                 }
-                else if(PhoneNumber.Length != 9)
+                else if(PhoneNumber.Length != 9 || isCorrect)
                 {
                     MessageBox.Show("Wrong Phone Number.");
                 }
@@ -318,7 +352,10 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method allows "Customer"s to remove their "PhoneNumber" from database.
+        /// If "PhoneNumber" is already empty it shows a MessageBox.
+        /// </summary>
         private void ButtonClick_RemovePhoneNumber(object sender, RoutedEventArgs e)
         {
             try
@@ -342,7 +379,10 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method allows "Customer"s to set their "Address".
+        /// If input is empty it shows a MessageBox.
+        /// </summary>
         private void ButtonClick_SetAddress(object sender, RoutedEventArgs e)
         {
             try
@@ -368,7 +408,10 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method allows "Customer"s to remove their "Address" from database.
+        /// If "Address" is already empty it shows a MessageBox.
+        /// </summary>
         private void ButtonClick_RemoveAddress(object sender, RoutedEventArgs e)
         {
             try
@@ -392,7 +435,10 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method allows "Customer"s to set their "ZipCode".
+        /// If ZipCode is empty or is of wrong format it shows a MessageBox.
+        /// </summary>
         private void ButtonClick_SetZipCode(object sender, RoutedEventArgs e)
         {
             try
@@ -422,7 +468,10 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method allows "Customer"s to remove their "ZipCode" from database.
+        /// If "ZipCode" is already empty it shows a MessageBox.
+        /// </summary>
         private void ButtonClick_RemoveZipCode(object sender, RoutedEventArgs e)
         {
             try
@@ -446,6 +495,9 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method updates data, by closing and reopening window.
+        /// </summary>
         private void Update()
         {
             var _ = new ManageAccount();
@@ -453,22 +505,38 @@ namespace Login
             DoClose = false;
             Close();
         }
+        /// <summary>
+        /// This method shows "WelcomePage" if "Customer" actually intends to close the window.
+        /// </summary>
         private void ManageAccount_Closing(object sender, CancelEventArgs e)
         {
             if (!DoClose) return;
             var _ = new WelcomePage();
             _.Show();
         }
+        /// <summary>
+        /// This method is checking if "Email" is of correct format using regex.
+        /// </summary>
+        /// <param name="email">Email given by customer.</param>
+        /// <returns>True if email is of correct format, otherwise false.</returns>
         private static bool IsValidEmail(string email)
         {
             const string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov|pl)$";
             return Regex.IsMatch(email, regex, RegexOptions.IgnoreCase);
         }
+        /// <summary>
+        /// This method is checking if "ZipCode" is of correct format using regex.
+        /// </summary>
+        /// <param name="zipCode">Zip code given by customer.</param>
+        /// <returns>True if zip code is of correct format, otherwise false.</returns>
         private static bool IsValidZipCode(string zipCode)
         {
             const string regex = @"^[0-9]{2}-[0-9]{3}$";
             return Regex.IsMatch(zipCode, regex);
         }
+        /// <summary>
+        /// This method shows user information of error.
+        /// </summary>
         private void Error(Exception exception)
         {
             MessageBox.Show("Something went wrong\n" + exception);

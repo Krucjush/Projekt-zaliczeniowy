@@ -205,7 +205,7 @@ namespace Login
             Close();
         }
         /// <summary>
-        /// This method shows user  information of error.
+        /// This method shows user information of error.
         /// </summary>
         private void Error(Exception exception)
         {

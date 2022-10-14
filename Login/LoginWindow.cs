@@ -6,12 +6,16 @@ using Program;
 namespace Login
 {
     /// <summary>
-    /// Klasa do logowania
+    /// This is login class.
+    /// It is used by "Administrator"s and "Customer"s to access their accounts.
     /// </summary>
     public partial class LoginWindow : Window
     {
         public static string UserName { get; set; }
         public static string Password { get; set; }
+        /// <summary>
+        /// This constructor generates binding, and creates "Administrator" account in case of one not existing.
+        /// </summary>
         public LoginWindow()
         {
             try
@@ -39,6 +43,12 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This class allows users to access their account, only if "UserName" and "Password" is correct.
+        /// If "UserName" or "Password" are incorrect, or "Password" doesn't match "UserName" in database it shows a MessageBox.
+        /// If user is an "Administrator" it shows them "AdminWelcomePage" window.
+        /// If user is a "Customer" it shows them "WelcomePage" window.
+        /// </summary>
         private void Button_Click_Login(object sender, RoutedEventArgs e)
         {
             try
@@ -88,6 +98,9 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method shows "Registration" window.
+        /// </summary>
         private void Button_Click_Register(object sender, RoutedEventArgs eventArgs)
         {
             try
@@ -100,7 +113,9 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method shows "RecoverPassword" window.
+        /// </summary>
         private void Hyperlink_Click_Forgot_Password(object sender, RoutedEventArgs e)
         {
             try
@@ -114,6 +129,9 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method shows user information of error.
+        /// </summary>
         private void Error(Exception exception)
         {
             MessageBox.Show("Something went wrong\n" + exception);
