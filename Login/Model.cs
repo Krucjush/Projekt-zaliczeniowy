@@ -11,7 +11,7 @@ using System.Windows.Documents;
 namespace Login
 {
     /// <summary>
-    /// Logika interakcji dla klasy MainWindow.xaml
+    /// This class contains information of all available tables in database, and name or connection string if needed.
     /// </summary>
     
     public class UsersContext : DbContext
@@ -29,6 +29,9 @@ namespace Login
 
         }
     }
+    /// <summary>
+    /// This class contains information about the UserLogin table.
+    /// </summary>
     public class UserLogin
     {
         [Key]
@@ -49,6 +52,9 @@ namespace Login
 
         public List<Order> Orders { get; set; }
     }
+    /// <summary>
+    /// This class contains information about Order table.
+    /// </summary>
     public class Order
     {
         [Key]
@@ -70,7 +76,9 @@ namespace Login
         public List<OrderItem> OrderItems { get; set; }
 
     }
-
+    /// <summary>
+    /// This class contains information about the Expense table.
+    /// </summary>
     public class Expense
     {
         [Key]
@@ -83,7 +91,9 @@ namespace Login
         public long TotalCost { get; set; }
         public float CostPerSingle { get; set; }
     }
-
+    /// <summary>
+    /// This class contains information about the Stock table.
+    /// </summary>
     public class Stock
     {
         [Key]
@@ -97,6 +107,9 @@ namespace Login
         public List<Product> Products { get; set; }
         public List<Order> Orders { get; set; }
     }
+    /// <summary>
+    /// This class contains information about the Product table.
+    /// </summary>
     public class Product
     {
         [Key]
@@ -110,7 +123,9 @@ namespace Login
 
         public List<OrderItem> OrderItems { get; set; }
     }
-
+    /// <summary>
+    /// This class contains information about the OrderItem table.
+    /// </summary>
     public class OrderItem
     {
         [Key]
@@ -128,6 +143,11 @@ namespace Login
         public Product Products { get; set; }
 
     }
+    /// <summary>
+    /// This class contains information about the products in store.
+    /// Created, because none of the tables above were designed for it.
+    /// Used only in WelcomePage class.
+    /// </summary>
     public class ProductInStore
     {
         public long Available { get; set; }
@@ -135,6 +155,11 @@ namespace Login
         public float Price { get; set; }
         public long? AmountInCart { get; set; }
     }
+    /// <summary>
+    /// This class contains information about stocks.
+    /// Created, because none of the tables above were designed for it.
+    /// Used only in AdminWelcomePageManageStocks class.
+    /// </summary>
     public class StockTable
     {
         public long StockId { get; set; }
@@ -143,12 +168,22 @@ namespace Login
         public DateTime DateCreated { get; set; }
         public DateTime? DateModified { get; set; }
     }
+    /// <summary>
+    /// This class contains information about Products.
+    /// Created, because none of the tables above were designed for it.
+    /// Used only in AdminWelcomePageManageProducts class.
+    /// </summary>
     public class ProductTable
     {
         public long ProductId { get; set; }
         public string ProductName { get; set; }
         public float Price { get; set; }
     }
+    /// <summary>
+    /// This class contains information about products in cart.
+    /// Created, because none of the tables above were designed for it.
+    /// Used in ShoppingCart and WelcomePage classes.
+    /// </summary>
     public class CartItem
     {
         public long Amount { get; set; }
@@ -156,12 +191,22 @@ namespace Login
         public float Cost { get; set; }
         public float TotalCost { get; set; }
     }
+    /// <summary>
+    /// This class contains information about orders.
+    /// Created, because none of the tables above were designed for it.
+    /// Used only in AdminWelcomePageManageOrders class.
+    /// </summary>
     public class OrdersTable
     {
         public long OrderId { get; set; }
         public string OrderStatus { get; set; }
         public long UserId { get; set; }
     }
+    /// <summary>
+    /// This class contains information about order items.
+    /// Created, because none of the tables above were designed for it.
+    /// Used only in OrderInformation class.
+    /// </summary>
     public class OrderItemsTable
     {
         public long Quantity { get; set; }
