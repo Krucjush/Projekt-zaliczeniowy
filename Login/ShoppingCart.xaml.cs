@@ -16,12 +16,17 @@ using System.Windows.Shapes;
 namespace Login
 {
     /// <summary>
-    /// Klasa imitujaca koszyk sklepowy
+    /// This class is only accessible by Customers.
+    /// It is used to show user current state of their shopping cart, i.e Amount, ProductName, Cost and TotalCost.
     /// </summary>
     public partial class ShoppingCart : Window
     {
         public bool DoClose { get; set; } = true;
         public List<CartItem> CartItems { get; set; }
+        /// <summary>
+        /// This constructor generates binding and fills Products DataGrid.
+        /// </summary>
+        /// <param name="cartItems">Items that are currently in users shopping cart</param>
         public ShoppingCart(List<CartItem> cartItems)
         {
             try
@@ -35,12 +40,17 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method closes ShoppingCart window.
+        /// </summary>
         private void ButtonClick_Back(object sender, RoutedEventArgs e)
         {
             Close();
         }
-
+        /// <summary>
+        /// This method removes selected item from the shopping cart.
+        /// If nothing is selected it shows a MessageBox.
+        /// </summary>
         private void ButtonClick_Remove(object sender, RoutedEventArgs e)
         {
             try
@@ -74,6 +84,11 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method shows user OrderInformation window.
+        /// If user hasn't given needed data for delivery it shows a MessageBox, and opens ManageAccount window.
+        /// If nothing is in cart it shows a MessageBox.
+        /// </summary>
         private void ButtonClick_Order(object sender, RoutedEventArgs e)
         {
             try
@@ -110,18 +125,28 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method refreshes data, by closing and reopening window.
+        /// </summary>
         private void Update()
         {
             var _ = new ShoppingCart(CartItems);
             _.Show();
             Close();
         }
+        /// <summary>
+        /// This method checks if user actually intends to close the window.
+        /// If so it opens WelcomePage.
+        /// </summary>
         private void ShoppingCart_Closing(object sender, CancelEventArgs e)
         {
             if(!DoClose) return;
             var _ = new WelcomePage();
             _.Show();
         }
+        /// <summary>
+        /// This method shows user information of error.
+        /// </summary>
         private void Error(Exception exception)
         {
             MessageBox.Show("Something went wrong\n" + exception);

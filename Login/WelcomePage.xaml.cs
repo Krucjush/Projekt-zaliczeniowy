@@ -9,13 +9,17 @@ using System.Windows.Documents;
 namespace Login
 {
     /// <summary>
-    /// Klasa witajaca zwyklych uzytkownikow
+    /// This class is only shows to Customers.
+    /// It is a main window for the whole store, where users can put items into the cart, or remove the from there, or go to the order window.
     /// </summary>
     public partial class WelcomePage : Window
     {
         public List<CartItem> CartItems { get; set; }
         public int Amount { get; set; }
         public bool DoClose { get; set; } = true;
+        /// <summary>
+        /// This constructor generates binding, fills Store DataGrid and fills cart.
+        /// </summary>
         public WelcomePage()
         {
             try
@@ -42,7 +46,9 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method opens ManageAccount window.
+        /// </summary>
         private void ButtonClick_ManageAccount(object sender, RoutedEventArgs e)
         {
             try
@@ -57,7 +63,9 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method opens ShoppingCart window.
+        /// </summary>
         private void ButtonClick_ShoppingCart(object sender, RoutedEventArgs e)
         {
             try
@@ -72,7 +80,9 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method logs user out, showing LoginWindow.
+        /// </summary>
         private void ButtonClick_LogOut(object sender, RoutedEventArgs e)
         {
             try
@@ -86,7 +96,13 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method allows users to add items from store to their shopping cart.
+        /// If nothing is selected it shows a MessageBox.
+        /// If user tries to add less than one item, or more items than are available in the store it shows a MessageBox.
+        /// If nothing was yet in cart it "creates" one.
+        /// If cart already has something inside it only adds new items to it.
+        /// </summary>
         private void ButtonClick_Add(object sender, RoutedEventArgs e)
         {
             try
@@ -125,7 +141,6 @@ namespace Login
                     }
                     else if (row.AmountInCart == 0)
                     {
-
                         var order = db.Orders
                             .Where(q => q.Id == user.Id)
                             .FirstOrDefault(q => q.OrderStatus == "Pending");
@@ -152,6 +167,11 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method allows users to remove items from their shopping cart.
+        /// If nothing is selected, user tries to remove item that is not in his cart, user tries to remove more items than he has in cart or types a negative number it shows a
+        /// MessageBox.
+        /// </summary>
         private void ButtonClick_Remove(object sender, RoutedEventArgs e)
         {
             try
@@ -216,6 +236,11 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method opens OrderInformation window.
+        /// If user hasn't filled data necessary for order it opens ManageAccount window.
+        /// If user didn't have any items in their cart it shows a MessageBox.
+        /// </summary>
         private void ButtonClick_Order(object sender, RoutedEventArgs e)
         {
             try
@@ -252,6 +277,9 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method refreshes data, by closing and reopening window.
+        /// </summary>
         private void Update()
         {
             var _ = new WelcomePage();
@@ -259,7 +287,10 @@ namespace Login
             DoClose = false;
             Close();
         }
-
+        /// <summary>
+        /// This method checks if user actually intend to close the window.
+        /// If so it rejects current order.
+        /// </summary>
         private void WelcomePage_OnClosing(object sender, CancelEventArgs e)
         {
             if (!DoClose) return;
@@ -274,6 +305,9 @@ namespace Login
             order.Payment = false;
             db.SaveChanges();
         }
+        /// <summary>
+        /// This method shows user information of error.
+        /// </summary>
         private void Error(Exception exception)
         {
             MessageBox.Show("Something went wrong\n" + exception);

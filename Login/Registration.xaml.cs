@@ -7,7 +7,7 @@ using System.Windows;
 namespace Login
 {
     /// <summary>
-    /// Klasa do rejestracji zwyklych uzytkownikow
+    /// This class allows users to create accounts.
     /// </summary>
     public partial class Registration : Window
     {
@@ -16,6 +16,9 @@ namespace Login
         public string ConfirmPassword { get; set; }
         public string Email { get; set; }
         public string ConfirmEmail { get; set; }
+        /// <summary>
+        /// This constructor generates binding.
+        /// </summary>
         public Registration()
         {
             try
@@ -28,6 +31,20 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method adds created account to database.
+        /// For account to be created, following conditions must be met:
+        /// UserName, Email and password mustn't be empty,
+        /// UserName and Email cannot already exist in database,
+        /// Email must match the one given in Confirm Email,
+        /// Password must match te one given in Confirm Password,
+        /// Password must follow the right format:
+        ///     At least one lowercase and capital letter,
+        ///     At least one number,
+        ///     At least 8 characters long,
+        ///     Mustn't contain UserName in it;
+        /// Email mus be of correct format,
+        /// </summary>
         private void Button_Click_Register(object sender, RoutedEventArgs eventArgs)
         {
             try
@@ -82,10 +99,6 @@ namespace Login
                 {
                     MessageBox.Show("Password must follow the following rules:\nAt least one (lowercase and capital) letter is needed,\nAt least one number is needed,\nMust be at least 8 characters long,\nCannot be too similar to User Name.");
                 }
-                else if (Password.Contains(UserName))
-                {
-                    MessageBox.Show("Password cannot contain User Name within it.");
-                }
                 else if (!IsValid(Email))
                 {
                     MessageBox.Show("Wrong email");
@@ -103,11 +116,19 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method checks if Email is of correct format using regex.
+        /// </summary>
+        /// <param name="email">Email given by user</param>
+        /// <returns>True if email matches the criteria, otherwise false</returns>
         private static bool IsValid(string email)
         {
             const string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov|pl)$";
             return Regex.IsMatch(email, regex, RegexOptions.IgnoreCase);
         }
+        /// <summary>
+        /// This method shows user information of error.
+        /// </summary>
         private void Error(Exception exception)
         {
             MessageBox.Show("Something went wrong\n" + exception);

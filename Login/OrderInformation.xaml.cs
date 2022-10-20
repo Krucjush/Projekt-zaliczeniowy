@@ -18,13 +18,17 @@ using Microsoft.EntityFrameworkCore.Query.Internal;
 namespace Login
 {
     /// <summary>
-    /// Klasa do wybrania metody dostawy i metody platnosci
+    /// This class is available only for "Customer"s.
+    /// It allows them to place orders, choose delivery type and payment method.
     /// </summary>
     public partial class OrderInformation : Window
     {
         public bool DoClose { get; set; } = true;
         public string ShippingMethod { get; set; }
         public bool IsSelected { get; set; }
+        /// <summary>
+        /// This constructor generates binding and fills information in the window.
+        /// </summary>
         public OrderInformation()
         {
             try
@@ -48,30 +52,42 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method checks if "PackageShipping" shipping method is selected.
+        /// </summary>
         private void PackageShipping_Selected(object sender, RoutedEventArgs e)
         {
             ShippingMethod = "PackageShipping";
             IsSelected = true;
         }
-
+        /// <summary>
+        /// This method checks if "CourierShipping" shipping method is selected.
+        /// </summary>
         private void CourierShipping_Selected(object sender, RoutedEventArgs e)
         {
             ShippingMethod = "Courier Shipping";
             IsSelected = true;
         }
-
+        /// <summary>
+        /// This method checks if "ParcelLockerShipping" shipping method is selected.
+        /// </summary>
         private void ParcelLockerShipping_Selected(object sender, RoutedEventArgs e)
         {
             ShippingMethod = "Parcel Locker Shipping";
             IsSelected = true;
         }
-
+        /// <summary>
+        /// This method checks if "PickupAtThePoint" shipping method is selected
+        /// </summary>
         private void PickupAtThePoint_Selected(object sender, RoutedEventArgs e)
         {
             ShippingMethod = "Pickup at the point";
             IsSelected = true;
         }
+        /// <summary>
+        /// This method check which payment method is selected.
+        /// If shipment method hasn't ben chosen it shows a MessageBox.
+        /// </summary>
         private void Buttons(object sender, RoutedEventArgs e)
         {
             try
@@ -106,6 +122,10 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method changes the OrderStatus to "Rejected" if user intentionally closes the application.
+        /// It is used to prevent exploiting getting items "for free".
+        /// </summary>
         private void OrderInformation_OnClosing(object sender, CancelEventArgs e)
         {
             try
@@ -126,6 +146,9 @@ namespace Login
                 Error(exception);
             }
         }
+        /// <summary>
+        /// This method shows user information of error.
+        /// </summary>
         private void Error(Exception exception)
         {
             MessageBox.Show("Something went wrong\n" + exception);

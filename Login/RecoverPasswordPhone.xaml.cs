@@ -15,7 +15,8 @@ using System.Windows.Shapes;
 namespace Login
 {
     /// <summary>
-    /// Interaction logic for RecoverPasswordPhone.xaml
+    /// This class is the second final path for password recovery.
+    /// This one is "using" phone number to "confirm" it's really the person that tries to recover the password.
     /// </summary>
     public partial class RecoverPasswordPhone : Window
     {
@@ -25,7 +26,11 @@ namespace Login
         public string NewPassword { get; set; }
         private readonly Random _random = new();
         private const string Chars = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789";
-
+        /// <summary>
+        /// This constructor generates binding, and shows user the right code on starting this window.
+        /// </summary>
+        /// <param name="rightCode">Correct code</param>
+        /// <param name="userName">UserName of interested user</param>
         public RecoverPasswordPhone(string rightCode, string userName)
         {
             try
@@ -42,7 +47,11 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method resets user password if the code given by user matches the one generated and "sent" to user.
+        /// If the code given by user is wrong it shows a MessageBox, generates new code, and shows it to user on next MessageBox.
+        /// If the code given by user is correct, it generates new password matching the criteria for correct password, and shows it to user in a MessageBox.
+        /// </summary>
         private void Button_Click_Finish(object sender, RoutedEventArgs e)
         {
             try
@@ -85,7 +94,9 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method opens LoginWindow.
+        /// </summary>
         private void Button_Click_Cancel(object sender, RoutedEventArgs e)
         {
             try
@@ -99,7 +110,9 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method generates new code, and shows is on a MessageBox.
+        /// </summary>
         private void Button_Click_Resend(object sender, RoutedEventArgs e)
         {
             try
@@ -118,11 +131,17 @@ namespace Login
                 Error(exception);
             }
         }
-
+        /// <summary>
+        /// This method is a password generator.
+        /// </summary>
+        /// <returns>string of 8 random characters from Chars string</returns>
         private string PasswordGenerator()
         {
             return new string(Enumerable.Repeat(Chars, 8).Select(q => q[_random.Next(q.Length)]).ToArray());
         }
+        /// <summary>
+        /// This method shows user information of error.
+        /// </summary>
         private void Error(Exception exception)
         {
             MessageBox.Show("Something went wrong\n" + exception);
