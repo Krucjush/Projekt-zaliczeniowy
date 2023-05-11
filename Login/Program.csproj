@@ -28,7 +28,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>9</LangVersion>
-	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -39,7 +39,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>9</LangVersion>
-	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -182,80 +182,80 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AdminWelcomePage.xaml.cs">
+    <Compile Include="AdministratorPages\AdminWelcomePage.xaml.cs">
       <DependentUpon>AdminWelcomePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AdminWelcomePageManageAccounts.xaml.cs">
+    <Compile Include="AdministratorPages\AdminWelcomePageManageAccounts.xaml.cs">
       <DependentUpon>AdminWelcomePageManageAccounts.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AdminWelcomePageManageExpenses.xaml.cs">
+    <Compile Include="AdministratorPages\AdminWelcomePageManageExpenses.xaml.cs">
       <DependentUpon>AdminWelcomePageManageExpenses.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AdminWelcomePageManageProducts.xaml.cs">
+    <Compile Include="AdministratorPages\AdminWelcomePageManageProducts.xaml.cs">
       <DependentUpon>AdminWelcomePageManageProducts.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AdminWelcomePageManageStocks.xaml.cs">
+    <Compile Include="AdministratorPages\AdminWelcomePageManageStocks.xaml.cs">
       <DependentUpon>AdminWelcomePageManageStocks.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AdminWelcomePageOrders.xaml.cs">
+    <Compile Include="AdministratorPages\AdminWelcomePageOrders.xaml.cs">
       <DependentUpon>AdminWelcomePageOrders.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ManageAccountAdmin.xaml.cs">
+    <Compile Include="AdministratorPages\ManageAccountAdmin.xaml.cs">
       <DependentUpon>ManageAccountAdmin.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ManageAccount.xaml.cs">
+    <Compile Include="UserPages\ManageAccount.xaml.cs">
       <DependentUpon>ManageAccount.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model.cs" />
-    <Compile Include="OrderInformation.xaml.cs">
+    <Compile Include="UserPages\OrderInformation.xaml.cs">
       <DependentUpon>OrderInformation.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RecoverPassword.xaml.cs">
+    <Compile Include="RecoveryPages\RecoverPassword.xaml.cs">
       <DependentUpon>RecoverPassword.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RecoverPassword2.xaml.cs">
+    <Compile Include="RecoveryPages\RecoverPassword2.xaml.cs">
       <DependentUpon>RecoverPassword2.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RecoverPasswordEmail.xaml.cs">
+    <Compile Include="RecoveryPages\RecoverPasswordEmail.xaml.cs">
       <DependentUpon>RecoverPasswordEmail.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RecoverPasswordPhone.xaml.cs">
+    <Compile Include="RecoveryPages\RecoverPasswordPhone.xaml.cs">
       <DependentUpon>RecoverPasswordPhone.xaml</DependentUpon>
     </Compile>
     <Compile Include="Registration.xaml.cs">
       <DependentUpon>Registration.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ShoppingCart.xaml.cs">
+    <Compile Include="UserPages\ShoppingCart.xaml.cs">
       <DependentUpon>ShoppingCart.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WelcomePage.xaml.cs">
+    <Compile Include="UserPages\WelcomePage.xaml.cs">
       <DependentUpon>WelcomePage.xaml</DependentUpon>
     </Compile>
-    <Page Include="AdminWelcomePage.xaml">
+    <Page Include="AdministratorPages\AdminWelcomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AdminWelcomePageManageAccounts.xaml">
+    <Page Include="AdministratorPages\AdminWelcomePageManageAccounts.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AdminWelcomePageManageExpenses.xaml">
+    <Page Include="AdministratorPages\AdminWelcomePageManageExpenses.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AdminWelcomePageManageProducts.xaml">
+    <Page Include="AdministratorPages\AdminWelcomePageManageProducts.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AdminWelcomePageManageStocks.xaml">
+    <Page Include="AdministratorPages\AdminWelcomePageManageStocks.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AdminWelcomePageOrders.xaml">
+    <Page Include="AdministratorPages\AdminWelcomePageOrders.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ManageAccountAdmin.xaml">
+    <Page Include="AdministratorPages\ManageAccountAdmin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -271,27 +271,27 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ManageAccount.xaml">
+    <Page Include="UserPages\ManageAccount.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OrderInformation.xaml">
+    <Page Include="UserPages\OrderInformation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RecoverPassword.xaml">
+    <Page Include="RecoveryPages\RecoverPassword.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RecoverPassword2.xaml">
+    <Page Include="RecoveryPages\RecoverPassword2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RecoverPasswordEmail.xaml">
+    <Page Include="RecoveryPages\RecoverPasswordEmail.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RecoverPasswordPhone.xaml">
+    <Page Include="RecoveryPages\RecoverPasswordPhone.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -299,11 +299,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ShoppingCart.xaml">
+    <Page Include="UserPages\ShoppingCart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="WelcomePage.xaml">
+    <Page Include="UserPages\WelcomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -335,6 +335,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Data.SqlClient.SNI.1.1.0\build\net46\Microsoft.Data.SqlClient.SNI.targets" Condition="Exists('..\packages\Microsoft.Data.SqlClient.SNI.1.1.0\build\net46\Microsoft.Data.SqlClient.SNI.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
