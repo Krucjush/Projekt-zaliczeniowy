@@ -95,9 +95,9 @@ namespace Login
                 {
                     MessageBox.Show("Password cannot be empty");
                 }
-                else if (!Password.Any(char.IsLower) || !Password.Any(char.IsUpper) || !Password.Any(char.IsNumber) || Password.Length < 8 || Password.ToLower().Contains(UserName.ToLower()))
+                else if (!Password.Any(char.IsLower) || !Password.Any(char.IsUpper) || !Password.Any(char.IsNumber) || Password.Length < 8 )
                 {
-                    MessageBox.Show("Password must follow the following rules:\nAt least one (lowercase and capital) letter is needed,\nAt least one number is needed,\nMust be at least 8 characters long,\nCannot be too similar to User Name.");
+                    MessageBox.Show("Password must follow the following rules:\nAt least one (lowercase and capital) letter is needed,\nAt least one number is needed,\nMust be at least 8 characters long.");
                 }
                 else
                 {
@@ -105,7 +105,7 @@ namespace Login
                     {
                         var userData = db.UserLogins
                             .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
-                        userData.Password = BCrypt.Net.BCrypt.HashPassword(Password);
+                        userData!.Password = BCrypt.Net.BCrypt.HashPassword(Password);
                         db.SaveChanges();
                     }
                     Update();
