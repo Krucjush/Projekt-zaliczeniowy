@@ -25,13 +25,13 @@
             <AccessText Text="_Enter Password:"/>
         </StackPanel>
         <TextBlock>
-            <TextBox Name="Passwordtxt" Width="150" Margin="100, -15, 10, 10" Text="{Binding Password}"/>
+            <PasswordBox Name="Passwordtxt" Width="150" Margin="100, -15, 10, 10" PasswordChanged="Passwordtxt_OnPasswordChanged"/>
         </TextBlock>
         <StackPanel Orientation="Horizontal">
             <AccessText Text="_Confirm Password:"/>
         </StackPanel>
         <TextBlock>
-            <TextBox Name="ConfirmPasswordtxt" Width="150" Margin="100, -15, 10, 10" Text="{Binding ConfirmPassword}"/>
+            <PasswordBox Name="ConfirmPasswordtxt" Width="150" Margin="100, -15, 10, 10" PasswordChanged="ConfirmPasswordtxt_OnPasswordChanged"/>
         </TextBlock>
         <Button Width="150" HorizontalAlignment="Center" Content="Register" Margin="0,10,15,10" Click="Button_Click_Register"/>
     </StackPanel>

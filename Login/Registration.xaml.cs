@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Login
 {
@@ -133,5 +134,14 @@ namespace Login
         {
             MessageBox.Show("Something went wrong\n" + exception);
         }
+
+        private void Passwordtxt_OnPasswordChanged(object sender, RoutedEventArgs e)
+        {
+			((dynamic)DataContext).Password = ((PasswordBox)sender).Password;
+		}
+        private void ConfirmPasswordtxt_OnPasswordChanged(object sender, RoutedEventArgs e)
+        {
+			((dynamic)DataContext).ConfirmPassword = ((PasswordBox)sender).Password;
+		}
     }
 }
