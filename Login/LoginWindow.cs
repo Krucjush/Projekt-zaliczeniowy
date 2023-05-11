@@ -23,21 +23,7 @@ namespace Login
         {
             try
             {
-                using (var db = new UsersContext())
-                {
-                    var userData = db.UserLogins
-                        .Where(q => q.AccountType == "Administrator")
-                        .ToList();
-                    if (userData.Count == 0)
-                    {
-                        db.UserLogins.Add(new UserLogin()
-                        {
-                            UserName = "Admin", Password = BCrypt.Net.BCrypt.HashPassword("Admin"), Email = "example@gmail.com",
-                            AccountType = "Administrator"
-                        });
-                        db.SaveChanges();
-                    }
-                }
+                SeedData.Seed();
                 InitializeComponent();
                 DataContext = this;
             }

@@ -25,7 +25,7 @@ namespace Login
     {
         public static string ExpensesName { get; set; }
         public long Amount { get; set; }
-        public long Cost { get; set; }
+        public float Cost { get; set; }
         public float Multiplier { get; set; } = 1;
         /// <summary>
         /// This constructor generates binding, and fills "Expenses" DataGrid.
@@ -154,7 +154,7 @@ namespace Login
                         {
                             using (var db = new UsersContext())
                             {
-                                db.Expenses.Add(new Expense { ExpensesName = ExpensesName, Date = DateTime.Now, Amount = Amount, TotalCost = Cost, CostPerSingle = (float)Math.Round(Cost / (float)Amount, 2) });
+                                db.Expenses.Add(new Expense { ExpensesName = ExpensesName, Date = DateTime.Now, Amount = Amount, TotalCost = Cost, CostPerSingle = (float)Math.Round(Cost / Amount, 2) });
                                 db.SaveChanges();
                             }
                             Update();

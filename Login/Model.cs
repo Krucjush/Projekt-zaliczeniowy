@@ -88,7 +88,7 @@ namespace Login
         public DateTime Date { get; set; }
         [Required]
         public long Amount { get; set; }
-        public long TotalCost { get; set; }
+        public float TotalCost { get; set; }
         public float CostPerSingle { get; set; }
     }
     /// <summary>

@@ -206,6 +206,7 @@
     <Compile Include="AdministratorPages\ManageAccountAdmin.xaml.cs">
       <DependentUpon>ManageAccountAdmin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SeedData.cs" />
     <Compile Include="UserPages\ManageAccount.xaml.cs">
       <DependentUpon>ManageAccount.xaml</DependentUpon>
     </Compile>
