@@ -35,7 +35,6 @@ namespace Login
                 var userData = db.UserLogins
                     .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
                 TextBoxUserName.Text = userData.UserName;
-                TextBoxPassword.Text = userData.Password;
                 TextBoxEmail.Text = userData.Email;
                 TextBoxFirstName.Text = userData?.FirstName ?? "Not provided";
                 TextBoxLastName.Text = userData?.LastName ?? "Not provided";
@@ -106,7 +105,7 @@ namespace Login
                     {
                         var userData = db.UserLogins
                             .SingleOrDefault(q => q.UserName == LoginWindow.UserName);
-                        userData.Password = Password;
+                        userData.Password = BCrypt.Net.BCrypt.HashPassword(Password);
                         db.SaveChanges();
                     }
                     Update();

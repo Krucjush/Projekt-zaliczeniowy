@@ -46,7 +46,6 @@ namespace Login
             DataContext = this;
             SelectedAccount = selectedAccount;
             TextBoxUserName.Text = SelectedAccount.UserName;
-            TextBoxPassword.Text = SelectedAccount.Password;
             TextBoxEmail.Text = SelectedAccount.Email;
             TextBoxFirstName.Text = SelectedAccount?.FirstName ?? "Not provided";
             TextBoxLastName.Text = SelectedAccount?.LastName ?? "Not provided";
@@ -54,7 +53,7 @@ namespace Login
             TextBoxPhoneNumber.Text = SelectedAccount?.PhoneNumber ?? "Not provided";
             TextBoxAddress.Text = SelectedAccount?.Address ?? "Not provided";
             TextBoxZipCode.Text = SelectedAccount?.ZipCode ?? "Not provided";
-            TextBoxAccountType.Text = SelectedAccount.AccountType;
+            TextBoxAccountType.Text = SelectedAccount!.AccountType;
         }
         /// <summary>
         /// This method allows "Administrator"s to change the UserName property of the selected user.

@@ -38,7 +38,13 @@ namespace Login
                 DataContext = this;
                 using var db = new UsersContext();
                 var a = db.UserLogins
-                    .ToList();
+	                .Select(q => new AdminManageAccountsTable
+	                {
+		                UserName = q.UserName, Email = q.Email, AccountType = q.AccountType, FirstName = q.FirstName,
+		                LastName = q.LastName, Age = q.Age, PhoneNumber = q.PhoneNumber, Address = q.Address,
+		                ZipCode = q.ZipCode
+	                })
+	                .ToList();
                 Accounts.ItemsSource = a;
             }
             catch (Exception exception)

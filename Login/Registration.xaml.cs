@@ -105,7 +105,7 @@ namespace Login
                 }
                 else
                 {
-                    db.UserLogins.Add(new UserLogin { UserName = UserName, Password = Password, Email = Email, AccountType = "Customer" });
+                    db.UserLogins.Add(new UserLogin { UserName = UserName, Password = BCrypt.Net.BCrypt.HashPassword(Password), Email = Email, AccountType = "Customer" });
                     db.SaveChanges();
                     MessageBox.Show("Successfully registered.\nYou can login now.");
                     Close();
@@ -129,7 +129,7 @@ namespace Login
         /// <summary>
         /// This method shows user information of error.
         /// </summary>
-        private void Error(Exception exception)
+        private static void Error(Exception exception)
         {
             MessageBox.Show("Something went wrong\n" + exception);
         }

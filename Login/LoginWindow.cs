@@ -32,7 +32,7 @@ namespace Login
                     {
                         db.UserLogins.Add(new UserLogin()
                         {
-                            UserName = "Admin", Password = "Admin", Email = "example@gmail.com",
+                            UserName = "Admin", Password = BCrypt.Net.BCrypt.HashPassword("Admin"), Email = "example@gmail.com",
                             AccountType = "Administrator"
                         });
                         db.SaveChanges();
@@ -61,16 +61,16 @@ namespace Login
                     .Select(q => q.UserName)
                     .ToList();
                 var userNameExists = userNames.Contains(UserName);
-                var correctPassword = "";
+                var hashedPassword = "";
                 if (userNameExists)
                 {
-                    correctPassword = db.UserLogins
+                    hashedPassword = db.UserLogins
                         .Where(q => q.UserName == UserName)
                         .Select(q => q.Password)
                         .ToList()
                         .Last();
                 }
-                var passwordCheck = correctPassword == Password.ToString();
+                var passwordCheck = BCrypt.Net.BCrypt.Verify(Password, hashedPassword);
                 if (userNameExists && passwordCheck)
                 {
                     MessageBox.Show("Successfully logged in.");
@@ -140,7 +140,9 @@ namespace Login
             MessageBox.Show("Something went wrong\n" + exception);
             Close();
         }
-
+        /// <summary>
+        /// This method updates the Password each time user input changes.
+        /// </summary>
         private void UserPassword_OnPasswordChanged(object sender, RoutedEventArgs e)
         { 
 	        ((dynamic)DataContext).Password = ((PasswordBox)sender).Password;
