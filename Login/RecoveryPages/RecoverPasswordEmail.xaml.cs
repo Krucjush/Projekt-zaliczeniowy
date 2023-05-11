@@ -70,7 +70,7 @@ namespace Login
                     {
                         var user = db.UserLogins
                             .FirstOrDefault(q => q.UserName == UserName);
-                        user.Password = NewPassword;
+                        user.Password = BCrypt.Net.BCrypt.HashPassword(NewPassword);
                         db.SaveChanges();
                     }
                     var _ = new LoginWindow();
