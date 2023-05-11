@@ -40,7 +40,7 @@ namespace Login
                 var a = db.UserLogins
 	                .Select(q => new AdminManageAccountsTable
 	                {
-		                UserName = q.UserName, Email = q.Email, AccountType = q.AccountType, FirstName = q.FirstName,
+		                Id = q.Id, UserName = q.UserName, Email = q.Email, AccountType = q.AccountType, FirstName = q.FirstName,
 		                LastName = q.LastName, Age = q.Age, PhoneNumber = q.PhoneNumber, Address = q.Address,
 		                ZipCode = q.ZipCode
 	                })
@@ -193,13 +193,13 @@ namespace Login
                         var messageBoxResult = MessageBox.Show("Are you sure?", "Confirmation", MessageBoxButton.YesNo);
                         if (messageBoxResult == MessageBoxResult.Yes)
                         {
-                            db.UserLogins.Add(new UserLogin { UserName = UserName, Password = Password, Email = Email, AccountType = AccountType == "Administrator" ? "Administrator" : "Customer" });
+                            db.UserLogins.Add(new UserLogin { UserName = UserName, Password = BCrypt.Net.BCrypt.HashPassword(Password), Email = Email, AccountType = AccountType == "Administrator" ? "Administrator" : "Customer" });
                             db.SaveChanges();
                         }
                     }
                     else
                     {
-                        db.UserLogins.Add(new UserLogin { UserName = UserName, Password = Password, Email = Email, AccountType = AccountType == "Administrator" ? "Administrator" : "Customer" });
+                        db.UserLogins.Add(new UserLogin { UserName = UserName, Password = BCrypt.Net.BCrypt.HashPassword(Password), Email = Email, AccountType = AccountType == "Administrator" ? "Administrator" : "Customer" });
                         db.SaveChanges();
                     }
                 }
@@ -219,7 +219,7 @@ namespace Login
         {
             try
             {
-                var row = (UserLogin)Accounts.SelectedItem;
+                var row = (AdminManageAccountsTable)Accounts.SelectedItem;
                 if (row == null)
                 {
                     MessageBox.Show("Item not selected");
@@ -253,7 +253,7 @@ namespace Login
         {
             try
             {
-                var row = (UserLogin)Accounts.SelectedItem;
+                var row = (AdminManageAccountsTable)Accounts.SelectedItem;
                 if (row == null)
                 {
                     MessageBox.Show("Item not selected");
