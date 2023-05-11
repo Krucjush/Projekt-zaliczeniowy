@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Data.Linq;
 using System.Linq;
+using System.Security;
 using System.Windows;
+using System.Windows.Controls;
 using Program;
 
 namespace Login
@@ -12,7 +15,7 @@ namespace Login
     public partial class LoginWindow : Window
     {
         public static string UserName { get; set; }
-        public static string Password { get; set; }
+        public string Password { private get; set; }
         /// <summary>
         /// This constructor generates binding, and creates "Administrator" account in case of one not existing.
         /// </summary>
@@ -67,7 +70,7 @@ namespace Login
                         .ToList()
                         .Last();
                 }
-                var passwordCheck = correctPassword == Password;
+                var passwordCheck = correctPassword == Password.ToString();
                 if (userNameExists && passwordCheck)
                 {
                     MessageBox.Show("Successfully logged in.");
@@ -137,5 +140,10 @@ namespace Login
             MessageBox.Show("Something went wrong\n" + exception);
             Close();
         }
-    }
+
+        private void UserPassword_OnPasswordChanged(object sender, RoutedEventArgs e)
+        { 
+	        ((dynamic)DataContext).Password = ((PasswordBox)sender).Password;
+        }
+	}
 }
